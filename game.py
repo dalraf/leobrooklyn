@@ -62,32 +62,56 @@ class Enemy(pygame.sprite.Sprite):
         self.rect.y = SCREEN_HEIGHT
         self.rect.x = random.randint(0, SCREEN_WIDTH)
         self.counter = 0
-        self.step_choice = [0, 20, -20]
         self.speed = 3
         self.dx = 0
         self.dy = 0
 
-    def update(self,grupo_player, grupo_enemy):
+    def calculate_path(self, group, diametro):
+        
+        final_dx = 0
+        final_dy = 0
 
-        for player in grupo_player:
-            self.dx, self.dy = player.rect.x - self.rect.x, player.rect.y - self.rect.y
-            dist = math.hypot(self.dx, self.dy)
-            if dist > 0:
-                self.dx, self.dy = self.dx / dist, self.dy / dist
+        for sprite in group:
+            
+            dx, dy = sprite.rect.x - self.rect.x, sprite.rect.y - self.rect.y
+            
+            dist = math.hypot(dx, dy)
+            
+            if diametro > 0 and dist < diametro and dist > 0:
+                dx, dy = dx / dist, dy / dist
+            
+            elif diametro > 0 and dist > diametro:
+                dx , dy = 0 , 0
+            
+            elif diametro == 0 and dist > 0:
+                dx, dy = dx / dist, dy / dist
+            
             else:
-                self.dx , self.dy = 0 , 0
-            self.rect.x += self.dx * self.speed
-            self.rect.y += self.dy * self.speed
+                dx , dy = 0 , 0
 
-        for enemy in grupo_enemy:
-            self.dx, self.dy = enemy.rect.x - self.rect.x, enemy.rect.y - self.rect.y
-            dist = math.hypot(self.dx, self.dy)
-            if dist > 0 and dist < 100:
-                self.dx, self.dy = self.dx / dist, self.dy / dist
-            else:
-                self.dx , self.dy = 0 , 0
-            self.rect.x -= self.dx * self.speed
-            self.rect.y -= self.dy * self.speed
+            final_dx += dx
+            final_dy += dy
+
+        return final_dx, final_dy
+
+
+    def update(self,grupo_player,grupo_enemy):
+        
+        self.dx = 0
+        self.dy = 0
+
+        dx, dy = self.calculate_path(grupo_player, 0)
+        
+        self.dx += dx 
+        self.dy += dy
+
+        dx, dy = self.calculate_path(grupo_enemy, 100)
+
+        self.dx -= dx
+        self.dy -= dy
+
+        self.rect.x += self.dx * self.speed
+        self.rect.y += self.dy * self.speed
         
         if self.rect.left < 0:
             self.rect.left = 0
@@ -99,9 +123,10 @@ class Enemy(pygame.sprite.Sprite):
             self.rect.bottom = SCREEN_HEIGHT
 
         self.image = load(self.images[self.counter])
-        if self.dx * self.speed < 0:
+        if self.dx < 0:
             self.image = pygame.transform.flip(self.image, True, False)
-        self.counter = (self.counter + 1) % len(self.images)
+        if self.dx != 0 and self.dy != 0:
+            self.counter = (self.counter + 1) % len(self.images)
 
 
 

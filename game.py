@@ -24,13 +24,16 @@ class Player(pygame.sprite.Sprite):
         self.counter = 0
 
     def update(self, pressed_keys):
-        self.image = load(self.images[self.counter])
-        self.counter = (self.counter + 1) % len(self.images)
+        print(pressed_keys)
+        if pressed_keys[K_UP] or pressed_keys[K_DOWN] or pressed_keys[K_LEFT] or pressed_keys[K_RIGHT]:
+            self.image = load(self.images[self.counter])
+            self.counter = (self.counter + 1) % len(self.images)
         if pressed_keys[K_UP]:
             self.rect.move_ip(0, -20)
         if pressed_keys[K_DOWN]:
             self.rect.move_ip(0, 20)
         if pressed_keys[K_LEFT]:
+            self.image = pygame.transform.flip(self.image, True, False)
             self.rect.move_ip(-20, 0)
         if pressed_keys[K_RIGHT]:
             self.rect.move_ip(20, 0)
@@ -65,14 +68,14 @@ while running:
 
         if event.type == KEYDOWN:
             
-            pressed_keys = pygame.key.get_pressed()
-            grupo_player.update(pressed_keys)
-            
             if event.key == K_ESCAPE:
                 running = False
 
         elif event.type == QUIT:
             running = False
+
+    pressed_keys = pygame.key.get_pressed()
+    grupo_player.update(pressed_keys)
 
     grupo_player.draw(screen)
     pygame.display.update()

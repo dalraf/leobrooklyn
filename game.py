@@ -66,9 +66,13 @@ class Enemy(pygame.sprite.Sprite):
         self.speed = 3
 
     def update(self,player):
+
         dx, dy = player.rect.x - self.rect.x, player.rect.y - self.rect.y
         dist = math.hypot(dx, dy)
-        dx, dy = dx / dist, dy / dist  # Normalize.
+        if dist > 0:
+            dx, dy = dx / dist, dy / dist
+        else:
+            dx , dy = 0 , 0
         self.rect.x += dx * self.speed
         self.rect.y += dy * self.speed
         if self.rect.left < 0:
@@ -107,6 +111,14 @@ while running:
     clock.tick(20)
 
     screen.fill((255, 255, 255))
+
+    colisao = groupcollide(grupo_player, grupo_enemy, False, False)
+
+    if len(colisao) > 0:
+        for playercol, enemiescol in colisao.items():
+            playercol.kill()
+            for enemycol in enemiescol:
+                enemycol.kill()
 
     for event in pygame.event.get():
 

@@ -15,14 +15,17 @@ from pygame.locals import (
 
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
-
 class Player(pygame.sprite.Sprite):
     def __init__(self):
         super(Player, self).__init__()
-        self.image = load('images/tiles-0.png')
+        self.images = ['images/tiles-0.png','images/tiles-2.png','images/tiles-3.png','images/tiles-4.png','images/tiles-5.png',]
+        self.image = load(self.images[0])
         self.rect = self.image.get_rect()
+        self.counter = 0
 
     def update(self, pressed_keys):
+        self.image = load(self.images[self.counter])
+        self.counter = (self.counter + 1) % len(self.images)
         if pressed_keys[K_UP]:
             self.rect.move_ip(0, -20)
         if pressed_keys[K_DOWN]:
@@ -56,22 +59,20 @@ while running:
 
     clock.tick(20)
 
+    screen.fill((255, 255, 255))
+
     for event in pygame.event.get():
 
         if event.type == KEYDOWN:
-
+            
+            pressed_keys = pygame.key.get_pressed()
+            grupo_player.update(pressed_keys)
+            
             if event.key == K_ESCAPE:
                 running = False
 
         elif event.type == QUIT:
             running = False
-            
-    pressed_keys = pygame.key.get_pressed()
-
-    screen.fill((255, 255, 255))
-
-    grupo_player.update(pressed_keys)
 
     grupo_player.draw(screen)
-
     pygame.display.update()

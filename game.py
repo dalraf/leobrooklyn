@@ -60,7 +60,7 @@ class Enemy(pygame.sprite.Sprite):
         self.image = load(self.images[0])
         self.rect = self.image.get_rect()
         self.rect.y = SCREEN_HEIGHT
-        self.rect.x = random.randint(0, SCREEN_WIDTH)
+        self.rect.x = random.randint(0, SCREEN_WIDTH) + random.randint(1,10)
         self.counter = 0
         self.speed = 3
         self.dx = 0
@@ -73,24 +73,26 @@ class Enemy(pygame.sprite.Sprite):
 
         for sprite in group:
             
-            dx, dy = sprite.rect.x - self.rect.x, sprite.rect.y - self.rect.y
-            
-            dist = math.hypot(dx, dy)
-            
-            if diametro > 0 and dist < diametro and dist > 0:
-                dx, dy = dx / dist, dy / dist
-            
-            elif diametro > 0 and dist > diametro:
-                dx , dy = 0 , 0
-            
-            elif diametro == 0 and dist > 0:
-                dx, dy = dx / dist, dy / dist
-            
-            else:
-                dx , dy = 0 , 0
+            if sprite != self:
 
-            final_dx += dx
-            final_dy += dy
+                dx, dy = sprite.rect.x - self.rect.x, sprite.rect.y - self.rect.y
+            
+                dist = math.hypot(dx, dy)
+            
+                if diametro > 0 and dist < diametro and dist > 0:
+                    dx, dy = dx / dist, dy / dist
+            
+                elif diametro > 0 and dist > diametro:
+                    dx , dy = 0 , 0
+            
+                elif diametro == 0 and dist > 0:
+                    dx, dy = dx / dist, dy / dist
+            
+                else:
+                    dx , dy = 0 , 0
+
+                final_dx += dx
+                final_dy += dy
 
         return final_dx, final_dy
 
@@ -100,7 +102,7 @@ class Enemy(pygame.sprite.Sprite):
         self.dx = 0
         self.dy = 0
 
-        dx, dy = self.calculate_path(grupo_player, 250)
+        dx, dy = self.calculate_path(grupo_player, 0)
         
         self.dx += dx 
         self.dy += dy
@@ -123,8 +125,10 @@ class Enemy(pygame.sprite.Sprite):
             self.rect.bottom = SCREEN_HEIGHT
 
         self.image = load(self.images[self.counter])
+        
         if self.dx < 0:
             self.image = pygame.transform.flip(self.image, True, False)
+
         if self.dx != 0 and self.dy != 0:
             self.counter = (self.counter + 1) % len(self.images)
 

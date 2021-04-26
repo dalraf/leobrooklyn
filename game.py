@@ -60,21 +60,35 @@ class Enemy(pygame.sprite.Sprite):
         self.image = load(self.images[0])
         self.rect = self.image.get_rect()
         self.rect.y = SCREEN_HEIGHT
-        self.rect.x = 0
+        self.rect.x = random.randint(0, SCREEN_WIDTH)
         self.counter = 0
         self.step_choice = [0, 20, -20]
         self.speed = 3
+        self.dx = 0
+        self.dy = 0
 
-    def update(self,player):
+    def update(self,grupo_player, grupo_enemy):
 
-        dx, dy = player.rect.x - self.rect.x, player.rect.y - self.rect.y
-        dist = math.hypot(dx, dy)
-        if dist > 0:
-            dx, dy = dx / dist, dy / dist
-        else:
-            dx , dy = 0 , 0
-        self.rect.x += dx * self.speed
-        self.rect.y += dy * self.speed
+        for player in grupo_player:
+            self.dx, self.dy = player.rect.x - self.rect.x, player.rect.y - self.rect.y
+            dist = math.hypot(self.dx, self.dy)
+            if dist > 0:
+                self.dx, self.dy = self.dx / dist, self.dy / dist
+            else:
+                self.dx , self.dy = 0 , 0
+            self.rect.x += self.dx * self.speed
+            self.rect.y += self.dy * self.speed
+
+        for enemy in grupo_enemy:
+            self.dx, self.dy = enemy.rect.x - self.rect.x, enemy.rect.y - self.rect.y
+            dist = math.hypot(self.dx, self.dy)
+            if dist > 0 and dist < 100:
+                self.dx, self.dy = self.dx / dist, self.dy / dist
+            else:
+                self.dx , self.dy = 0 , 0
+            self.rect.x -= self.dx * self.speed
+            self.rect.y -= self.dy * self.speed
+        
         if self.rect.left < 0:
             self.rect.left = 0
         if self.rect.right > SCREEN_WIDTH:
@@ -85,7 +99,7 @@ class Enemy(pygame.sprite.Sprite):
             self.rect.bottom = SCREEN_HEIGHT
 
         self.image = load(self.images[self.counter])
-        if dx * self.speed < 0:
+        if self.dx * self.speed < 0:
             self.image = pygame.transform.flip(self.image, True, False)
         self.counter = (self.counter + 1) % len(self.images)
 
@@ -100,9 +114,9 @@ clock = Clock()
 grupo_player = GroupSingle()
 grupo_enemy = Group()
 player = Player()
-enemy = Enemy()
+enemylist = [Enemy() for i in range(4)]
 grupo_player.add(player)
-grupo_enemy.add(enemy)
+grupo_enemy.add(enemylist)
 
 running = True
 
@@ -112,10 +126,12 @@ while running:
 
     screen.fill((255, 255, 255))
 
-    colisao = groupcollide(grupo_player, grupo_enemy, False, False)
+    colisao_inimigo_inimigo = groupcollide(grupo_enemy, grupo_enemy, False, False)
 
-    if len(colisao) > 0:
-        for playercol, enemiescol in colisao.items():
+    colisao_player_inimigo = groupcollide(grupo_player, grupo_enemy, False, False)
+
+    if len(colisao_player_inimigo) > 0:
+        for playercol, enemiescol in colisao_player_inimigo.items():
             playercol.kill()
             for enemycol in enemiescol:
                 enemycol.kill()
@@ -133,7 +149,7 @@ while running:
     pressed_keys = pygame.key.get_pressed()
     
     grupo_player.update(pressed_keys)
-    grupo_enemy.update(player)
+    grupo_enemy.update(grupo_player, grupo_enemy)
 
     grupo_player.draw(screen)
     grupo_enemy.draw(screen)

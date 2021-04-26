@@ -100,7 +100,7 @@ class Enemy(pygame.sprite.Sprite):
         self.dx = 0
         self.dy = 0
 
-        dx, dy = self.calculate_path(grupo_player, 0)
+        dx, dy = self.calculate_path(grupo_player, 250)
         
         self.dx += dx 
         self.dy += dy

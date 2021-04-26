@@ -22,22 +22,19 @@ class Player(pygame.sprite.Sprite):
         self.image = load(self.images[0])
         self.rect = self.image.get_rect()
         self.counter = 0
+        self.reverse = False
 
     def update(self, pressed_keys):
-        print(pressed_keys)
-        if pressed_keys[K_UP] or pressed_keys[K_DOWN] or pressed_keys[K_LEFT] or pressed_keys[K_RIGHT]:
-            self.image = load(self.images[self.counter])
-            self.counter = (self.counter + 1) % len(self.images)
         if pressed_keys[K_UP]:
             self.rect.move_ip(0, -20)
         if pressed_keys[K_DOWN]:
             self.rect.move_ip(0, 20)
         if pressed_keys[K_LEFT]:
-            self.image = pygame.transform.flip(self.image, True, False)
+            self.reverse = True
             self.rect.move_ip(-20, 0)
         if pressed_keys[K_RIGHT]:
+            self.reverse = False
             self.rect.move_ip(20, 0)
-        # Keep player on the screen
         if self.rect.left < 0:
             self.rect.left = 0
         if self.rect.right > SCREEN_WIDTH:
@@ -46,6 +43,11 @@ class Player(pygame.sprite.Sprite):
             self.rect.top = 0
         if self.rect.bottom >= SCREEN_HEIGHT:
             self.rect.bottom = SCREEN_HEIGHT
+        if pressed_keys[K_UP] or pressed_keys[K_DOWN] or pressed_keys[K_LEFT] or pressed_keys[K_RIGHT]:
+            self.image = load(self.images[self.counter])
+            if self.reverse:
+                self.image = pygame.transform.flip(self.image, True, False)
+            self.counter = (self.counter + 1) % len(self.images)
 
 pygame.init()
 

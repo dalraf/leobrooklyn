@@ -129,8 +129,9 @@ class Enemy(pygame.sprite.Sprite):
         if self.dx < 0:
             self.image = pygame.transform.flip(self.image, True, False)
 
-        if self.dx != 0 and self.dy != 0:
+        if self.dx * 10000 != 0 and self.dy * 10000 != 0:
             self.counter = (self.counter + 1) % len(self.images)
+
 
 
 

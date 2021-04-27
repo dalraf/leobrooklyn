@@ -1,4 +1,4 @@
-from config import SCREEN_HEIGHT, SCREEN_WIDTH, SPRITE_LEVEL_Y_HIGH, resource_path
+from config import SCREEN_HEIGHT, SCREEN_WIDTH, SPRITE_LEVEL_Y_HIGH, LEFT, RIGHT, resource_path
 import pygame
 from pygame.image import load
 import random
@@ -6,7 +6,7 @@ from sprite_class import SpriteGame
 
 
 class Pedra(SpriteGame):
-    def __init__(self,x,y):
+    def __init__(self,x,y,direction):
         super(Pedra, self).__init__()
         self.images = [resource_path('images/pedra.png'),]
         self.image = load(self.images[0])
@@ -15,7 +15,13 @@ class Pedra(SpriteGame):
         self.rect.y = y
         self.counter = 0
         self.speed = 3
+        self.direction = direction
  
-    def update(self,grupo_player,grupo_enemy):
-        pass
+    def update(self):
+        
+        if self.direction == RIGHT:
+            self.rect.x += 15
+        
+        if self.direction == LEFT:
+            self.rect.x -= 15
 

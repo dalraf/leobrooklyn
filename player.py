@@ -1,4 +1,4 @@
-from config import SCREEN_HEIGHT, SCREEN_WIDTH, SPRITE_LEVEL_Y_HIGH, resource_path
+from config import SCREEN_HEIGHT, SCREEN_WIDTH, SPRITE_LEVEL_Y_HIGH, LEFT, RIGHT, resource_path
 import pygame
 from pygame.image import load
 from pygame.locals import (
@@ -39,7 +39,10 @@ class Player(SpriteGame):
             self.rect.move_ip(self.step, 0)
         
         if pressed_keys[K_SPACE]:
-            grupo_objets.add(Pedra(self.rect.x,self.rect.y))
+            if pressed_keys[K_LEFT]:
+                grupo_objets.add(Pedra(self.rect.x - 15 , self.rect.y, LEFT))
+            if pressed_keys[K_RIGHT]:
+                grupo_objets.add(Pedra(self.rect.x - 15 , self.rect.y, RIGHT))
 
         if self.rect.left < 0:
             self.rect.left = 0

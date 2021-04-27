@@ -38,6 +38,8 @@ while running:
 
     colisao_player_inimigo = groupcollide(grupo_player, grupo_enemy, False, False)
 
+    colisao_object_inimigo = groupcollide(grupo_objets, grupo_enemy, True, True)
+
     if len(colisao_player_inimigo) > 0:
         for playercol, enemiescol in colisao_player_inimigo.items():
             playercol.kill()
@@ -59,6 +61,8 @@ while running:
     grupo_player.update(pressed_keys)
     
     grupo_enemy.update(grupo_player, grupo_enemy)
+
+    grupo_objets.update()
 
     background.draw(screen)
 

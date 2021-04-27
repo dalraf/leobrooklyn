@@ -6,6 +6,7 @@ from pygame.image import load
 import random
 import math
 import sys
+import os
 from pygame.locals import (
     K_UP,
     K_DOWN,

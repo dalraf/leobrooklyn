@@ -6,8 +6,11 @@ from pygame.locals import (
     K_UP,
     K_LEFT,
     K_RIGHT,
+    K_SPACE,
 )
 from sprite_class import SpriteGame
+from objetcs import Pedra
+from sprite_groups import grupo_objets
 class Player(SpriteGame):
     def __init__(self):
         super(Player, self).__init__()
@@ -20,7 +23,7 @@ class Player(SpriteGame):
         self.counter = 0
         self.reverse = False
 
-    def update(self, pressed_keys):
+    def update(self,pressed_keys):
         if pressed_keys[K_UP]:
             self.rect.move_ip(0, -self.step)
         
@@ -35,6 +38,9 @@ class Player(SpriteGame):
             self.reverse = False
             self.rect.move_ip(self.step, 0)
         
+        if pressed_keys[K_SPACE]:
+            grupo_objets.add(Pedra(self.rect.x,self.rect.y))
+
         if self.rect.left < 0:
             self.rect.left = 0
         if self.rect.right > SCREEN_WIDTH:

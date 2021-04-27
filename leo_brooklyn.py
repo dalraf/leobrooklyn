@@ -1,6 +1,6 @@
 from config import SCREEN_HEIGHT, SCREEN_WIDTH
 import pygame
-from pygame.sprite import Sprite, Group, GroupSingle, groupcollide
+from pygame.sprite import groupcollide
 from pygame.time import Clock
 import random
 
@@ -13,6 +13,7 @@ from pygame.locals import (
 from background import Background
 from player import Player
 from enemy import Enemy
+from sprite_groups import grupo_player, grupo_enemy, grupo_objets
 
 pygame.init()
 
@@ -20,8 +21,6 @@ screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
 clock = Clock()
 background = Background()
-grupo_player = GroupSingle()
-grupo_enemy = Group()
 player = Player()
 enemylist = [Enemy() for i in range(2)]
 grupo_player.add(player)
@@ -66,5 +65,7 @@ while running:
     grupo_player.draw(screen)
     
     grupo_enemy.draw(screen)
+
+    grupo_objets.draw(screen)
 
     pygame.display.update()

@@ -12,6 +12,7 @@ from pygame.locals import (
 
 from background import Background
 from placar import Placar
+from som import Som
 from player import Player
 from enemy import Enemy
 from sprite_groups import grupo_player, grupo_enemy, grupo_objets
@@ -25,11 +26,13 @@ screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 tick_enemies = 0
 clock = Clock()
 background = Background()
+som = Som()
 placar = Placar()
 player = Player()
 grupo_player.add(player)
 
 running = True
+som.play()
 
 while running:
 

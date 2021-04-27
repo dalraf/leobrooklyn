@@ -5,6 +5,7 @@ block_cipher = None
 
 added_files = [
          ( 'images\\*', 'images' ),
+         ( 'sounds\\*', 'sounds' ),
          ]
 
 a = Analysis(['leo_brooklyn.py'],

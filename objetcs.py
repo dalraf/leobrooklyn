@@ -11,11 +11,14 @@ class Pedra(SpriteGame):
         self.images = [resource_path('images/pedra.png'),]
         self.image = load(self.images[0])
         self.rect = self.image.get_rect()
-        self.rect.x = x
-        self.rect.y = y
+        self.rect.y = y + 35
         self.counter = 0
         self.speed = 3
         self.direction = direction
+        if direction == RIGHT: 
+            self.rect.x = x + 35
+        if direction == LEFT:
+            self.rect.x = x - 35 
  
     def update(self):
         

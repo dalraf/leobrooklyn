@@ -10,17 +10,16 @@ from pygame.locals import (
     QUIT,
 )
 
+from background import Background
 from player import Player
 from enemy import Enemy
-
-
-
 
 pygame.init()
 
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
 clock = Clock()
+background = Background()
 grupo_player = GroupSingle()
 grupo_enemy = Group()
 player = Player()
@@ -61,6 +60,8 @@ while running:
     grupo_player.update(pressed_keys)
     
     grupo_enemy.update(grupo_player, grupo_enemy)
+
+    background.draw(screen)
 
     grupo_player.draw(screen)
     

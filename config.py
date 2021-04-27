@@ -12,4 +12,4 @@ def resource_path(relative_path):
     return os.path.join(base_path, relative_path)
 
 SCREEN_WIDTH = 800
-SCREEN_HEIGHT = 600
+SCREEN_HEIGHT = 450

@@ -22,6 +22,7 @@ class Player(SpriteGame):
         self.step = 10
         self.counter = 0
         self.reverse = False
+        self.armtime = 0
 
     def update(self,pressed_keys):
         if pressed_keys[K_UP]:
@@ -39,10 +40,16 @@ class Player(SpriteGame):
             self.rect.move_ip(self.step, 0)
         
         if pressed_keys[K_SPACE]:
-            if pressed_keys[K_LEFT]:
-                grupo_objets.add(Pedra(self.rect.x - 15 , self.rect.y, LEFT))
-            if pressed_keys[K_RIGHT]:
-                grupo_objets.add(Pedra(self.rect.x - 15 , self.rect.y, RIGHT))
+            if self.armtime == 0:
+                if pressed_keys[K_LEFT]:
+                    grupo_objets.add(Pedra(self.rect.x , self.rect.y + 20, LEFT))
+                if pressed_keys[K_RIGHT]:
+                    grupo_objets.add(Pedra(self.rect.x , self.rect.y + 20, RIGHT))
+                self.armtime = 10
+
+        self.armtime -= 1
+        if self.armtime < 0:
+            self.armtime = 0
 
         if self.rect.left < 0:
             self.rect.left = 0

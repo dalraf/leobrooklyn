@@ -8,7 +8,7 @@ added_files = [
          ]
 
 a = Analysis(['leo_brooklyn.py'],
-             pathex=['/home/daniel/Game/LeoBrooklyn'],
+             pathex=[],
              binaries=[],
              datas=added_files,
              hiddenimports=[],

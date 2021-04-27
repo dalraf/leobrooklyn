@@ -1,4 +1,4 @@
-from config import SCREEN_HEIGHT, SCREEN_WIDTH, resource_path
+from config import SCREEN_HEIGHT, SCREEN_WIDTH, SPRITE_LEVEL_Y_HIGH, resource_path
 import pygame
 from pygame.image import load
 import random
@@ -38,8 +38,8 @@ class Enemy(SpriteGame):
             self.rect.left = 0
         if self.rect.right > SCREEN_WIDTH:
             self.rect.right = SCREEN_WIDTH
-        if self.rect.top <= 200:
-            self.rect.top = 200
+        if self.rect.top <= SPRITE_LEVEL_Y_HIGH:
+            self.rect.top = SPRITE_LEVEL_Y_HIGH
         if self.rect.bottom >= SCREEN_HEIGHT:
             self.rect.bottom = SCREEN_HEIGHT
 

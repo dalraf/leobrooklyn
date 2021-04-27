@@ -42,8 +42,8 @@ class Player(SpriteGame):
             self.rect.top = 0
         if self.rect.bottom >= SCREEN_HEIGHT:
             self.rect.bottom = SCREEN_HEIGHT
-        i
-        f pressed_keys[K_UP] or pressed_keys[K_DOWN] or pressed_keys[K_LEFT] or pressed_keys[K_RIGHT]:
+
+        if pressed_keys[K_UP] or pressed_keys[K_DOWN] or pressed_keys[K_LEFT] or pressed_keys[K_RIGHT]:
             self.image = load(self.images[self.counter])
             if self.reverse:
                 self.image = pygame.transform.flip(self.image, True, False)

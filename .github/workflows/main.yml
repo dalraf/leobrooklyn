@@ -1,0 +1,46 @@
+name: PyInstaller
+on:
+  push:
+    tags:
+      - '*'
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Set up Python 3
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3
+        architecture: 'x64'
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pyinstaller
+        pip install -r requirements.txt
+    - name: build with pyinstaller
+      run: |
+        python -m PyInstaller --onefile --noconsole leo_brooklyn.py
+    - uses: actions/upload-artifact@v2
+      with:
+        name: leo_brooklyn.exe
+        path: dist\leo_brooklyn.exe
+    - name: release
+      uses: actions/create-release@v1
+      id: create_release
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        draft: false
+        prerelease: false
+        tag_name: ${{ github.ref }}
+        release_name: ${{ github.ref }}
+    - name: upload windows artifact
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: dist\install_coops_python.exe
+        asset_name: leo_brooklyn.exe
+        asset_content_type: application/exe

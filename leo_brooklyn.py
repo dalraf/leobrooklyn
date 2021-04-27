@@ -23,7 +23,7 @@ background = Background()
 grupo_player = GroupSingle()
 grupo_enemy = Group()
 player = Player()
-enemylist = [Enemy() for i in range(4)]
+enemylist = [Enemy() for i in range(2)]
 grupo_player.add(player)
 grupo_enemy.add(enemylist)
 

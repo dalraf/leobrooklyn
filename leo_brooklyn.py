@@ -32,6 +32,7 @@ player = Player()
 grupo_player.add(player)
 
 running = True
+stopgame = False
 som.play()
 
 while running:
@@ -40,12 +41,13 @@ while running:
 
     screen.fill((255, 255, 255))
 
-    if tick_enemies == 0:
-        grupo_enemy.add([Enemy() for i in range(random.randint(1,3))])
-        tick_enemies = 100
-    tick_enemies -= 1
-    if tick_enemies < 0:
-        tick_enemies = 0
+    if not stopgame:
+        if tick_enemies == 0:
+            grupo_enemy.add([Enemy() for i in range(random.randint(1,3))])
+            tick_enemies = 100
+        tick_enemies -= 1
+        if tick_enemies < 0:
+            tick_enemies = 0
 
     colisao_inimigo_inimigo = groupcollide(grupo_enemy, grupo_enemy, False, False)
 
@@ -59,6 +61,7 @@ while running:
     if len(colisao_player_inimigo) > 0:
         for playercol, enemiescol in colisao_player_inimigo.items():
             playercol.kill()
+            stopgame = True
             for enemycol in enemiescol:
                 enemycol.kill()
 
@@ -72,13 +75,11 @@ while running:
         elif event.type == QUIT:
             running = False
 
-    pressed_keys = pygame.key.get_pressed()
-    
-    grupo_player.update(pressed_keys)
-    
-    grupo_enemy.update(grupo_player, grupo_enemy)
-
-    grupo_objets.update()
+    if not stopgame:
+        pressed_keys = pygame.key.get_pressed()
+        grupo_player.update(pressed_keys)
+        grupo_enemy.update(grupo_player, grupo_enemy)
+        grupo_objets.update()
 
     background.draw(screen)
 

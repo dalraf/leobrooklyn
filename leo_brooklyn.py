@@ -17,6 +17,8 @@ from sprite_groups import grupo_player, grupo_enemy, grupo_objets
 
 pygame.init()
 
+pygame.display.set_caption('Leo Brooklin Stories')
+
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
 tick_enemies = 0

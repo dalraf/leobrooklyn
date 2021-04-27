@@ -41,9 +41,9 @@ class Player(SpriteGame):
         
         if pressed_keys[K_SPACE]:
             if self.armtime == 0:
-                if pressed_keys[K_LEFT]:
+                if self.reverse:
                     grupo_objets.add(Pedra(self.rect.x , self.rect.y, LEFT))
-                if pressed_keys[K_RIGHT]:
+                if not self.reverse:
                     grupo_objets.add(Pedra(self.rect.x , self.rect.y, RIGHT))
                 self.armtime = 10
 

@@ -11,10 +11,10 @@ class Enemy(SpriteGame):
         self.images = [resource_path('images/tiles-0.png'),resource_path('images/tiles-1.png'),resource_path('images/tiles-2.png'),resource_path('images/tiles-3.png'),resource_path('images/tiles-4.png'),resource_path('images/tiles-5.png'),]
         self.image = load(self.images[0])
         self.rect = self.image.get_rect()
-        self.rect.y = SCREEN_HEIGHT
-        self.rect.x = random.randint(0, SCREEN_WIDTH) + random.randint(1,10)
+        self.rect.y = SCREEN_HEIGHT - random.randint(0,500)
+        self.rect.x = random.choice([0, SCREEN_WIDTH])
         self.counter = 0
-        self.speed = 3
+        self.speed = random.randint(3,9)
  
     def update(self,grupo_player,grupo_enemy):
         

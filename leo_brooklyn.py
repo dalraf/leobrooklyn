@@ -36,7 +36,7 @@ while running:
     screen.fill((255, 255, 255))
 
     if tick_enemies == 0:
-        grupo_enemy.add([Enemy() for i in range(random.randint(1,2))])
+        grupo_enemy.add([Enemy() for i in range(random.randint(1,3))])
         tick_enemies = 100
     tick_enemies -= 1
     if tick_enemies < 0:

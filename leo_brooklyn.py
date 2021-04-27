@@ -11,6 +11,7 @@ from pygame.locals import (
 )
 
 from background import Background
+from placar import Placar
 from player import Player
 from enemy import Enemy
 from sprite_groups import grupo_player, grupo_enemy, grupo_objets
@@ -24,6 +25,7 @@ screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 tick_enemies = 0
 clock = Clock()
 background = Background()
+placar = Placar()
 player = Player()
 grupo_player.add(player)
 
@@ -47,6 +49,9 @@ while running:
     colisao_player_inimigo = groupcollide(grupo_player, grupo_enemy, False, False)
 
     colisao_object_inimigo = groupcollide(grupo_objets, grupo_enemy, True, True)
+
+    if len(colisao_object_inimigo) > 0:
+        placar.update(1) 
 
     if len(colisao_player_inimigo) > 0:
         for playercol, enemiescol in colisao_player_inimigo.items():
@@ -73,6 +78,8 @@ while running:
     grupo_objets.update()
 
     background.draw(screen)
+
+    placar.draw(screen)
 
     grupo_player.draw(screen)
     

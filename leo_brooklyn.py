@@ -19,12 +19,11 @@ pygame.init()
 
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
+tick_enemies = 0
 clock = Clock()
 background = Background()
 player = Player()
-enemylist = [Enemy() for i in range(2)]
 grupo_player.add(player)
-grupo_enemy.add(enemylist)
 
 running = True
 
@@ -33,6 +32,13 @@ while running:
     clock.tick(20)
 
     screen.fill((255, 255, 255))
+
+    if tick_enemies == 0:
+        grupo_enemy.add([Enemy() for i in range(random.randint(1,2))])
+        tick_enemies = 100
+    tick_enemies -= 1
+    if tick_enemies < 0:
+        tick_enemies = 0
 
     colisao_inimigo_inimigo = groupcollide(grupo_enemy, grupo_enemy, False, False)
 

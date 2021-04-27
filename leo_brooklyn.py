@@ -1,15 +1,20 @@
+from config import SCREEN_HEIGHT, SCREEN_WIDTH
 import pygame
 from pygame.sprite import Sprite, Group, GroupSingle, groupcollide
-from player import Player
-from enemy import Enemy
 from pygame.time import Clock
-from config import SCREEN_HEIGHT, SCREEN_WIDTH
 import random
+
 from pygame.locals import (
     K_ESCAPE,
     KEYDOWN,
     QUIT,
 )
+
+from player import Player
+from enemy import Enemy
+
+
+
 
 pygame.init()
 
@@ -54,9 +59,11 @@ while running:
     pressed_keys = pygame.key.get_pressed()
     
     grupo_player.update(pressed_keys)
+    
     grupo_enemy.update(grupo_player, grupo_enemy)
 
     grupo_player.draw(screen)
+    
     grupo_enemy.draw(screen)
 
     pygame.display.update()

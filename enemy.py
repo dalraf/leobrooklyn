@@ -1,8 +1,9 @@
+from config import SCREEN_HEIGHT, SCREEN_WIDTH, resource_path
 import pygame
 from pygame.image import load
-from config import SCREEN_HEIGHT, SCREEN_WIDTH, resource_path
-from sprite_class import SpriteGame
 import random
+from sprite_class import SpriteGame
+
 
 class Enemy(SpriteGame):
     def __init__(self):

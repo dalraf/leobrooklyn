@@ -1,14 +1,13 @@
+from config import SCREEN_HEIGHT, SCREEN_WIDTH, resource_path
 import pygame
 from pygame.image import load
-from config import SCREEN_HEIGHT, SCREEN_WIDTH, resource_path
-from sprite_class import SpriteGame
 from pygame.locals import (
     K_DOWN,
     K_UP,
     K_LEFT,
     K_RIGHT,
 )
-
+from sprite_class import SpriteGame
 class Player(SpriteGame):
     def __init__(self):
         super(Player, self).__init__()
@@ -23,14 +22,18 @@ class Player(SpriteGame):
     def update(self, pressed_keys):
         if pressed_keys[K_UP]:
             self.rect.move_ip(0, -20)
+        
         if pressed_keys[K_DOWN]:
             self.rect.move_ip(0, 20)
+        
         if pressed_keys[K_LEFT]:
             self.reverse = True
             self.rect.move_ip(-20, 0)
+        
         if pressed_keys[K_RIGHT]:
             self.reverse = False
             self.rect.move_ip(20, 0)
+        
         if self.rect.left < 0:
             self.rect.left = 0
         if self.rect.right > SCREEN_WIDTH:
@@ -39,7 +42,8 @@ class Player(SpriteGame):
             self.rect.top = 0
         if self.rect.bottom >= SCREEN_HEIGHT:
             self.rect.bottom = SCREEN_HEIGHT
-        if pressed_keys[K_UP] or pressed_keys[K_DOWN] or pressed_keys[K_LEFT] or pressed_keys[K_RIGHT]:
+        i
+        f pressed_keys[K_UP] or pressed_keys[K_DOWN] or pressed_keys[K_LEFT] or pressed_keys[K_RIGHT]:
             self.image = load(self.images[self.counter])
             if self.reverse:
                 self.image = pygame.transform.flip(self.image, True, False)

@@ -14,9 +14,6 @@ class Enemy(SpriteGame):
         self.rect.x = random.randint(0, SCREEN_WIDTH) + random.randint(1,10)
         self.counter = 0
         self.speed = 3
-        self.dx = 0
-        self.dy = 0
-
  
     def update(self,grupo_player,grupo_enemy):
         

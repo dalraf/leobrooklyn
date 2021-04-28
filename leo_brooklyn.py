@@ -52,9 +52,10 @@ while running:
 
     if not stopgame:
         if tick_enemies == 0:
-            fator = 1 + int(background.distance / 300)
-            grupo_enemy.add([Enemy(int(fator/2)) for i in range(random.randint(1,fator))])
-            tick_enemies = 100
+            if background.distance % 300 == 0:
+                fator = 1 + int(background.distance / 300)
+                grupo_enemy.add([Enemy(int(fator/2)) for i in range(random.randint(1,fator))])
+                tick_enemies = 100
         tick_enemies -= 1
         if tick_enemies < 0:
             tick_enemies = 0
@@ -104,11 +105,12 @@ while running:
         pressed_keys = pygame.key.get_pressed()
 
         if pressed_keys[K_RIGHT]:
-            player.move_right()
             if player.rect.x > SCREEN_WIDTH /2:
                 for enemy_active in grupo_enemy:
                     enemy_active.walk(player.step)
                 background.walk(player.step)
+            else:
+                 player.move_right()
         
         if pressed_keys[K_LEFT]:
             player.move_left()

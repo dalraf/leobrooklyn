@@ -7,6 +7,7 @@ import random
 from pygame.locals import (
     K_ESCAPE,
     KEYDOWN,
+    K_KP_ENTER,
     QUIT,
 )
 
@@ -15,6 +16,7 @@ from placar import Placar
 from som import Som
 from player import Player
 from enemy import Enemy
+from controle import Controle
 from sprite_groups import grupo_player, grupo_enemy, grupo_objets
 
 pygame.init()
@@ -28,11 +30,12 @@ clock = Clock()
 background = Background()
 som = Som()
 placar = Placar()
+controle = Controle()
 player = Player()
 grupo_player.add(player)
 
 running = True
-stopgame = False
+stopgame = True
 som.play()
 
 while running:
@@ -72,6 +75,10 @@ while running:
             if event.key == K_ESCAPE:
                 running = False
 
+            if event.key == K_KP_ENTER:
+                stopgame = False
+                grupo_player.add(player)
+
         elif event.type == QUIT:
             running = False
 
@@ -80,6 +87,8 @@ while running:
         grupo_player.update(pressed_keys)
         grupo_enemy.update(grupo_player, grupo_enemy)
         grupo_objets.update()
+    else:
+        controle.draw(screen)
 
     background.draw(screen)
 
@@ -90,5 +99,8 @@ while running:
     grupo_enemy.draw(screen)
 
     grupo_objets.draw(screen)
+
+    if stopgame:
+        controle.draw(screen)
 
     pygame.display.update()

@@ -13,6 +13,6 @@ def resource_path(relative_path):
 
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 450
-SPRITE_LEVEL_Y_HIGH = 200
+SPRITE_LEVEL_Y_HIGH = 250
 LEFT = "Left"
 RIGHT = "Right"

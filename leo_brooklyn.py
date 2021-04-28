@@ -52,7 +52,8 @@ while running:
 
     if not stopgame:
         if tick_enemies == 0:
-            grupo_enemy.add([Enemy() for i in range(random.randint(1,4))])
+            fator = 2 + int(placar.placar / 5)
+            grupo_enemy.add([Enemy(int(fator/2)) for i in range(random.randint(1,fator))])
             tick_enemies = 100
         tick_enemies -= 1
         if tick_enemies < 0:

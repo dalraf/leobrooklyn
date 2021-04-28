@@ -4,7 +4,7 @@ from pygame.image import load
 import random
 from sprite_class import SpriteGame
 class Enemy(SpriteGame):
-    def __init__(self):
+    def __init__(self, speed):
         super(Enemy, self).__init__()
         self.images = [resource_path('images/tiles-0.png'),resource_path('images/tiles-1.png'),resource_path('images/tiles-2.png'),resource_path('images/tiles-3.png'),resource_path('images/tiles-4.png'),resource_path('images/tiles-5.png'),]
         self.image = load(self.images[0])
@@ -12,7 +12,7 @@ class Enemy(SpriteGame):
         self.rect.y = SCREEN_HEIGHT - random.randint(0,500)
         self.rect.x = random.choice([0, SCREEN_WIDTH])
         self.counter = 0
-        self.speed = random.randint(3,12)
+        self.speed = random.randint(3, 3 + speed)
  
     def update(self,grupo_player,grupo_enemy):
         

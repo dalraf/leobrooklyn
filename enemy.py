@@ -10,7 +10,7 @@ class Enemy(SpriteGame):
         self.image = load(self.images[0])
         self.rect = self.image.get_rect()
         self.rect.y = SCREEN_HEIGHT - random.randint(0,500)
-        self.rect.x = random.choice([0, SCREEN_WIDTH])
+        self.rect.x = SCREEN_WIDTH
         self.counter = 0
         self.speed = random.randint(3, 3 + speed)
  

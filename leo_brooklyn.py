@@ -102,6 +102,8 @@ while running:
 
         if pressed_keys[K_RIGHT]:
             player.move_right()
+            if player.rect.x > SCREEN_WIDTH /2:
+                background.walk(player.step)
         
         if pressed_keys[K_LEFT]:
             player.move_left()

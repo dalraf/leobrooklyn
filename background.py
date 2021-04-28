@@ -13,6 +13,9 @@ class Background():
         self.distance = 0
         self.walk1 = 0
         self.walk2 = self.backgroundwidth
+
+    def zero(self):
+        self.distance = 0
     
     def walk(self,step):
         self.distance += step

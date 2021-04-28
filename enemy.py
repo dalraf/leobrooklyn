@@ -31,8 +31,11 @@ class Enemy(SpriteGame):
         self.dx -= dx
         self.dy -= dy
 
-        self.rect.x += self.dx * self.speed
-        self.rect.y += self.dy * self.speed
+        passo_x = int(self.dx * self.speed)
+        passo_y = int(self.dy * self.speed)
+
+        self.rect.x += passo_x
+        self.rect.y += passo_y
         
         if self.rect.left < 0:
             self.rect.left = 0
@@ -48,6 +51,7 @@ class Enemy(SpriteGame):
         if self.dx < 0:
             self.image = pygame.transform.flip(self.image, True, False)
 
-        if self.dx * 10000 != 0 and self.dy * 10000 != 0:
+        if passo_x != 0 or passo_y != 0:
             self.counter = (self.counter + 1) % len(self.images)
+
 

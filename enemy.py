@@ -12,7 +12,7 @@ class Enemy(SpriteGame):
         self.rect.y = SCREEN_HEIGHT - random.randint(0,500)
         self.rect.x = random.choice([0, SCREEN_WIDTH])
         self.counter = 0
-        self.speed = random.randint(3,9)
+        self.speed = random.randint(3,15)
  
     def update(self,grupo_player,grupo_enemy):
         

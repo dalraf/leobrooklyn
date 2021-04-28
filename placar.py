@@ -12,5 +12,9 @@ class Placar():
         self.placar += addnumber
         self.placarshow = self.font.render('Placar: ' + str(self.placar), False, (255, 255, 255))
 
+    def zero(self):
+        self.placar = 0
+        self.placarshow = self.font.render('Placar: ' + str(self.placar), False, (255, 255, 255))
+
     def draw(self, screen):
         screen.blit(self.placarshow,(0,0))

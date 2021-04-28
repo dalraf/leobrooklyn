@@ -7,7 +7,7 @@ import random
 from pygame.locals import (
     K_ESCAPE,
     KEYDOWN,
-    K_KP_ENTER,
+    K_RETURN,
     QUIT,
 )
 
@@ -75,9 +75,10 @@ while running:
             if event.key == K_ESCAPE:
                 running = False
 
-            if event.key == K_KP_ENTER:
+            if event.key == K_RETURN:
                 stopgame = False
                 grupo_player.add(player)
+                placar.zero()
 
         elif event.type == QUIT:
             running = False

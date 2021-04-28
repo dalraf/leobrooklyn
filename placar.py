@@ -2,8 +2,6 @@ import pygame
 
 pygame.font.init()
 
-    
-
 class Placar():
     def __init__(self):
         self.font = pygame.font.SysFont('Sans', 50)

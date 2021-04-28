@@ -3,8 +3,6 @@ import pygame
 from pygame.image import load
 import random
 from sprite_class import SpriteGame
-
-
 class Enemy(SpriteGame):
     def __init__(self):
         super(Enemy, self).__init__()

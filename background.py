@@ -1,6 +1,5 @@
 from config import resource_path
 import pygame
-
 class Background():
 
     def __init__(self):

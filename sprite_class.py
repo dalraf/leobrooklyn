@@ -42,6 +42,5 @@ class SpriteGame(pygame.sprite.Sprite):
 
         return final_dx, final_dy
 
-
     def update(self,grupo_player,grupo_enemy):
         pass

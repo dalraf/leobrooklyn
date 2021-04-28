@@ -4,7 +4,6 @@ from pygame.image import load
 import random
 from sprite_class import SpriteGame
 
-
 class Pedra(SpriteGame):
     def __init__(self,x,y,direction):
         super(Pedra, self).__init__()

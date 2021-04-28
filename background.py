@@ -6,10 +6,12 @@ class Background():
         self.background = pygame.image.load(resource_path("images/bg.png"))
         self.rect = self.background.get_rect()
         self.step = 0
+        self.distance = 0
         self.walk1 = 0
         self.walk2 = SCREEN_WIDTH
     
     def walk(self,step):
+        self.distance += step
         self.step += step
 
     def draw(self,screen):

@@ -52,7 +52,7 @@ while running:
 
     if not stopgame:
         if tick_enemies == 0:
-            fator = 2 + int(placar.placar / 5)
+            fator = 2 + int(background.distance / 1000)
             grupo_enemy.add([Enemy(int(fator/2)) for i in range(random.randint(1,fator))])
             tick_enemies = 100
         tick_enemies -= 1
@@ -63,10 +63,13 @@ while running:
 
     colisao_player_inimigo = groupcollide(grupo_player, grupo_enemy, False, False)
 
-    colisao_object_inimigo = groupcollide(grupo_objets, grupo_enemy, True, True)
+    colisao_object_inimigo = groupcollide(grupo_objets, grupo_enemy, True, False)
 
     if len(colisao_object_inimigo) > 0:
-        placar.update(1) 
+        for objectcol, enemiescol in colisao_object_inimigo.items():
+            for enemycol in  enemiescol:
+                placar.update(enemycol.speed)
+                enemycol.kill()
 
     if len(colisao_player_inimigo) > 0:
         for playercol, enemiescol in colisao_player_inimigo.items():
@@ -103,6 +106,8 @@ while running:
         if pressed_keys[K_RIGHT]:
             player.move_right()
             if player.rect.x > SCREEN_WIDTH /2:
+                for enemy_active in grupo_enemy:
+                    enemy_active.walk(player.step)
                 background.walk(player.step)
         
         if pressed_keys[K_LEFT]:

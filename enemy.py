@@ -13,6 +13,10 @@ class Enemy(SpriteGame):
         self.rect.x = SCREEN_WIDTH
         self.counter = 0
         self.speed = random.randint(3, 3 + speed)
+
+
+    def walk(self,step):
+        self.rect.x -= step
  
     def update(self,grupo_player,grupo_enemy):
         

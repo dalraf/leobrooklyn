@@ -52,7 +52,7 @@ while running:
 
     if not stopgame:
         if tick_enemies == 0:
-            fator = 2 + int(background.distance / 1000)
+            fator = 1 + int(background.distance / 100)
             grupo_enemy.add([Enemy(int(fator/2)) for i in range(random.randint(1,fator))])
             tick_enemies = 100
         tick_enemies -= 1

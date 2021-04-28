@@ -105,7 +105,7 @@ while running:
         pressed_keys = pygame.key.get_pressed()
 
         if pressed_keys[K_RIGHT]:
-            if player.rect.x > SCREEN_WIDTH /2:
+            if player.rect.x > SCREEN_WIDTH * 0.75:
                 for enemy_active in grupo_enemy:
                     enemy_active.walk(player.step)
                 background.walk(player.step)

@@ -1,13 +1,7 @@
 from config import SCREEN_HEIGHT, SCREEN_WIDTH, SPRITE_LEVEL_Y_HIGH, LEFT, RIGHT, resource_path
 import pygame
 from pygame.image import load
-from pygame.locals import (
-    K_DOWN,
-    K_UP,
-    K_LEFT,
-    K_RIGHT,
-    K_SPACE,
-)
+
 from sprite_class import SpriteGame
 from objetcs import Pedra
 from sprite_groups import grupo_objets
@@ -24,29 +18,36 @@ class Player(SpriteGame):
         self.reverse = False
         self.armtime = 0
 
-    def update(self,pressed_keys):
-        if pressed_keys[K_UP]:
-            self.rect.move_ip(0, -self.step)
-        
-        if pressed_keys[K_DOWN]:
-            self.rect.move_ip(0, self.step)
-        
-        if pressed_keys[K_LEFT]:
-            self.reverse = True
-            self.rect.move_ip(-self.step, 0)
-        
-        if pressed_keys[K_RIGHT]:
-            self.reverse = False
-            self.rect.move_ip(self.step, 0)
-        
-        if pressed_keys[K_SPACE]:
-            if self.armtime == 0:
-                if self.reverse:
-                    grupo_objets.add(Pedra(self.rect.x , self.rect.y, LEFT))
-                if not self.reverse:
-                    grupo_objets.add(Pedra(self.rect.x , self.rect.y, RIGHT))
-                self.armtime = 10
+    def move_up(self):
+        self.rect.move_ip(0, -self.step)
+    
+    def move_down(self):
+        self.rect.move_ip(0, self.step)
+    
+    def move_left(self):
+        self.reverse = True
+        self.rect.move_ip(-self.step, 0)     
 
+    def move_right(self):
+        self.reverse = False
+        self.rect.move_ip(self.step, 0)
+
+    def shoot(self):
+        if self.armtime == 0:
+            if self.reverse:
+                grupo_objets.add(Pedra(self.rect.x , self.rect.y, LEFT))
+            if not self.reverse:
+                grupo_objets.add(Pedra(self.rect.x , self.rect.y, RIGHT))
+            self.armtime = 10
+    
+    def walk(self):
+        self.image = load(self.images[self.counter])
+        if self.reverse:
+            self.image = pygame.transform.flip(self.image, True, False)
+        self.counter = (self.counter + 1) % len(self.images)
+        
+    def update(self):
+    
         self.armtime -= 1
         if self.armtime < 0:
             self.armtime = 0
@@ -60,8 +61,3 @@ class Player(SpriteGame):
         if self.rect.bottom >= SCREEN_HEIGHT:
             self.rect.bottom = SCREEN_HEIGHT
 
-        if pressed_keys[K_UP] or pressed_keys[K_DOWN] or pressed_keys[K_LEFT] or pressed_keys[K_RIGHT]:
-            self.image = load(self.images[self.counter])
-            if self.reverse:
-                self.image = pygame.transform.flip(self.image, True, False)
-            self.counter = (self.counter + 1) % len(self.images)

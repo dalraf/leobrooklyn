@@ -5,10 +5,16 @@ from pygame.time import Clock
 import random
 
 from pygame.locals import (
-    K_ESCAPE,
     KEYDOWN,
-    K_RETURN,
+    KEYUP,
     QUIT,
+    K_ESCAPE,
+    K_RETURN,
+    K_DOWN,
+    K_UP,
+    K_LEFT,
+    K_RIGHT,
+    K_SPACE,
 )
 
 from background import Background
@@ -69,7 +75,7 @@ while running:
                 enemycol.kill()
 
     for event in pygame.event.get():
-
+            
         if event.type == KEYDOWN:
             
             if event.key == K_ESCAPE:
@@ -79,13 +85,35 @@ while running:
                 stopgame = False
                 grupo_player.add(player)
                 placar.zero()
+        
+        elif event.type == KEYUP:
+            
+            if event.key == K_SPACE:
+                player.shoot()
 
         elif event.type == QUIT:
             running = False
 
     if not stopgame:
+        
         pressed_keys = pygame.key.get_pressed()
-        grupo_player.update(pressed_keys)
+
+        if pressed_keys[K_RIGHT]:
+            player.move_right()
+        
+        if pressed_keys[K_LEFT]:
+            player.move_left()
+        
+        if pressed_keys[K_UP]:
+            player.move_up()
+
+        if pressed_keys[K_DOWN]:
+            player.move_down()
+
+        if pressed_keys[K_DOWN] or pressed_keys[K_UP] or pressed_keys[K_LEFT] or pressed_keys[K_RIGHT]:
+            player.walk()
+
+        grupo_player.update()
         grupo_enemy.update(grupo_player, grupo_enemy)
         grupo_objets.update()
     else:

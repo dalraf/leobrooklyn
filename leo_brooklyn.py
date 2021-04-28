@@ -84,6 +84,7 @@ while running:
             if event.key == K_RETURN:
                 stopgame = False
                 grupo_player.add(player)
+                grupo_enemy.empty()
                 placar.zero()
         
         elif event.type == KEYUP:

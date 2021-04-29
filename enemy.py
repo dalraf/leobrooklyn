@@ -13,7 +13,7 @@ class Enemy(SpriteGame):
         self.rect.x = SCREEN_WIDTH
         self.counter = 0
         self.speed = random.randint(3, 3 + speed)
-        self.sprint_walk_factor = 3
+        self.sprint_walk_factor = 2
 
     def update_image(self, images_list):
         self.image = load(images_list[int(self.counter / self.sprint_walk_factor)])

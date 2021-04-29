@@ -61,7 +61,7 @@ while running:
         if tick_enemies < 0:
             tick_enemies = 0
 
-    colisao_player_inimigo = groupcollide(grupo_player, grupo_enemy, True, False, pygame.sprite.collide_circle_ratio(0.2))
+    colisao_player_inimigo = groupcollide(grupo_player, grupo_enemy, True, False, pygame.sprite.collide_circle_ratio(0.4))
 
     colisao_object_inimigo = groupcollide(grupo_objets, grupo_enemy, True, True)
 

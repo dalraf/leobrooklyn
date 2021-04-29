@@ -5,8 +5,7 @@ class Background():
 
     def __init__(self):
         self.backgroundwidth = SCREEN_WIDTH * 3
-        self.spritesheet = Spritesheet(resource_path("images/bg_reference.png"))
-        self.background = self.spritesheet.image_at((15,15,773,190))
+        self.background = pygame.image.load(resource_path("images/bg.png"))
         self.background = pygame.transform.scale(self.background, (self.backgroundwidth, SCREEN_HEIGHT))
         self.rect = self.background.get_rect()
         self.step = 0

@@ -22,6 +22,12 @@ class Player(SpriteGame):
         self.in_attack = False
         self.attack_activated = False
 
+    def update_image(self, images_list):
+        self.image = load(images_list[int(self.counter / self.sprint_walk_factor)])
+        if self.reverse:
+            self.image = pygame.transform.flip(self.image, True, False)
+        self.counter = (self.counter + 1) % (len(images_list) * self.sprint_walk_factor)
+
     def move_up(self):
         if not self.in_attack:
             self.rect.move_ip(0, -self.step)
@@ -39,6 +45,9 @@ class Player(SpriteGame):
         if not self.in_attack:
             self.reverse = False
             self.rect.move_ip(self.step, 0)
+    
+    def stoped(self):
+        self.counter = 0
 
     def shoot(self):
         if self.armtime == 0:
@@ -47,12 +56,6 @@ class Player(SpriteGame):
             if not self.reverse:
                 grupo_objets.add(Pedra(self.rect.x , self.rect.y, RIGHT))
             self.armtime = 10
-
-    def update_image(self, images_list):
-        self.image = load(images_list[int(self.counter / self.sprint_walk_factor)])
-        if self.reverse:
-            self.image = pygame.transform.flip(self.image, True, False)
-        self.counter = (self.counter + 1) % (len(images_list) * self.sprint_walk_factor)
 
     
     def attack(self):

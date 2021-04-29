@@ -14,6 +14,7 @@ class Player(SpriteGame):
         self.rect.y = SCREEN_HEIGHT/2
         self.rect.x = SCREEN_WIDTH/2
         self.step = 10
+        self.sprint_walk_factor = 3
         self.counter = 0
         self.reverse = False
         self.armtime = 0
@@ -41,10 +42,10 @@ class Player(SpriteGame):
             self.armtime = 10
     
     def walk(self):
-        self.image = load(self.images[self.counter])
+        self.image = load(self.images[int(self.counter / self.sprint_walk_factor)])
         if self.reverse:
             self.image = pygame.transform.flip(self.image, True, False)
-        self.counter = (self.counter + 1) % len(self.images)
+        self.counter = (self.counter + 1) % (len(self.images) * self.sprint_walk_factor)
         
     def update(self):
     

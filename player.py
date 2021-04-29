@@ -8,8 +8,9 @@ from sprite_groups import grupo_objets
 class Player(SpriteGame):
     def __init__(self):
         super(Player, self).__init__()
-        self.images = [resource_path('images/Player-Walk-' + str(i) + '.png') for i in range(1,6)]
-        self.image = load(self.images[0])
+        self.imagesattack = [resource_path('images/Player-Attack-' + str(i) + '.png') for i in range(1,6)]
+        self.imageswalk = [resource_path('images/Player-Walk-' + str(i) + '.png') for i in range(1,6)]
+        self.image = load(self.imageswalk[0])
         self.rect = self.image.get_rect()
         self.rect.y = SCREEN_HEIGHT/2
         self.rect.x = SCREEN_WIDTH/2
@@ -18,20 +19,26 @@ class Player(SpriteGame):
         self.counter = 0
         self.reverse = False
         self.armtime = 0
+        self.in_attack = False
+        self.attack_activated = False
 
     def move_up(self):
-        self.rect.move_ip(0, -self.step)
+        if not self.in_attack:
+            self.rect.move_ip(0, -self.step)
     
     def move_down(self):
-        self.rect.move_ip(0, self.step)
+        if not self.in_attack:
+            self.rect.move_ip(0, self.step)
     
     def move_left(self):
-        self.reverse = True
-        self.rect.move_ip(-self.step, 0)     
+        if not self.in_attack:
+            self.reverse = True
+            self.rect.move_ip(-self.step, 0)     
 
     def move_right(self):
-        self.reverse = False
-        self.rect.move_ip(self.step, 0)
+        if not self.in_attack:
+            self.reverse = False
+            self.rect.move_ip(self.step, 0)
 
     def shoot(self):
         if self.armtime == 0:
@@ -40,18 +47,40 @@ class Player(SpriteGame):
             if not self.reverse:
                 grupo_objets.add(Pedra(self.rect.x , self.rect.y, RIGHT))
             self.armtime = 10
-    
-    def walk(self):
-        self.image = load(self.images[int(self.counter / self.sprint_walk_factor)])
+
+    def update_image(self, images_list):
+        self.image = load(images_list[int(self.counter / self.sprint_walk_factor)])
         if self.reverse:
             self.image = pygame.transform.flip(self.image, True, False)
-        self.counter = (self.counter + 1) % (len(self.images) * self.sprint_walk_factor)
+        self.counter = (self.counter + 1) % (len(images_list) * self.sprint_walk_factor)
+
+    
+    def attack(self):
+        if self.armtime == 0:
+            self.in_attack = True
+            self.counter = 0
+            self.armtime = len(self.imagesattack) * self.sprint_walk_factor
+    
+    def walk(self):
+        if not self.in_attack:
+            self.update_image(self.imageswalk)
+
         
     def update(self):
     
         self.armtime -= 1
         if self.armtime < 0:
             self.armtime = 0
+
+        if self.armtime > 0 and self.in_attack:
+            self.update_image(self.imagesattack)
+            if int(self.counter / self.sprint_walk_factor) == (len(self.imagesattack) - 1):
+                self.attack_activated = True
+        elif self.armtime == 0 and self.in_attack:
+            self.in_attack = False
+            self.attack_activated = False
+            self.update_image(self.imageswalk)
+
 
         if self.rect.left < 0:
             self.rect.left = 0

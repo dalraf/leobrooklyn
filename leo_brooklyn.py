@@ -15,6 +15,7 @@ from pygame.locals import (
     K_LEFT,
     K_RIGHT,
     K_SPACE,
+    K_LCTRL,
 )
 
 from background import Background
@@ -60,24 +61,26 @@ while running:
         if tick_enemies < 0:
             tick_enemies = 0
 
-    colisao_inimigo_inimigo = groupcollide(grupo_enemy, grupo_enemy, False, False)
+    colisao_player_inimigo = groupcollide(grupo_player, grupo_enemy, True, False, pygame.sprite.collide_circle_ratio(0.2))
 
-    colisao_player_inimigo = groupcollide(grupo_player, grupo_enemy, False, False)
+    colisao_object_inimigo = groupcollide(grupo_objets, grupo_enemy, True, True)
 
-    colisao_object_inimigo = groupcollide(grupo_objets, grupo_enemy, True, False)
+    colisao_attack_player_inimigo = groupcollide(grupo_player, grupo_enemy, False, False, pygame.sprite.collide_circle_ratio(1))
 
-    if len(colisao_object_inimigo) > 0:
-        for objectcol, enemiescol in colisao_object_inimigo.items():
-            for enemycol in  enemiescol:
-                placar.update(enemycol.speed)
-                enemycol.kill()
+    if len(colisao_attack_player_inimigo) > 0:
+        for playercol, enemylistcol in colisao_attack_player_inimigo.items():
+            if playercol.attack_activated:
+                for enemycol in enemylistcol:
+                    if playercol.reverse:
+                        if playercol.rect.left > enemycol.rect.left:
+                            enemycol.kill()
+                    else:
+                        if playercol.rect.left < enemycol.rect.left:
+                            enemycol.kill()
 
-    if len(colisao_player_inimigo) > 0:
-        for playercol, enemiescol in colisao_player_inimigo.items():
-            playercol.kill()
-            stopgame = True
-            for enemycol in enemiescol:
-                enemycol.kill()
+
+    if len(grupo_player) == 0:
+        stopgame = True
 
     for event in pygame.event.get():
             
@@ -97,6 +100,9 @@ while running:
             
             if event.key == K_SPACE:
                 player.shoot()
+            
+            if event.key == K_LCTRL:
+                player.attack()
 
         elif event.type == QUIT:
             running = False

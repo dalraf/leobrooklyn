@@ -1,4 +1,15 @@
-from config import SCREEN_HEIGHT, SCREEN_WIDTH, SPRITE_LEVEL_Y_HIGH, LEFT, RIGHT, resource_path
+from config import (
+    SCREEN_HEIGHT,
+    SCREEN_WIDTH,
+    SPRITE_LEVEL_Y_HIGH,
+    LEFT,
+    RIGHT,
+    UP,
+    DOWN,
+    STOPPED,
+    MOONWALK,
+    resource_path
+)
 import pygame
 from pygame.image import load
 
@@ -22,32 +33,51 @@ class Player(SpriteGame):
         self.in_attack = False
         self.attack_activated = False
 
-    def update_image(self, images_list):
-        self.image = load(images_list[int(self.counter / self.sprint_walk_factor)])
+    def update_image(self, images_list,reset):
+        if not reset:
+            self.counter = (self.counter + 1) % (len(images_list) * self.sprint_walk_factor)
+            self.image = load(images_list[int(self.counter / self.sprint_walk_factor)])
+        else:
+            self.counter = 0
+            self.image = load(images_list[0])
         if self.reverse:
             self.image = pygame.transform.flip(self.image, True, False)
-        self.counter = (self.counter + 1) % (len(images_list) * self.sprint_walk_factor)
+    
+    def walk(self,direction):
+        if not self.in_attack:
+            if direction == STOPPED:
+                self.update_image(self.imageswalk,True)
+            else:
+                self.update_image(self.imageswalk,False)
 
     def move_up(self):
         if not self.in_attack:
             self.rect.move_ip(0, -self.step)
+        self.walk(UP)
     
     def move_down(self):
         if not self.in_attack:
             self.rect.move_ip(0, self.step)
+        self.walk(DOWN)
     
     def move_left(self):
         if not self.in_attack:
             self.reverse = True
-            self.rect.move_ip(-self.step, 0)     
+            self.rect.move_ip(-self.step, 0)    
+        self.walk(LEFT) 
 
     def move_right(self):
         if not self.in_attack:
             self.reverse = False
             self.rect.move_ip(self.step, 0)
+        self.walk(RIGHT)
+
+    def move_stopped(self):
+        if not self.in_attack:
+            self.walk(MOONWALK)
     
-    def stoped(self):
-        self.counter = 0
+    def stopped(self):
+        self.walk(STOPPED)
 
     def shoot(self):
         if self.armtime == 0:
@@ -63,11 +93,6 @@ class Player(SpriteGame):
             self.in_attack = True
             self.counter = 0
             self.armtime = len(self.imagesattack) * self.sprint_walk_factor
-    
-    def walk(self):
-        if not self.in_attack:
-            self.update_image(self.imageswalk)
-
         
     def update(self):
     
@@ -76,13 +101,13 @@ class Player(SpriteGame):
             self.armtime = 0
 
         if self.armtime > 0 and self.in_attack:
-            self.update_image(self.imagesattack)
+            self.update_image(self.imagesattack,False)
             if int(self.counter / self.sprint_walk_factor) == (len(self.imagesattack) - 1):
                 self.attack_activated = True
         elif self.armtime == 0 and self.in_attack:
             self.in_attack = False
             self.attack_activated = False
-            self.update_image(self.imageswalk)
+            self.update_image(self.imageswalk,True)
 
 
         if self.rect.left < 0:

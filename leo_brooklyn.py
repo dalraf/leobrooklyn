@@ -108,9 +108,6 @@ while running:
 
         elif event.type == QUIT:
             running = False
-        
-        else:
-            player.stoped()
 
     if not stopgame:
         
@@ -121,20 +118,21 @@ while running:
                 for enemy_active in grupo_enemy:
                     enemy_active.walk(player.step)
                 background.walk(player.step)
+                player.move_stopped()
             else:
                  player.move_right()
         
-        if pressed_keys[K_LEFT]:
+        elif pressed_keys[K_LEFT]:
             player.move_left()
         
-        if pressed_keys[K_UP]:
+        elif pressed_keys[K_UP]:
             player.move_up()
 
-        if pressed_keys[K_DOWN]:
+        elif pressed_keys[K_DOWN]:
             player.move_down()
 
-        if pressed_keys[K_DOWN] or pressed_keys[K_UP] or pressed_keys[K_LEFT] or pressed_keys[K_RIGHT]:
-            player.walk()
+        else:
+            player.stopped()
 
         grupo_player.update()
         grupo_enemy.update(grupo_player, grupo_enemy)

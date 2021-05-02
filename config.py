@@ -16,3 +16,7 @@ SCREEN_HEIGHT = 450
 SPRITE_LEVEL_Y_HIGH = 250
 LEFT = "Left"
 RIGHT = "Right"
+UP = "Up"
+DOWN = "Down"
+STOPPED = "Stooped"
+MOONWALK = "MonnWalk"

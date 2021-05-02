@@ -71,7 +71,7 @@ class Enemy(SpriteGame):
         if pygame.sprite.spritecollide(self, grupo_player, False, pygame.sprite.collide_circle_ratio(1.5)):
             for player_active in grupo_player:
                 if self.rect.y in range(player_active.rect.y - 20, player_active.rect.y + 20):
-                    if random.randint(0,100) > 90:
+                    if random.randint(0,200) > 190:
                         self.attack()
         
         self.dx = 0

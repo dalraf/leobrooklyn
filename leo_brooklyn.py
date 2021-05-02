@@ -61,13 +61,11 @@ while running:
         if tick_enemies < 0:
             tick_enemies = 0
 
-    colisao_player_inimigo = groupcollide(grupo_player, grupo_enemy, True, False, pygame.sprite.collide_circle_ratio(0.4))
-
     colisao_object_inimigo = groupcollide(grupo_objets, grupo_enemy, True, True, pygame.sprite.collide_circle_ratio(0.4))
 
     colisao_object_player = groupcollide(grupo_objets, grupo_player, True, True, pygame.sprite.collide_circle_ratio(0.4))
 
-    colisao_attack_player_inimigo = groupcollide(grupo_player, grupo_enemy, False, False, pygame.sprite.collide_circle_ratio(0.8))
+    colisao_attack_player_inimigo = groupcollide(grupo_player, grupo_enemy, False, False, pygame.sprite.collide_circle_ratio(0.6))
 
     if len(colisao_attack_player_inimigo) > 0:
         for playercol, enemylistcol in colisao_attack_player_inimigo.items():
@@ -81,7 +79,15 @@ while running:
                         if playercol.rect.left < enemycol.rect.left:
                             placar.add_enemy_kill(enemycol.speed)
                             enemycol.kill()
-
+            else:
+                for enemycol in enemylistcol:
+                    if enemycol.attack_activated:
+                        if enemycol.reverse:
+                            if enemycol.rect.left > playercol.rect.left:
+                                playercol.kill()
+                        else:
+                            if enemycol.rect.left < playercol.rect.left:
+                                playercol.kill()
 
     if len(grupo_player) == 0:
         stopgame = True

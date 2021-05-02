@@ -51,7 +51,7 @@ class Enemy(SpriteGame):
 
     
     def attack_trigger(self):
-        if random.randint(1,300) < self.speed * 30:
+        if random.randint(1,3000) < self.speed * 30:
             return True
         else:
             return False
@@ -87,17 +87,19 @@ class Enemy(SpriteGame):
         if self.armtime < 0:
             self.armtime = 0
 
-        if not pygame.sprite.spritecollide(self, grupo_player, False, pygame.sprite.collide_circle_ratio(ATTACK_RATIO)):
-            for player_active in grupo_player:
-                if self.rect.y in range(player_active.rect.y - Y_DEVIRACAO, player_active.rect.y + Y_DEVIRACAO):
-                    if self.attack_trigger:
-                        self.shoot()
-        
-        if pygame.sprite.spritecollide(self, grupo_player, False, pygame.sprite.collide_circle_ratio(ATTACK_RATIO)):
-            for player_active in grupo_player:
-                if self.rect.y in range(player_active.rect.y - Y_DEVIRACAO, player_active.rect.y + Y_DEVIRACAO):
-                    if self.attack_trigger:
-                        self.attack()
+        if not self.in_attack and self.armtime == 0 and self.hittime <= 0:
+
+            if not pygame.sprite.spritecollide(self, grupo_player, False, pygame.sprite.collide_circle_ratio(ATTACK_RATIO)):
+                for player_active in grupo_player:
+                    if self.rect.y in range(player_active.rect.y - Y_DEVIRACAO, player_active.rect.y + Y_DEVIRACAO):
+                        if self.attack_trigger():
+                            self.shoot()
+            
+            if pygame.sprite.spritecollide(self, grupo_player, False, pygame.sprite.collide_circle_ratio(ATTACK_RATIO)):
+                for player_active in grupo_player:
+                    if self.rect.y in range(player_active.rect.y - Y_DEVIRACAO, player_active.rect.y + Y_DEVIRACAO):
+                        if self.attack_trigger():
+                            self.attack()
 
         self.dx = 0
         self.dy = 0

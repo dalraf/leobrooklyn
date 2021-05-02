@@ -93,6 +93,7 @@ while running:
 
             if event.key == K_RETURN:
                 stopgame = False
+                player = Player()
                 grupo_player.add(player)
                 grupo_enemy.empty()
                 placar.zero()

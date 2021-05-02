@@ -9,14 +9,14 @@ from sprite_groups import grupo_objets, grupo_player
 class Enemy(SpriteGame):
     def __init__(self, speed):
         super(Enemy, self).__init__()
-        self.imageswalk = [resource_path('images/Enemy-1-Walk-' + str(i) + '.png') for i in range(1,5)]
+        self.imageswalk = [resource_path('images/Enemy-1-Walk-' + str(i) + '.png') for i in range(1,6)]
         self.image = load(self.imageswalk[0])
         self.rect = self.image.get_rect()
         self.rect.y = SCREEN_HEIGHT - random.randint(0,500)
         self.rect.x = SCREEN_WIDTH
         self.counter = 0
         self.speed = random.randint(3, 3 + speed)
-        self.sprint_walk_factor = 2
+        self.sprint_walk_factor = 3
         self.armtime = 0
         self.pedras = random.randint(0,2)
         self.reverse = False

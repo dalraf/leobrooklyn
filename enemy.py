@@ -4,7 +4,8 @@ from pygame.image import load
 import random
 from sprite_class import SpriteGame
 from objetcs import Pedra
-from sprite_groups import grupo_objets
+from sprite_groups import grupo_objets, grupo_player
+
 class Enemy(SpriteGame):
     def __init__(self, speed):
         super(Enemy, self).__init__()
@@ -43,8 +44,11 @@ class Enemy(SpriteGame):
     
     def update(self,grupo_player,grupo_enemy):
 
-        if random.randint(0,150) > 140:
-            self.shoot()
+        if not pygame.sprite.spritecollide(self, grupo_player, False, pygame.sprite.collide_circle_ratio(1.5)):
+            for player_active in grupo_player:
+                if self.rect.y in range(player_active.rect.y - 20, player_active.rect.y + 20):
+                    if random.randint(0,200) > 190:
+                        self.shoot()
 
         self.armtime -= 1
         if self.armtime < 0:

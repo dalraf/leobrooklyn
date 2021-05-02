@@ -1,4 +1,12 @@
-from config import SCREEN_HEIGHT, SCREEN_WIDTH, SPRITE_LEVEL_Y_HIGH, LEFT, RIGHT, resource_path
+from config import (
+    SCREEN_HEIGHT,
+    SCREEN_WIDTH,
+    SPRITE_LEVEL_Y_HIGH,
+    LEFT, RIGHT,
+    ATTACK_RATIO,
+    Y_DEVIRACAO,
+    resource_path
+)
 import pygame
 from pygame.image import load
 import random
@@ -62,15 +70,15 @@ class Enemy(SpriteGame):
         if self.armtime < 0:
             self.armtime = 0
 
-        if not pygame.sprite.spritecollide(self, grupo_player, False, pygame.sprite.collide_circle_ratio(1.5)):
+        if not pygame.sprite.spritecollide(self, grupo_player, False, pygame.sprite.collide_circle_ratio(ATTACK_RATIO)):
             for player_active in grupo_player:
-                if self.rect.y in range(player_active.rect.y - 20, player_active.rect.y + 20):
+                if self.rect.y in range(player_active.rect.y - Y_DEVIRACAO, player_active.rect.y + Y_DEVIRACAO):
                     if random.randint(0,200) > 190:
                         self.shoot()
         
-        if pygame.sprite.spritecollide(self, grupo_player, False, pygame.sprite.collide_circle_ratio(1.5)):
+        if pygame.sprite.spritecollide(self, grupo_player, False, pygame.sprite.collide_circle_ratio(ATTACK_RATIO)):
             for player_active in grupo_player:
-                if self.rect.y in range(player_active.rect.y - 20, player_active.rect.y + 20):
+                if self.rect.y in range(player_active.rect.y - Y_DEVIRACAO, player_active.rect.y + Y_DEVIRACAO):
                     if random.randint(0,200) > 190:
                         self.attack()
 
@@ -105,6 +113,11 @@ class Enemy(SpriteGame):
             self.reverse = True
         elif self.dx > 0:
             self.reverse = False
+        
+        if self.dx == 0:
+            self.stopped = True
+        else: 
+            self.stopped = False
 
         if self.armtime > 0 and self.in_attack:
             self.update_image(self.imagesattack,False)
@@ -116,7 +129,10 @@ class Enemy(SpriteGame):
             self.attack_activated = False
             self.update_image(self.imageswalk,True)
 
-        else: 
+        elif self.stopped:
+            self.update_image(self.imageswalk,True)
+
+        else:
             self.update_image(self.imageswalk,False)
 
 

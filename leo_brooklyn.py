@@ -1,4 +1,9 @@
-from config import SCREEN_HEIGHT, SCREEN_WIDTH
+from config import (
+    SCREEN_HEIGHT,
+    SCREEN_WIDTH,
+    ATTACK_RATIO,
+    OBJET_KILL_RATIO,
+)
 import pygame
 from pygame.sprite import groupcollide
 from pygame.time import Clock
@@ -61,11 +66,11 @@ while running:
         if tick_enemies < 0:
             tick_enemies = 0
 
-    colisao_object_inimigo = groupcollide(grupo_objets, grupo_enemy, True, True, pygame.sprite.collide_circle_ratio(0.4))
+    colisao_object_inimigo = groupcollide(grupo_objets, grupo_enemy, True, True, pygame.sprite.collide_circle_ratio(OBJET_KILL_RATIO))
 
-    colisao_object_player = groupcollide(grupo_objets, grupo_player, True, True, pygame.sprite.collide_circle_ratio(0.4))
+    colisao_object_player = groupcollide(grupo_objets, grupo_player, True, True, pygame.sprite.collide_circle_ratio(OBJET_KILL_RATIO))
 
-    colisao_attack_player_inimigo = groupcollide(grupo_player, grupo_enemy, False, False, pygame.sprite.collide_circle_ratio(0.6))
+    colisao_attack_player_inimigo = groupcollide(grupo_player, grupo_enemy, False, False, pygame.sprite.collide_circle_ratio(ATTACK_RATIO))
 
     if len(colisao_attack_player_inimigo) > 0:
         for playercol, enemylistcol in colisao_attack_player_inimigo.items():

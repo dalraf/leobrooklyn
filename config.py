@@ -20,3 +20,6 @@ UP = "Up"
 DOWN = "Down"
 STOPPED = "Stooped"
 MOONWALK = "MonnWalk"
+ATTACK_RATIO = 1
+OBJET_KILL_RATIO = 0.4
+Y_DEVIRACAO = 20

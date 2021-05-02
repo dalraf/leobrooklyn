@@ -34,6 +34,7 @@ class Player(SpriteGame):
         self.in_attack = False
         self.attack_activated = False
         self.pedras = 5
+        self.life = 10
 
     def update_image(self, images_list,reset):
         if not reset:
@@ -127,6 +128,11 @@ class Player(SpriteGame):
         if self.armtime == 0:
             self.in_attack = True
             self.armtime = len(self.imagesattack) * self.sprint_walk_factor
+
+    def hit(self):
+        self.life -= 1
+        if self.life <=0:
+            self.kill()
         
     def update(self):
     

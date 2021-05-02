@@ -68,7 +68,11 @@ while running:
 
     colisao_object_inimigo = groupcollide(grupo_objets, grupo_enemy, True, True, pygame.sprite.collide_circle_ratio(OBJET_KILL_RATIO))
 
-    colisao_object_player = groupcollide(grupo_objets, grupo_player, True, True, pygame.sprite.collide_circle_ratio(OBJET_KILL_RATIO))
+    colisao_object_player = groupcollide(grupo_player, grupo_objets, False, True, pygame.sprite.collide_circle_ratio(OBJET_KILL_RATIO))
+
+    if len(colisao_object_player) > 0:
+        for playercol, objectlistcol in colisao_object_player.items():
+            playercol.hit()
 
     colisao_attack_player_inimigo = groupcollide(grupo_player, grupo_enemy, False, False, pygame.sprite.collide_circle_ratio(ATTACK_RATIO))
 
@@ -89,10 +93,10 @@ while running:
                     if enemycol.attack_activated:
                         if enemycol.reverse:
                             if enemycol.rect.left > playercol.rect.left:
-                                playercol.kill()
+                                playercol.hit()
                         else:
                             if enemycol.rect.left < playercol.rect.left:
-                                playercol.kill()
+                                playercol.hit()
 
     if len(grupo_player) == 0:
         stopgame = True
@@ -163,6 +167,7 @@ while running:
 
 
     placar.set_pedras(player.pedras)
+    placar.set_life(player.life)
     placar.draw(screen)
 
     grupo_player.draw(screen)

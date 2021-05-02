@@ -23,7 +23,7 @@ class Player(SpriteGame):
         self.imageswalk = [resource_path('images/Player-Walk-' + str(i) + '.png') for i in range(1,6)]
         self.image = load(self.imageswalk[0])
         self.rect = self.image.get_rect()
-        self.rect.y = SCREEN_HEIGHT/2
+        self.rect.y = SCREEN_HEIGHT * (0.65)
         self.rect.x = SCREEN_WIDTH/2
         self.step = 10
         self.sprint_walk_factor = 3
@@ -56,8 +56,8 @@ class Player(SpriteGame):
                 self.rect.left = 0
             if self.rect.right > SCREEN_WIDTH:
                 self.rect.right = SCREEN_WIDTH
-            if self.rect.top <= SPRITE_LEVEL_Y_HIGH:
-                self.rect.top = SPRITE_LEVEL_Y_HIGH
+            if self.rect.bottom <= SPRITE_LEVEL_Y_HIGH:
+                self.rect.bottom = SPRITE_LEVEL_Y_HIGH
             if self.rect.bottom >= SCREEN_HEIGHT:
                 self.rect.bottom = SCREEN_HEIGHT
 

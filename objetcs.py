@@ -3,6 +3,7 @@ import pygame
 from pygame.image import load
 import random
 from sprite_class import SpriteGame
+import random
 
 class Pedra(SpriteGame):
     def __init__(self,x,y,direction):
@@ -12,18 +13,21 @@ class Pedra(SpriteGame):
         self.rect = self.image.get_rect()
         self.rect.y = y + 35
         self.counter = 0
-        self.speed = 3
+        self.speed = random.randint(5,15)
         self.direction = direction
         if direction == RIGHT: 
             self.rect.x = x + 35
         if direction == LEFT:
-            self.rect.x = x - 35 
+            self.rect.x = x - 35
+    
+    def paralaxe(self,step):
+        self.rect.x -= step
  
     def update(self):
         
         if self.direction == RIGHT:
-            self.rect.x += 15
+            self.rect.x += self.speed
         
         if self.direction == LEFT:
-            self.rect.x -= 15
+            self.rect.x -= self.speed
 

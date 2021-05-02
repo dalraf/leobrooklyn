@@ -63,7 +63,9 @@ while running:
 
     colisao_player_inimigo = groupcollide(grupo_player, grupo_enemy, True, False, pygame.sprite.collide_circle_ratio(0.4))
 
-    colisao_object_inimigo = groupcollide(grupo_objets, grupo_enemy, True, True)
+    colisao_object_inimigo = groupcollide(grupo_objets, grupo_enemy, True, True, pygame.sprite.collide_circle_ratio(0.4))
+
+    colisao_object_player = groupcollide(grupo_objets, grupo_player, True, True, pygame.sprite.collide_circle_ratio(0.4))
 
     colisao_attack_player_inimigo = groupcollide(grupo_player, grupo_enemy, False, False, pygame.sprite.collide_circle_ratio(0.8))
 
@@ -90,14 +92,16 @@ while running:
             
             if event.key == K_ESCAPE:
                 running = False
-
-            if event.key == K_RETURN:
-                stopgame = False
-                player = Player()
-                grupo_player.add(player)
-                grupo_enemy.empty()
-                placar.zero()
-                background.zero()
+            
+            if stopgame:
+                if event.key == K_RETURN:
+                    stopgame = False
+                    player = Player()
+                    grupo_player.add(player)
+                    grupo_enemy.empty()
+                    grupo_objets.empty()
+                    placar.zero()
+                    background.zero()
         
         elif event.type == KEYUP:
             
@@ -118,6 +122,8 @@ while running:
             if player.rect.x > SCREEN_WIDTH * 0.5:
                 for enemy_active in grupo_enemy:
                     enemy_active.paralaxe(player.step)
+                for object_active in grupo_objets:
+                    object_active.paralaxe(player.step)
                 background.paralaxe(player.step)
                 player.move_stopped()
             else:

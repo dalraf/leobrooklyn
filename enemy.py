@@ -1,8 +1,10 @@
-from config import SCREEN_HEIGHT, SCREEN_WIDTH, SPRITE_LEVEL_Y_HIGH, resource_path
+from config import SCREEN_HEIGHT, SCREEN_WIDTH, SPRITE_LEVEL_Y_HIGH, LEFT, RIGHT, resource_path
 import pygame
 from pygame.image import load
 import random
 from sprite_class import SpriteGame
+from objetcs import Pedra
+from sprite_groups import grupo_objets
 class Enemy(SpriteGame):
     def __init__(self, speed):
         super(Enemy, self).__init__()
@@ -14,6 +16,9 @@ class Enemy(SpriteGame):
         self.counter = 0
         self.speed = random.randint(3, 3 + speed)
         self.sprint_walk_factor = 2
+        self.armtime = 0
+        self.pedras = random.randint(0,2)
+        self.reverse = False
 
     def update_image(self, images_list):
         self.image = load(images_list[int(self.counter / self.sprint_walk_factor)])
@@ -25,8 +30,25 @@ class Enemy(SpriteGame):
 
     def paralaxe(self,step):
         self.rect.x -= step
+
+    def shoot(self):
+        if self.pedras > 0:
+            if self.armtime == 0:
+                if self.reverse:
+                    grupo_objets.add(Pedra(self.rect.x , self.rect.y, LEFT))
+                if not self.reverse:
+                    grupo_objets.add(Pedra(self.rect.x , self.rect.y, RIGHT))
+                self.armtime = 20
+                self.pedras -= 1
     
     def update(self,grupo_player,grupo_enemy):
+
+        if random.randint(0,150) > 140:
+            self.shoot()
+
+        self.armtime -= 1
+        if self.armtime < 0:
+            self.armtime = 0
         
         self.dx = 0
         self.dy = 0

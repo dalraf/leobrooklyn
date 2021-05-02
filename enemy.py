@@ -47,10 +47,6 @@ class Enemy(SpriteGame):
         self.rect.x += self.passo_x
         self.rect.y += self.passo_y
         
-        if self.rect.left < 0:
-            self.rect.left = 0
-        if self.rect.right > SCREEN_WIDTH:
-            self.rect.right = SCREEN_WIDTH
         if self.rect.bottom <= SPRITE_LEVEL_Y_HIGH:
             self.rect.bottom = SPRITE_LEVEL_Y_HIGH
         if self.rect.bottom >= SCREEN_HEIGHT:

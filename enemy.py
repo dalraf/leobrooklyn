@@ -10,6 +10,7 @@ class Enemy(SpriteGame):
     def __init__(self, speed):
         super(Enemy, self).__init__()
         self.imageswalk = [resource_path('images/Enemy-1-Walk-' + str(i) + '.png') for i in range(1,6)]
+        self.imagesattack = [resource_path('images/Enemy-1-Attack-' + str(i) + '.png') for i in range(1,6)]
         self.image = load(self.imageswalk[0])
         self.rect = self.image.get_rect()
         self.rect.y = SCREEN_HEIGHT - random.randint(0,500)
@@ -18,19 +19,25 @@ class Enemy(SpriteGame):
         self.speed = random.randint(3, 3 + speed)
         self.sprint_walk_factor = 3
         self.armtime = 0
+        self.in_attack = False
+        self.attack_activated = False
         self.pedras = random.randint(0,2)
         self.reverse = False
 
-    def update_image(self, images_list):
-        self.image = load(images_list[int(self.counter / self.sprint_walk_factor)])
-        if self.reverse:
-            self.image = pygame.transform.flip(self.image, True, False)
-   
-        if self.passo_x != 0 or self.passo_y != 0:
+    def update_image(self, images_list,reset):
+        if not reset:
             self.counter = (self.counter + 1) % (len(images_list) * self.sprint_walk_factor)
+            self.image = load(images_list[int(self.counter / self.sprint_walk_factor)])
+        else:
+            self.counter = 0
+            self.image = load(images_list[0])
+        if self.reverse:
+            self.image = pygame.transform.flip(self.image, True, False) 
+
 
     def paralaxe(self,step):
         self.rect.x -= step
+
 
     def shoot(self):
         if self.pedras > 0:
@@ -41,18 +48,30 @@ class Enemy(SpriteGame):
                     grupo_objets.add(Pedra(self.rect.x , self.rect.y, RIGHT))
                 self.armtime = 20
                 self.pedras -= 1
+
+    def attack(self):
+        if self.armtime == 0:
+            self.in_attack = True
+            self.counter = 0
+            self.armtime = len(self.imagesattack) * self.sprint_walk_factor
     
     def update(self,grupo_player,grupo_enemy):
+
+        self.armtime -= 1
+        if self.armtime < 0:
+            self.armtime = 0
 
         if not pygame.sprite.spritecollide(self, grupo_player, False, pygame.sprite.collide_circle_ratio(1.5)):
             for player_active in grupo_player:
                 if self.rect.y in range(player_active.rect.y - 20, player_active.rect.y + 20):
                     if random.randint(0,200) > 190:
                         self.shoot()
-
-        self.armtime -= 1
-        if self.armtime < 0:
-            self.armtime = 0
+        
+        if pygame.sprite.spritecollide(self, grupo_player, False, pygame.sprite.collide_circle_ratio(1.5)):
+            for player_active in grupo_player:
+                if self.rect.y in range(player_active.rect.y - 20, player_active.rect.y + 20):
+                    if random.randint(0,100) > 90:
+                        self.attack()
         
         self.dx = 0
         self.dy = 0
@@ -82,8 +101,19 @@ class Enemy(SpriteGame):
             self.reverse = True
         else:
             self.reverse = False
+
+        if self.armtime > 0 and self.in_attack:
+            self.update_image(self.imagesattack,False)
+            if int(self.counter / self.sprint_walk_factor) == (len(self.imagesattack) - 1):
+                self.attack_activated = True
         
-        self.update_image(self.imageswalk)
+        elif self.armtime == 0 and self.in_attack:
+            self.in_attack = False
+            self.attack_activated = False
+            self.update_image(self.imageswalk,True)
+
+        else: 
+            self.update_image(self.imageswalk,False)
 
 
 

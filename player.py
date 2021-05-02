@@ -126,7 +126,6 @@ class Player(SpriteGame):
     def attack(self):
         if self.armtime == 0:
             self.in_attack = True
-            self.counter = 0
             self.armtime = len(self.imagesattack) * self.sprint_walk_factor
         
     def update(self):

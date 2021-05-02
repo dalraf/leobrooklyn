@@ -122,21 +122,22 @@ while running:
             else:
                  player.move_right()
         
-        elif pressed_keys[K_LEFT]:
+        if pressed_keys[K_LEFT]:
             player.move_left()
         
-        elif pressed_keys[K_UP]:
+        if pressed_keys[K_UP]:
             player.move_up()
 
-        elif pressed_keys[K_DOWN]:
+        if pressed_keys[K_DOWN]:
             player.move_down()
 
-        else:
+        if not pressed_keys[K_RIGHT] and not pressed_keys[K_LEFT] and not pressed_keys[K_UP] and not pressed_keys[K_DOWN]:
             player.stopped()
 
         grupo_player.update()
         grupo_enemy.update(grupo_player, grupo_enemy)
         grupo_objets.update()
+    
     else:
         controle.draw(screen)
 

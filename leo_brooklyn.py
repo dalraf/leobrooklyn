@@ -48,7 +48,7 @@ grupo_player.add(player)
 
 running = True
 stopgame = True
-som.play()
+#som.play()
 
 while running:
 

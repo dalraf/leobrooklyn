@@ -47,6 +47,13 @@ class Enemy(SpriteGame):
     def paralaxe(self,step):
         self.rect.x -= step
 
+    
+    def attack_trigger(self):
+        if random.randint(1,300) < self.speed * 30:
+            return True
+        else:
+            return False
+
 
     def shoot(self):
         if self.pedras > 0:
@@ -70,16 +77,18 @@ class Enemy(SpriteGame):
         if self.armtime < 0:
             self.armtime = 0
 
+
+
         if not pygame.sprite.spritecollide(self, grupo_player, False, pygame.sprite.collide_circle_ratio(ATTACK_RATIO)):
             for player_active in grupo_player:
                 if self.rect.y in range(player_active.rect.y - Y_DEVIRACAO, player_active.rect.y + Y_DEVIRACAO):
-                    if random.randint(0,200) > 190:
+                    if self.attack_trigger:
                         self.shoot()
         
         if pygame.sprite.spritecollide(self, grupo_player, False, pygame.sprite.collide_circle_ratio(ATTACK_RATIO)):
             for player_active in grupo_player:
                 if self.rect.y in range(player_active.rect.y - Y_DEVIRACAO, player_active.rect.y + Y_DEVIRACAO):
-                    if random.randint(0,200) > 190:
+                    if self.attack_trigger:
                         self.attack()
 
         self.dx = 0

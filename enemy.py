@@ -33,6 +33,7 @@ class Enemy(SpriteGame):
         self.pedras = random.randint(0,2)
         self.reverse = False
         self.life = 3
+        self.hittime = 0
 
     def update_image(self, images_list,reset):
         if not reset:
@@ -72,17 +73,19 @@ class Enemy(SpriteGame):
             self.armtime = len(self.imagesattack) * self.sprint_walk_factor
 
     def hit(self):
-        self.life -= 1
-        if self.life <=0:
-            self.kill()
+        if self.hittime <= 0:
+            self.life -= 1
+            if self.life <=0:
+                self.kill()
+            self.hittime = self.sprint_walk_factor * 6
     
     def update(self,grupo_player,grupo_enemy):
+
+        self.hittime -= self.sprint_walk_factor
 
         self.armtime -= 1
         if self.armtime < 0:
             self.armtime = 0
-
-
 
         if not pygame.sprite.spritecollide(self, grupo_player, False, pygame.sprite.collide_circle_ratio(ATTACK_RATIO)):
             for player_active in grupo_player:

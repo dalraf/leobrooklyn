@@ -32,6 +32,7 @@ class Player(SpriteGame):
         self.armtime = 0
         self.in_attack = False
         self.attack_activated = False
+        self.pedras = 5
 
     def update_image(self, images_list,reset):
         if not reset:
@@ -91,12 +92,14 @@ class Player(SpriteGame):
         self.walk(STOPPED)
 
     def shoot(self):
-        if self.armtime == 0:
-            if self.reverse:
-                grupo_objets.add(Pedra(self.rect.x , self.rect.y, LEFT))
-            if not self.reverse:
-                grupo_objets.add(Pedra(self.rect.x , self.rect.y, RIGHT))
-            self.armtime = 10
+        if self.pedras > 0:
+            if self.armtime == 0:
+                if self.reverse:
+                    grupo_objets.add(Pedra(self.rect.x , self.rect.y, LEFT))
+                if not self.reverse:
+                    grupo_objets.add(Pedra(self.rect.x , self.rect.y, RIGHT))
+                self.armtime = 10
+                self.pedras -= 1
 
     
     def attack(self):

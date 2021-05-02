@@ -73,11 +73,11 @@ while running:
                 for enemycol in enemylistcol:
                     if playercol.reverse:
                         if playercol.rect.left > enemycol.rect.left:
-                            placar.update(enemycol.speed)
+                            placar.add_enemy_kill(enemycol.speed)
                             enemycol.kill()
                     else:
                         if playercol.rect.left < enemycol.rect.left:
-                            placar.update(enemycol.speed)
+                            placar.add_enemy_kill(enemycol.speed)
                             enemycol.kill()
 
 
@@ -142,6 +142,8 @@ while running:
 
     background.draw(screen)
 
+
+    placar.set_pedras(player.pedras)
     placar.draw(screen)
 
     grupo_player.draw(screen)

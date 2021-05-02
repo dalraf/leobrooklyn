@@ -50,26 +50,37 @@ class Player(SpriteGame):
             else:
                 self.update_image(self.imageswalk,False)
 
+    def move(self, direction_vetor):
+            self.rect.move_ip(direction_vetor)
+            if self.rect.left < 0:
+                self.rect.left = 0
+            if self.rect.right > SCREEN_WIDTH:
+                self.rect.right = SCREEN_WIDTH
+            if self.rect.top <= SPRITE_LEVEL_Y_HIGH:
+                self.rect.top = SPRITE_LEVEL_Y_HIGH
+            if self.rect.bottom >= SCREEN_HEIGHT:
+                self.rect.bottom = SCREEN_HEIGHT
+
     def move_up(self):
         if not self.in_attack:
-            self.rect.move_ip(0, -self.step)
+            self.move((0, -self.step))
         self.walk(UP)
     
     def move_down(self):
         if not self.in_attack:
-            self.rect.move_ip(0, self.step)
+            self.move((0, self.step))
         self.walk(DOWN)
     
     def move_left(self):
         if not self.in_attack:
             self.reverse = True
-            self.rect.move_ip(-self.step, 0)    
+            self.move((-self.step, 0))    
         self.walk(LEFT) 
 
     def move_right(self):
         if not self.in_attack:
             self.reverse = False
-            self.rect.move_ip(self.step, 0)
+            self.move((self.step, 0))
         self.walk(RIGHT)
 
     def move_stopped(self):
@@ -104,18 +115,10 @@ class Player(SpriteGame):
             self.update_image(self.imagesattack,False)
             if int(self.counter / self.sprint_walk_factor) == (len(self.imagesattack) - 1):
                 self.attack_activated = True
+        
         elif self.armtime == 0 and self.in_attack:
             self.in_attack = False
             self.attack_activated = False
             self.update_image(self.imageswalk,True)
 
-
-        if self.rect.left < 0:
-            self.rect.left = 0
-        if self.rect.right > SCREEN_WIDTH:
-            self.rect.right = SCREEN_WIDTH
-        if self.rect.top <= SPRITE_LEVEL_Y_HIGH:
-            self.rect.top = SPRITE_LEVEL_Y_HIGH
-        if self.rect.bottom >= SCREEN_HEIGHT:
-            self.rect.bottom = SCREEN_HEIGHT
 

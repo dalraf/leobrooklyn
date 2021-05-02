@@ -73,14 +73,16 @@ class Enemy(SpriteGame):
                 if self.rect.y in range(player_active.rect.y - 20, player_active.rect.y + 20):
                     if random.randint(0,200) > 190:
                         self.attack()
-        
+
         self.dx = 0
         self.dy = 0
 
-        dx, dy = self.calculate_path(grupo_player, 0)
-        
-        self.dx += dx 
-        self.dy += dy
+        if not pygame.sprite.spritecollide(self, grupo_player, False, pygame.sprite.collide_circle_ratio(1.5)):
+
+            dx, dy = self.calculate_path(grupo_player, 0)
+            
+            self.dx += dx 
+            self.dy += dy
 
         dx, dy = self.calculate_path(grupo_enemy, 100)
 
@@ -101,7 +103,7 @@ class Enemy(SpriteGame):
 
         if self.dx < 0:
             self.reverse = True
-        else:
+        elif self.dx > 0:
             self.reverse = False
 
         if self.armtime > 0 and self.in_attack:

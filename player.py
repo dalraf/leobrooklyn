@@ -26,6 +26,7 @@ class Player(SpriteGame):
         self.rect.y = SCREEN_HEIGHT * (0.65)
         self.rect.x = SCREEN_WIDTH/2
         self.step = 10
+        self.move_list = []
         self.sprint_walk_factor = 3
         self.counter = 0
         self.reverse = False
@@ -50,6 +51,26 @@ class Player(SpriteGame):
                 self.update_image(self.imageswalk,True)
             else:
                 self.update_image(self.imageswalk,False)
+    
+    def combine_moviment(self):
+        if UP in self.move_list:
+            self.walk(UP)
+            self.move_list = []
+        if DOWN in self.move_list:
+            self.walk(DOWN)
+            self.move_list = []
+        if RIGHT in self.move_list:
+            self.walk(RIGHT)
+            self.move_list = []
+        if LEFT in self.move_list:
+            self.walk(LEFT)
+            self.move_list = []
+        if STOPPED in self.move_list:
+            self.walk(STOPPED)
+            self.move_list = []
+        if MOONWALK in self.move_list:
+            self.walk(MOONWALK)
+            self.move_list = []
 
     def move(self, direction_vetor):
             self.rect.move_ip(direction_vetor)
@@ -65,31 +86,31 @@ class Player(SpriteGame):
     def move_up(self):
         if not self.in_attack:
             self.move((0, -self.step))
-        self.walk(UP)
+            self.move_list.append(UP)
     
     def move_down(self):
         if not self.in_attack:
             self.move((0, self.step))
-        self.walk(DOWN)
+            self.move_list.append(DOWN)
     
     def move_left(self):
         if not self.in_attack:
             self.reverse = True
             self.move((-self.step, 0))    
-        self.walk(LEFT) 
+            self.move_list.append(LEFT)
 
     def move_right(self):
         if not self.in_attack:
             self.reverse = False
             self.move((self.step, 0))
-        self.walk(RIGHT)
+            self.move_list.append(RIGHT)
 
     def move_stopped(self):
         if not self.in_attack:
-            self.walk(MOONWALK)
+            self.move_list.append(MOONWALK)
     
     def stopped(self):
-        self.walk(STOPPED)
+        self.move_list.append(STOPPED)
 
     def shoot(self):
         if self.pedras > 0:
@@ -110,6 +131,8 @@ class Player(SpriteGame):
         
     def update(self):
     
+        self.combine_moviment()
+
         self.armtime -= 1
         if self.armtime < 0:
             self.armtime = 0

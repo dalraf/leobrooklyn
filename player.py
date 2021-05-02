@@ -33,8 +33,8 @@ class Player(SpriteGame):
         self.armtime = 0
         self.in_attack = False
         self.attack_activated = False
-        self.pedras = 5
-        self.life = 10
+        self.pedras = 10
+        self.life = 20
 
     def update_image(self, images_list,reset):
         if not reset:

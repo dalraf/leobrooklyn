@@ -83,11 +83,11 @@ while running:
                     if playercol.reverse:
                         if playercol.rect.left > enemycol.rect.left:
                             placar.add_enemy_kill(enemycol.speed)
-                            enemycol.kill()
+                            enemycol.hit()
                     else:
                         if playercol.rect.left < enemycol.rect.left:
                             placar.add_enemy_kill(enemycol.speed)
-                            enemycol.kill()
+                            enemycol.hit()
             else:
                 for enemycol in enemylistcol:
                     if enemycol.attack_activated:

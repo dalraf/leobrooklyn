@@ -32,6 +32,7 @@ class Enemy(SpriteGame):
         self.attack_activated = False
         self.pedras = random.randint(0,2)
         self.reverse = False
+        self.life = 3
 
     def update_image(self, images_list,reset):
         if not reset:
@@ -54,7 +55,6 @@ class Enemy(SpriteGame):
         else:
             return False
 
-
     def shoot(self):
         if self.pedras > 0:
             if self.armtime == 0:
@@ -70,6 +70,11 @@ class Enemy(SpriteGame):
             self.in_attack = True
             self.counter = 0
             self.armtime = len(self.imagesattack) * self.sprint_walk_factor
+
+    def hit(self):
+        self.life -= 1
+        if self.life <=0:
+            self.kill()
     
     def update(self,grupo_player,grupo_enemy):
 

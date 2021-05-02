@@ -23,7 +23,7 @@ class Enemy(SpriteGame):
         if self.passo_x != 0 or self.passo_y != 0:
             self.counter = (self.counter + 1) % (len(images_list) * self.sprint_walk_factor)
 
-    def walk(self,step):
+    def paralaxe(self,step):
         self.rect.x -= step
     
     def update(self,grupo_player,grupo_enemy):

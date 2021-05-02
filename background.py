@@ -16,7 +16,7 @@ class Background():
     def zero(self):
         self.distance = 0
     
-    def walk(self,step):
+    def paralaxe(self,step):
         self.distance += step
         self.step += step
 

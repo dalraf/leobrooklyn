@@ -116,8 +116,8 @@ while running:
         if pressed_keys[K_RIGHT]:
             if player.rect.x > SCREEN_WIDTH * 0.5:
                 for enemy_active in grupo_enemy:
-                    enemy_active.walk(player.step)
-                background.walk(player.step)
+                    enemy_active.paralaxe(player.step)
+                background.paralaxe(player.step)
                 player.move_stopped()
             else:
                  player.move_right()

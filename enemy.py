@@ -6,7 +6,7 @@ from sprite_class import SpriteGame
 class Enemy(SpriteGame):
     def __init__(self, speed):
         super(Enemy, self).__init__()
-        self.imageswalk = [resource_path('images/Enemy-01-Walk-' + str(i) + '.png') for i in range(1,5)]
+        self.imageswalk = [resource_path('images/Enemy-1-Walk-' + str(i) + '.png') for i in range(1,5)]
         self.image = load(self.imageswalk[0])
         self.rect = self.image.get_rect()
         self.rect.y = SCREEN_HEIGHT - random.randint(0,500)

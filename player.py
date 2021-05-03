@@ -19,8 +19,8 @@ from sprite_groups import grupo_objets
 class Player(SpriteGame):
     def __init__(self):
         super(Player, self).__init__()
-        self.imagesattack = [resource_path('images/Player-Attack-' + str(i) + '.png') for i in range(1,6)]
-        self.imageswalk = [resource_path('images/Player-Walk-' + str(i) + '.png') for i in range(1,6)]
+        self.imagesattack = [resource_path('images/Player-1-Attack-' + str(i) + '.png') for i in range(1,6)]
+        self.imageswalk = [resource_path('images/Player-1-Walk-' + str(i) + '.png') for i in range(1,6)]
         self.image = load(self.imageswalk[0])
         self.rect = self.image.get_rect()
         self.rect.y = SCREEN_HEIGHT * (0.65)

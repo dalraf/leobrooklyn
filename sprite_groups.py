@@ -1,5 +1,6 @@
 from pygame.sprite import Group, GroupSingle, LayeredUpdates
 
-grupo_player = GroupSingle()
+grupo_player = LayeredUpdates()
 grupo_enemy = LayeredUpdates()
-grupo_objets = Group()
+All_sprites = LayeredUpdates()
+grupo_objets = LayeredUpdates()

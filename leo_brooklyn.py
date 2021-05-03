@@ -29,7 +29,7 @@ from som import Som
 from player import Player
 from enemy import Enemy
 from controle import Controle
-from sprite_groups import grupo_player, grupo_enemy, grupo_objets
+from sprite_groups import grupo_player, grupo_enemy, grupo_objets, All_sprites
 
 pygame.init()
 
@@ -43,9 +43,9 @@ background = Background()
 som = Som()
 placar = Placar()
 controle = Controle()
-player = Player()
-grupo_player.add(player)
+grupo_player.add(Player())
 
+paralaxe = 0
 running = True
 stopgame = True
 #som.play()
@@ -125,10 +125,12 @@ while running:
         elif event.type == KEYUP:
             
             if event.key == K_SPACE:
-                player.shoot()
+                for player in grupo_player:
+                    player.shoot()
             
             if event.key == K_LCTRL:
-                player.attack()
+                for player in grupo_player:
+                    player.attack()
 
         elif event.type == QUIT:
             running = False
@@ -137,28 +139,36 @@ while running:
         
         pressed_keys = pygame.key.get_pressed()
 
-        if pressed_keys[K_RIGHT]:
-            if player.rect.x > SCREEN_WIDTH * 0.5:
-                for enemy_active in grupo_enemy:
-                    enemy_active.paralaxe(player.step)
-                for object_active in grupo_objets:
-                    object_active.paralaxe(player.step)
-                background.paralaxe(player.step)
-                player.move_stopped()
-            else:
-                 player.move_right()
-        
-        if pressed_keys[K_LEFT]:
-            player.move_left()
-        
-        if pressed_keys[K_UP]:
-            player.move_up()
+        for player in grupo_player:
 
-        if pressed_keys[K_DOWN]:
-            player.move_down()
+            if pressed_keys[K_RIGHT]:
+                if player.rect.x > SCREEN_WIDTH * 0.5:
+                    paralaxe = player.step
+                    player.move_stopped()
+                else:
+                    paralaxe = 0
+                    player.move_right()
+            
+            if pressed_keys[K_LEFT]:
+                player.move_left()
+            
+            if pressed_keys[K_UP]:
+                player.move_up()
 
-        if not pressed_keys[K_RIGHT] and not pressed_keys[K_LEFT] and not pressed_keys[K_UP] and not pressed_keys[K_DOWN]:
-            player.stopped()
+            if pressed_keys[K_DOWN]:
+                player.move_down()
+
+            if not pressed_keys[K_RIGHT] and not pressed_keys[K_LEFT] and not pressed_keys[K_UP] and not pressed_keys[K_DOWN]:
+                player.stopped()
+        
+        if paralaxe > 0:
+            for enemy_active in grupo_enemy:
+                enemy_active.paralaxe(paralaxe)
+            for object_active in grupo_objets:
+                object_active.paralaxe(paralaxe)
+            background.paralaxe(paralaxe)
+            paralaxe = 0
+
 
         grupo_player.update()
         grupo_enemy.update(grupo_player, grupo_enemy)
@@ -170,15 +180,19 @@ while running:
     background.draw(screen)
 
 
-    placar.set_pedras(player.pedras)
-    placar.set_life(player.life)
+    for player in grupo_player:
+        placar.set_pedras(player.pedras)
+        placar.set_life(player.life)
+    
     placar.draw(screen)
 
-    grupo_player.draw(screen)
-    
-    grupo_enemy.draw(screen)
 
-    grupo_objets.draw(screen)
+    All_sprites.add(grupo_player)
+    All_sprites.add(grupo_enemy)
+    All_sprites.add(grupo_objets)
+    
+    for sprite in sorted(All_sprites, key=lambda spr: spr._layer):
+        screen.blit(sprite.image, sprite.rect)
 
     if stopgame:
         controle.draw(screen)

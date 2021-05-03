@@ -21,10 +21,12 @@ class Player(SpriteGame):
         super(Player, self).__init__()
         self.imagesattack = [resource_path('images/Player-1-Attack-' + str(i) + '.png') for i in range(1,6)]
         self.imageswalk = [resource_path('images/Player-1-Walk-' + str(i) + '.png') for i in range(1,6)]
+        self.imagesstop = [resource_path('images/Player-1-Stop-' + str(i) + '.png') for i in range(1,4)]
         self.image = load(self.imageswalk[0])
         self.rect = self.image.get_rect()
         self.rect.y = SCREEN_HEIGHT * (0.65)
         self.rect.x = SCREEN_WIDTH/2
+        self._layer = self.rect.y
         self.step = 10
         self.move_list = []
         self.sprint_walk_factor = 3
@@ -50,7 +52,7 @@ class Player(SpriteGame):
     def walk(self,direction):
         if not self.in_attack:
             if direction == STOPPED:
-                self.update_image(self.imageswalk,True)
+                self.update_image(self.imagesstop,False)
             else:
                 self.update_image(self.imageswalk,False)
     
@@ -84,6 +86,7 @@ class Player(SpriteGame):
                 self.rect.bottom = SPRITE_LEVEL_Y_HIGH
             if self.rect.bottom >= SCREEN_HEIGHT:
                 self.rect.bottom = SCREEN_HEIGHT
+            self._layer = self.rect.y
 
     def move_up(self):
         if not self.in_attack:

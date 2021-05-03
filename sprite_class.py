@@ -11,6 +11,7 @@ class SpriteGame(pygame.sprite.Sprite):
         self.speed = 0
         self.dx = 0
         self.dy = 0
+        self._layer = 0
 
     def calculate_path(self, group, diametro):
         

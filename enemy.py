@@ -17,8 +17,9 @@ from sprite_groups import grupo_objets, grupo_player
 class Enemy(SpriteGame):
     def __init__(self, speed):
         super(Enemy, self).__init__()
-        self.imageswalk = [resource_path('images/Enemy-1-Walk-' + str(i) + '.png') for i in range(1,6)]
-        self.imagesattack = [resource_path('images/Enemy-1-Attack-' + str(i) + '.png') for i in range(1,6)]
+        self.tipo = random.choice([1,2])
+        self.imageswalk = [resource_path('images/Enemy-' + str(self.tipo) + '-Walk-' + str(i) + '.png') for i in range(1,6)]
+        self.imagesattack = [resource_path('images/Enemy-' + str(self.tipo) + '-Attack-' + str(i) + '.png') for i in range(1,6)]
         self.image = load(self.imageswalk[0])
         self.rect = self.image.get_rect()
         self.rect.y = SCREEN_HEIGHT - random.randint(0,500)

@@ -86,10 +86,7 @@ class Enemy(SpriteGame):
     def update(self,grupo_player,grupo_enemy):
 
         self.hittime -= self.sprint_walk_factor
-
         self.armtime -= 1
-        if self.armtime < 0:
-            self.armtime = 0
 
         if not self.state == STATE_INATTACK and not self.state == STATE_ATTACK and self.armtime == 0 and self.hittime <= 0:
 

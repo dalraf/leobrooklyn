@@ -83,7 +83,7 @@ while running:
 
     if len(colisao_attack_player_inimigo) > 0:
         for playercol, enemylistcol in colisao_attack_player_inimigo.items():
-            if playercol.state == STATE_ATTACK:
+            if playercol.execute == player.attack:
                 for enemycol in enemylistcol:
                     if playercol.reverse:
                         if playercol.rect.left > enemycol.rect.left:
@@ -127,11 +127,11 @@ while running:
             
             if event.key == K_SPACE:
                 for player in grupo_player:
-                    player.shoot()
+                    player.execute = player.atirar
             
             if event.key == K_LCTRL:
                 for player in grupo_player:
-                    player.attack()
+                    player.execute = player.in_attack
 
         elif event.type == QUIT:
             running = False
@@ -145,7 +145,7 @@ while running:
             if pressed_keys[K_RIGHT]:
                 if player.rect.x > SCREEN_WIDTH * 0.5:
                     paralaxe = player.step
-                    player.move_stopped()
+                    player.moonwalk()
                 else:
                     paralaxe = 0
                     player.move_right()
@@ -160,7 +160,7 @@ while running:
                 player.move_down()
 
             if not pressed_keys[K_RIGHT] and not pressed_keys[K_LEFT] and not pressed_keys[K_UP] and not pressed_keys[K_DOWN]:
-                player.stopped()
+                player.execute == player.parado
         
         if paralaxe > 0:
             for enemy_active in grupo_enemy:

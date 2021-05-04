@@ -95,7 +95,7 @@ while running:
                             enemycol.hit()
             else:
                 for enemycol in enemylistcol:
-                    if playercol.state == STATE_ATTACK:
+                    if enemycol.state == STATE_ATTACK:
                         if enemycol.reverse:
                             if enemycol.rect.left > playercol.rect.left:
                                 playercol.hit()

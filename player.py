@@ -107,7 +107,9 @@ class Player(SpriteGame):
             self.update_image(self.imagesstop)
         if self.hittime > 0 and self.hittime < self.sprint_walk_factor:
             self.hittime =0
+            self.update_image(self.imagesstop)
             self.execute = self.parado
+
 
     def combine_moviment(self):
         if UP in self.move_list:
@@ -147,8 +149,13 @@ class Player(SpriteGame):
     def move_right(self):
         self.move_list.append(RIGHT)
 
-    def moonwalk(self):
+    def move_stopped(self):
+        if not self.execute in [self.in_attack, self.attack, self.hit, self.atirar]:
+            self.move_list.append(STOPPED)
+
+    def move_moonwalk(self):
         self.move_list.append(MOONWALK)
+
             
     def update(self):
         self.combine_moviment()

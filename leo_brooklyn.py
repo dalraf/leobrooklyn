@@ -77,7 +77,7 @@ while running:
 
     if len(colisao_object_player) > 0:
         for playercol, objectlistcol in colisao_object_player.items():
-            playercol.hit()
+            playercol.execute = playercol.hit
 
     colisao_attack_player_inimigo = groupcollide(grupo_player, grupo_enemy, False, False, pygame.sprite.collide_circle_ratio(ATTACK_RATIO))
 
@@ -98,10 +98,10 @@ while running:
                     if enemycol.state == STATE_ATTACK:
                         if enemycol.reverse:
                             if enemycol.rect.left > playercol.rect.left:
-                                playercol.hit()
+                                playercol.execute = playercol.hit
                         else:
                             if enemycol.rect.left < playercol.rect.left:
-                                playercol.hit()
+                                playercol.execute = playercol.hit
 
     if len(grupo_player) == 0:
         stopgame = True
@@ -145,7 +145,7 @@ while running:
             if pressed_keys[K_RIGHT]:
                 if player.rect.x > SCREEN_WIDTH * 0.5:
                     paralaxe = player.step
-                    player.moonwalk()
+                    player.move_moonwalk()
                 else:
                     paralaxe = 0
                     player.move_right()
@@ -160,7 +160,7 @@ while running:
                 player.move_down()
 
             if not pressed_keys[K_RIGHT] and not pressed_keys[K_LEFT] and not pressed_keys[K_UP] and not pressed_keys[K_DOWN]:
-                player.execute == player.parado
+                player.move_stopped()
         
         if paralaxe > 0:
             for enemy_active in grupo_enemy:

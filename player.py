@@ -129,7 +129,7 @@ class Player(SpriteGame):
 
     def shoot(self):
         if self.pedras > 0:
-            if self.armtime == 0:
+            if self.armtime <= 0:
                 if self.reverse:
                     grupo_objets.add(Pedra(self.rect.x , self.rect.y, LEFT))
                 if not self.reverse:
@@ -139,7 +139,7 @@ class Player(SpriteGame):
 
     
     def attack(self):
-        if self.armtime == 0:
+        if self.armtime <= 0:
             self.state=STATE_INATTACK
             self.armtime = len(self.imagesattack) * self.sprint_walk_factor
 
@@ -157,9 +157,7 @@ class Player(SpriteGame):
         self.hittime -= self.sprint_walk_factor
 
         self.armtime -= 1
-        if self.armtime < 0:
-            self.armtime = 0
-
+  
         if  self.state==STATE_INATTACK and self.armtime > 0:
             self.update_image(self.imagesattack,False)
             if int(self.counter / self.sprint_walk_factor) == (len(self.imagesattack) - 1):

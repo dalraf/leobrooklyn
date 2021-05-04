@@ -5,7 +5,12 @@ from config import (
     LEFT, RIGHT,
     ATTACK_RATIO,
     Y_DEVIRACAO,
-    resource_path
+    STATE_ATTACK,
+    STATE_INATTACK,
+    STATE_WALK,
+    STATE_STOP,
+    STATE_MOONWALK,
+    resource_path,
 )
 import pygame
 from pygame.image import load
@@ -28,8 +33,7 @@ class Enemy(SpriteGame):
         self.speed = random.randint(3, 3 + speed)
         self.sprint_walk_factor = 3
         self.armtime = 0
-        self.in_attack = False
-        self.attack_activated = False
+        self.state = STATE_STOP
         self.pedras = random.randint(0,2)
         self.reverse = False
         self.life = 3
@@ -68,7 +72,7 @@ class Enemy(SpriteGame):
 
     def attack(self):
         if self.armtime == 0:
-            self.in_attack = True
+            self.state = STATE_INATTACK
             self.counter = 0
             self.armtime = len(self.imagesattack) * self.sprint_walk_factor
 
@@ -87,7 +91,7 @@ class Enemy(SpriteGame):
         if self.armtime < 0:
             self.armtime = 0
 
-        if not self.in_attack and self.armtime == 0 and self.hittime <= 0:
+        if not self.state == STATE_INATTACK and not self.state == STATE_ATTACK and self.armtime == 0 and self.hittime <= 0:
 
             if not pygame.sprite.spritecollide(self, grupo_player, False, pygame.sprite.collide_circle_ratio(ATTACK_RATIO)):
                 for player_active in grupo_player:
@@ -132,26 +136,26 @@ class Enemy(SpriteGame):
         elif self.dx > 0:
             self.reverse = False
         
-        if self.dx == 0:
-            self.stopped = True
-        else: 
-            self.stopped = False
+        if not self.state == STATE_INATTACK and not self.state == STATE_ATTACK and self.dx == 0 and self.dy == 0:
+            self.state = STATE_STOP
+        elif not self.state == STATE_INATTACK and not self.state == STATE_ATTACK:
+            self.state = STATE_WALK
 
-        if self.armtime > 0 and self.in_attack:
+        if self.state==STATE_INATTACK and self.armtime > 0:
             self.update_image(self.imagesattack,False)
             if int(self.counter / self.sprint_walk_factor) == (len(self.imagesattack) - 1):
-                self.attack_activated = True
+                self.state = STATE_ATTACK
         
-        elif self.armtime == 0 and self.in_attack:
-            self.in_attack = False
-            self.attack_activated = False
+        elif self.state==STATE_ATTACK and self.armtime == 0:
+            self.state = STATE_STOP
             self.update_image(self.imageswalk,True)
 
-        elif self.stopped:
+        elif self.state==STATE_STOP:
             self.update_image(self.imageswalk,True)
 
-        else:
+        elif self.state==STATE_WALK:
             self.update_image(self.imageswalk,False)
+
 
 
 

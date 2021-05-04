@@ -8,6 +8,11 @@ from config import (
     DOWN,
     STOPPED,
     MOONWALK,
+    STATE_ATTACK,
+    STATE_INATTACK,
+    STATE_WALK,
+    STATE_STOP,
+    STATE_MOONWALK,
     resource_path
 )
 import pygame
@@ -32,6 +37,7 @@ class Player(SpriteGame):
         self.counter = 0
         self.reverse = False
         self.armtime = 0
+        self.state = STATE_STOP
         self.in_attack = False
         self.attack_activated = False
         self.pedras = 10
@@ -48,7 +54,7 @@ class Player(SpriteGame):
         if self.reverse:
             self.image = pygame.transform.flip(self.image, True, False)
     
-    def walk(self,direction):
+    def animate_change(self,direction):
         if not self.in_attack:
             if direction == STOPPED:
                 self.update_image(self.imagesstop,False)
@@ -57,22 +63,28 @@ class Player(SpriteGame):
     
     def combine_moviment(self):
         if UP in self.move_list:
-            self.walk(UP)
+            self.state = STATE_WALK
+            self.animate_change(UP)
             self.move_list = []
         if DOWN in self.move_list:
-            self.walk(DOWN)
+            self.state = STATE_WALK
+            self.animate_change(DOWN)
             self.move_list = []
         if RIGHT in self.move_list:
-            self.walk(RIGHT)
+            self.state = STATE_WALK
+            self.animate_change(RIGHT)
             self.move_list = []
         if LEFT in self.move_list:
-            self.walk(LEFT)
+            self.state = STATE_WALK
+            self.animate_change(LEFT)
             self.move_list = []
         if STOPPED in self.move_list:
-            self.walk(STOPPED)
+            self.state = STATE_STOP
+            self.animate_change(STOPPED)
             self.move_list = []
         if MOONWALK in self.move_list:
-            self.walk(MOONWALK)
+            self.state = MOONWALK
+            self.animate_change(MOONWALK)
             self.move_list = []
 
     def move(self, direction_vetor):
@@ -87,29 +99,29 @@ class Player(SpriteGame):
                 self.rect.bottom = SCREEN_HEIGHT
 
     def move_up(self):
-        if not self.in_attack:
+        if not self.state==STATE_INATTACK:
             self.move((0, -self.step))
             self.move_list.append(UP)
     
     def move_down(self):
-        if not self.in_attack:
+        if not self.state==STATE_INATTACK:
             self.move((0, self.step))
             self.move_list.append(DOWN)
     
     def move_left(self):
-        if not self.in_attack:
+        if not self.state==STATE_INATTACK:
             self.reverse = True
             self.move((-self.step, 0))    
             self.move_list.append(LEFT)
 
     def move_right(self):
-        if not self.in_attack:
+        if not self.state==STATE_INATTACK:
             self.reverse = False
             self.move((self.step, 0))
             self.move_list.append(RIGHT)
 
     def move_stopped(self):
-        if not self.in_attack:
+        if not self.state==STATE_INATTACK:
             self.move_list.append(MOONWALK)
     
     def stopped(self):
@@ -128,7 +140,7 @@ class Player(SpriteGame):
     
     def attack(self):
         if self.armtime == 0:
-            self.in_attack = True
+            self.state=STATE_INATTACK
             self.armtime = len(self.imagesattack) * self.sprint_walk_factor
 
     def hit(self):
@@ -148,14 +160,13 @@ class Player(SpriteGame):
         if self.armtime < 0:
             self.armtime = 0
 
-        if self.armtime > 0 and self.in_attack:
+        if  self.state==STATE_INATTACK and self.armtime > 0:
             self.update_image(self.imagesattack,False)
             if int(self.counter / self.sprint_walk_factor) == (len(self.imagesattack) - 1):
-                self.attack_activated = True
+                self.state=STATE_ATTACK
         
-        elif self.armtime == 0 and self.in_attack:
-            self.in_attack = False
-            self.attack_activated = False
+        elif self.state==STATE_INATTACK and self.armtime > 0:
+            self.state = STATE_STOP
             self.update_image(self.imageswalk,True)
 
 

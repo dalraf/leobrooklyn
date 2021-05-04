@@ -3,6 +3,7 @@ from config import (
     SCREEN_WIDTH,
     ATTACK_RATIO,
     OBJET_KILL_RATIO,
+    STATE_ATTACK,
 )
 import pygame
 from pygame.sprite import groupcollide
@@ -82,7 +83,7 @@ while running:
 
     if len(colisao_attack_player_inimigo) > 0:
         for playercol, enemylistcol in colisao_attack_player_inimigo.items():
-            if playercol.attack_activated:
+            if playercol.state == STATE_ATTACK:
                 for enemycol in enemylistcol:
                     if playercol.reverse:
                         if playercol.rect.left > enemycol.rect.left:
@@ -94,7 +95,7 @@ while running:
                             enemycol.hit()
             else:
                 for enemycol in enemylistcol:
-                    if enemycol.attack_activated:
+                    if playercol.state == STATE_ATTACK:
                         if enemycol.reverse:
                             if enemycol.rect.left > playercol.rect.left:
                                 playercol.hit()

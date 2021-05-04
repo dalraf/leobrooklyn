@@ -24,7 +24,6 @@ class Enemy(SpriteGame):
         self.rect = self.image.get_rect()
         self.rect.y = SCREEN_HEIGHT - random.randint(0,500)
         self.rect.x = SCREEN_WIDTH
-        self._layer = self.rect.y
         self.counter = 0
         self.speed = random.randint(3, 3 + speed)
         self.sprint_walk_factor = 3
@@ -122,7 +121,6 @@ class Enemy(SpriteGame):
 
         self.rect.x += self.passo_x
         self.rect.y += self.passo_y
-        self._layer = self.rect.y
         
         if self.rect.bottom <= SPRITE_LEVEL_Y_HIGH:
             self.rect.bottom = SPRITE_LEVEL_Y_HIGH

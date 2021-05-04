@@ -191,7 +191,7 @@ while running:
     All_sprites.add(grupo_enemy)
     All_sprites.add(grupo_objets)
     
-    for sprite in sorted(All_sprites, key=lambda spr: spr._layer):
+    for sprite in sorted(All_sprites, key=lambda spr: spr.rect.bottom):
         screen.blit(sprite.image, sprite.rect)
 
     if stopgame:

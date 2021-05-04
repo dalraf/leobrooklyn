@@ -26,7 +26,6 @@ class Player(SpriteGame):
         self.rect = self.image.get_rect()
         self.rect.y = SCREEN_HEIGHT * (0.65)
         self.rect.x = SCREEN_WIDTH/2
-        self._layer = self.rect.y
         self.step = 10
         self.move_list = []
         self.sprint_walk_factor = 3
@@ -86,7 +85,6 @@ class Player(SpriteGame):
                 self.rect.bottom = SPRITE_LEVEL_Y_HIGH
             if self.rect.bottom >= SCREEN_HEIGHT:
                 self.rect.bottom = SCREEN_HEIGHT
-            self._layer = self.rect.y
 
     def move_up(self):
         if not self.in_attack:

@@ -12,7 +12,6 @@ class Pedra(SpriteGame):
         self.image = load(self.images[0])
         self.rect = self.image.get_rect()
         self.rect.y = y + 35
-        self._layer = self.rect.y
         self.counter = 0
         self.speed = random.randint(5,15)
         self.direction = direction

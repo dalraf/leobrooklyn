@@ -27,6 +27,8 @@ class Player(SpriteGame):
         self.imagesattack = [resource_path('images/Player-1-Attack-' + str(i) + '.png') for i in range(1,5)]
         self.imageswalk = [resource_path('images/Player-1-Walk-' + str(i) + '.png') for i in range(1,6)]
         self.imagesstop = [resource_path('images/Player-1-Stop-' + str(i) + '.png') for i in range(1,4)]
+        self.imageshit = [resource_path('images/Player-1-Stop-' + str(i) + '.png') for i in range(1,3)]
+        self.imagesatirar = [resource_path('images/Player-1-Stop-' + str(i) + '.png') for i in range(1,2)]
         self.images_list = self.imagesstop
         self.image = load(self.images_list[0])
         self.rect = self.image.get_rect()
@@ -40,19 +42,26 @@ class Player(SpriteGame):
         self.armtime = 0
         self.pedras = 10
         self.life = 20
-        self.hittime = 0
-        self.execute = self.parado
+        self.execute = self.action_parado
 
     def update_image(self, images_list):
+        
         if  self.images_list == images_list:
             self.counter = (self.counter + 1) % (len(images_list) * self.sprint_walk_factor)
             self.image = load(self.images_list[int(self.counter / self.sprint_walk_factor)])
+            if self.reverse:
+                self.image = pygame.transform.flip(self.image, True, False)
+            if self.counter == 0:
+                return True
+            else:
+                return False
         else:
             self.counter = 0
             self.images_list = images_list
             self.image = load(self.images_list[0])
-        if self.reverse:
-            self.image = pygame.transform.flip(self.image, True, False)
+            if self.reverse:
+                self.image = pygame.transform.flip(self.image, True, False)
+            return False
 
     def move(self, direction_vetor):
             self.rect.move_ip(direction_vetor)
@@ -65,76 +74,71 @@ class Player(SpriteGame):
             if self.rect.bottom >= SCREEN_HEIGHT:
                 self.rect.bottom = SCREEN_HEIGHT
 
-    def parado(self):
+    def action_parado(self):
         self.update_image(self.imagesstop)
     
-    def andando(self):
+    def action_andando(self):
         self.update_image(self.imageswalk)
 
-    def atirar(self):
+    def action_atirar(self):
         if self.pedras > 0:
-            if self.reverse:
-                grupo_objets.add(Pedra(self.rect.x , self.rect.y, LEFT))
-            if not self.reverse:
-                grupo_objets.add(Pedra(self.rect.x , self.rect.y, RIGHT))
-            self.armtime = 10
-            self.pedras -= 1
-        self.execute = self.parado
+            if not self.images_list == self.imagesatirar:
+                if self.reverse:
+                    grupo_objets.add(Pedra(self.rect.x , self.rect.y, LEFT))
+                if not self.reverse:
+                    grupo_objets.add(Pedra(self.rect.x , self.rect.y, RIGHT))
+                self.pedras -= 1
+                self.update_image(self.imagesatirar)
+            if self.update_image(self.imagesatirar):
+                self.execute = self.action_parado
+        else:
+            self.execute = self.action_parado
 
-    def in_attack(self):
-        if self.armtime <= 0:
-            self.armtime = len(self.imagesattack) * self.sprint_walk_factor
+    def action_in_attack(self):
+        if not self.images_list == self.imagesattack:
             self.update_image(self.imagesattack)
-        if self.armtime > 0:
-            self.update_image(self.imagesattack)
-            self.armtime -= 1            
-            if int(self.counter / self.sprint_walk_factor) == (len(self.imagesattack) - 1):
-                self.execute = self.attack
+        if self.images_list == self.imagesattack:
+            self.update_image(self.imagesattack)         
+            if self.counter == ((len(self.imagesattack) - 1) * self.sprint_walk_factor):
+                self.execute = self.action_attack
     
-    def attack(self):
-        self.update_image(self.imagesattack)
-        self.execute = self.parado
+    def action_attack(self):
+        if self.update_image(self.imagesattack):
+            self.execute = self.action_parado
 
-    def hit(self):
-        if self.hittime <= 0:
+    def action_hit(self):
+        if not self.images_list == self.imageshit:
             self.life -= 1
             if self.life <=0:
                 self.kill()
-            self.hittime = self.sprint_walk_factor * 7
-            self.update_image(self.imagesstop)
-        if self.hittime > 0 and self.hittime > self.sprint_walk_factor:
-            self.hittime -= self.sprint_walk_factor
-            self.update_image(self.imagesstop)
-        if self.hittime > 0 and self.hittime < self.sprint_walk_factor:
-            self.hittime =0
-            self.update_image(self.imagesstop)
-            self.execute = self.parado
-
+            self.update_image(self.imageshit)
+        if self.update_image(self.imageshit):
+            self.execute = self.action_parado
 
     def combine_moviment(self):
         if UP in self.move_list:
             self.move((0, -self.step))
-            self.execute = self.andando
+            self.execute = self.action_andando
             self.move_list = []
         if DOWN in self.move_list:
             self.move((0, self.step))
-            self.execute = self.andando
+            self.execute = self.action_andando
             self.move_list = []
         if RIGHT in self.move_list:
             self.reverse = False
             self.move((self.step, 0))
-            self.execute = self.andando
+            self.execute = self.action_andando
             self.move_list = []
         if LEFT in self.move_list:
             self.reverse = True
             self.move((-self.step, 0))   
-            self.execute = self.andando
+            self.execute = self.action_andando
             self.move_list = []
         if STOPPED in self.move_list:
-            self.execute = self.parado
+            self.execute = self.action_parado
             self.move_list = []
         if MOONWALK in self.move_list:
-            self.execute = self.andando
+            self.execute = self.action_andando
             self.move_list = []
 
     def move_up(self):
@@ -150,12 +154,20 @@ class Player(SpriteGame):
         self.move_list.append(RIGHT)
 
     def move_stopped(self):
-        if not self.execute in [self.in_attack, self.attack, self.hit, self.atirar]:
+        if not self.execute in [self.action_in_attack, self.action_attack, self.action_hit, self.action_atirar]:
             self.move_list.append(STOPPED)
 
     def move_moonwalk(self):
         self.move_list.append(MOONWALK)
+    
+    def move_hit(self):
+        self.execute = self.action_hit
 
+    def move_atirar(self):
+        self.execute = self.action_atirar
+    
+    def move_attack(self):
+        self.execute = self.action_in_attack
             
     def update(self):
         self.combine_moviment()

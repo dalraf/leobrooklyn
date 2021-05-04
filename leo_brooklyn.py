@@ -77,13 +77,13 @@ while running:
 
     if len(colisao_object_player) > 0:
         for playercol, objectlistcol in colisao_object_player.items():
-            playercol.execute = playercol.hit
+            playercol.execute = playercol.move_hit()
 
     colisao_attack_player_inimigo = groupcollide(grupo_player, grupo_enemy, False, False, pygame.sprite.collide_circle_ratio(ATTACK_RATIO))
 
     if len(colisao_attack_player_inimigo) > 0:
         for playercol, enemylistcol in colisao_attack_player_inimigo.items():
-            if playercol.execute == player.attack:
+            if playercol.execute == player.action_attack:
                 for enemycol in enemylistcol:
                     if playercol.reverse:
                         if playercol.rect.left > enemycol.rect.left:
@@ -98,10 +98,10 @@ while running:
                     if enemycol.state == STATE_ATTACK:
                         if enemycol.reverse:
                             if enemycol.rect.left > playercol.rect.left:
-                                playercol.execute = playercol.hit
+                                playercol.move_hit()
                         else:
                             if enemycol.rect.left < playercol.rect.left:
-                                playercol.execute = playercol.hit
+                                playercol.move_hit()
 
     if len(grupo_player) == 0:
         stopgame = True
@@ -127,11 +127,11 @@ while running:
             
             if event.key == K_SPACE:
                 for player in grupo_player:
-                    player.execute = player.atirar
+                    player.move_atirar()
             
             if event.key == K_LCTRL:
                 for player in grupo_player:
-                    player.execute = player.in_attack
+                    player.move_attack()
 
         elif event.type == QUIT:
             running = False

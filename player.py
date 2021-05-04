@@ -24,7 +24,7 @@ from sprite_groups import grupo_objets
 class Player(SpriteGame):
     def __init__(self):
         super(Player, self).__init__()
-        self.imagesattack = [resource_path('images/Player-1-Attack-' + str(i) + '.png') for i in range(1,6)]
+        self.imagesattack = [resource_path('images/Player-1-Attack-' + str(i) + '.png') for i in range(1,5)]
         self.imageswalk = [resource_path('images/Player-1-Walk-' + str(i) + '.png') for i in range(1,6)]
         self.imagesstop = [resource_path('images/Player-1-Stop-' + str(i) + '.png') for i in range(1,4)]
         self.image = load(self.imageswalk[0])
@@ -125,7 +125,8 @@ class Player(SpriteGame):
             self.move_list.append(MOONWALK)
     
     def stopped(self):
-        self.move_list.append(STOPPED)
+        if not self.state==STATE_INATTACK:
+            self.move_list.append(STOPPED)
 
     def shoot(self):
         if self.pedras > 0:
@@ -166,5 +167,6 @@ class Player(SpriteGame):
         elif self.state==STATE_INATTACK and self.armtime > 0:
             self.state = STATE_STOP
             self.update_image(self.imageswalk,True)
+
 
 

@@ -62,7 +62,7 @@ class Enemy(SpriteGame):
 
     def shoot(self):
         if self.pedras > 0:
-            if self.armtime == 0:
+            if self.armtime <= 0:
                 if self.reverse:
                     grupo_objets.add(Pedra(self.rect.x , self.rect.y, LEFT))
                 if not self.reverse:
@@ -71,7 +71,7 @@ class Enemy(SpriteGame):
                 self.pedras -= 1
 
     def attack(self):
-        if self.armtime == 0:
+        if self.armtime <= 0:
             self.state = STATE_INATTACK
             self.counter = 0
             self.armtime = len(self.imagesattack) * self.sprint_walk_factor
@@ -88,7 +88,7 @@ class Enemy(SpriteGame):
         self.hittime -= self.sprint_walk_factor
         self.armtime -= 1
 
-        if not self.state == STATE_INATTACK and not self.state == STATE_ATTACK and self.armtime == 0 and self.hittime <= 0:
+        if not self.state == STATE_INATTACK and not self.state == STATE_ATTACK and self.armtime <= 0 and self.hittime <= 0:
 
             if not pygame.sprite.spritecollide(self, grupo_player, False, pygame.sprite.collide_circle_ratio(ATTACK_RATIO)):
                 for player_active in grupo_player:
@@ -143,7 +143,7 @@ class Enemy(SpriteGame):
             if int(self.counter / self.sprint_walk_factor) == (len(self.imagesattack) - 1):
                 self.state = STATE_ATTACK
         
-        elif self.state==STATE_ATTACK and self.armtime == 0:
+        elif self.state==STATE_ATTACK and self.armtime <= 0:
             self.state = STATE_STOP
             self.update_image(self.imageswalk,True)
 
@@ -152,6 +152,7 @@ class Enemy(SpriteGame):
 
         elif self.state==STATE_WALK:
             self.update_image(self.imageswalk,False)
+
 
 
 

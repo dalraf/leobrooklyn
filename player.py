@@ -25,7 +25,7 @@ class Player(SpriteGame):
     def __init__(self):
         super(Player, self).__init__()
         self.imagesattack = [resource_path('images/Player-1-Attack-' + str(i) + '.png') for i in range(1,5)]
-        self.imageswalk = [resource_path('images/Player-1-Walk-' + str(i) + '.png') for i in range(1,6)]
+        self.imageswalk = [resource_path('images/Player-1-Walk-' + str(i) + '.png') for i in range(1,4)]
         self.imagesstop = [resource_path('images/Player-1-Stop-' + str(i) + '.png') for i in range(1,4)]
         self.imageshit = [resource_path('images/Player-1-Stop-' + str(i) + '.png') for i in range(1,3)]
         self.imagesatirar = [resource_path('images/Player-1-Stop-' + str(i) + '.png') for i in range(1,2)]

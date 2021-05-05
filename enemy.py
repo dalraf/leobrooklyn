@@ -27,7 +27,7 @@ class Enemy(SpritePerson):
         self.imageswalk = [resource_path('images/Enemy-' + str(self.tipo) + '-Walk-' + str(i) + '.png') for i in range(1,7)]
         self.imagesattack = [resource_path('images/Enemy-' + str(self.tipo) + '-Attack-' + str(i) + '.png') for i in range(1,7)]
         self.imagesstop = [resource_path('images/Enemy-' + str(self.tipo) + '-Walk-' + str(i) + '.png') for i in [1,]]
-        self.imageshit = [resource_path('images/Enemy-' + str(self.tipo) + '-Walk-' + str(i) + '.png') for i in range(1,7)]
+        self.imageshit = [resource_path('images/Enemy-' + str(self.tipo) + '-Hit-' + str(i) + '.png') for i in range(1,4)]
         self.imagesatirar = [resource_path('images/Enemy-' + str(self.tipo) + '-Attack-' + str(i) + '.png') for i in range(1,7)]
         self.image = load(self.imageswalk[0])
         self.images_list = self.imagesstop

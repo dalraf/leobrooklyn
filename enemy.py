@@ -3,7 +3,6 @@ from config import (
     SCREEN_WIDTH,
     SPRITE_LEVEL_Y_HIGH,
     LEFT, RIGHT,
-    ATTACK_RATIO,
     DERIVACAO,
     STATE_ATTACK,
     STATE_INATTACK,
@@ -86,17 +85,18 @@ class Enemy(SpritePerson):
         self.dx = 0
         self.dy = 0
 
-        if not pygame.sprite.spritecollide(self, grupo_player, False, pygame.sprite.collide_circle_ratio(ATTACK_RATIO)):
+        for player_active in grupo_player:
+            if calcule_vetor_distance(self.rect.center,player_active.rect.center) > DERIVACAO:
 
-            dx, dy = self.calculate_path(grupo_player, 0)
-            
-            self.dx += dx 
-            self.dy += dy
+                dx, dy = self.calculate_path(grupo_player, 0)
+                
+                self.dx += dx 
+                self.dy += dy
 
-            dx, dy = self.calculate_path(grupo_enemy, 100)
+                dx, dy = self.calculate_path(grupo_enemy, 100)
 
-            self.dx -= dx
-            self.dy -= dy
+                self.dx -= dx
+                self.dy -= dy
 
         self.passo_x = int(self.dx * self.speed)
         self.passo_y = int(self.dy * self.speed)

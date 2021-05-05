@@ -1,9 +1,8 @@
 from config import (
     SCREEN_HEIGHT,
     SCREEN_WIDTH,
-    ATTACK_RATIO,
-    OBJET_KILL_RATIO,
     STATE_ATTACK,
+    DIFICULT_AVANCE,
     DERIVACAO,
     calcule_vetor_distance,
 )
@@ -60,8 +59,8 @@ while running:
 
     if not stopgame:
         if tick_enemies == 0:
-            if background.distance % 600 == 0:
-                fator = 1 + int(background.distance / 600)
+            if background.distance % DIFICULT_AVANCE == 0:
+                fator = 1 + int(background.distance / DIFICULT_AVANCE)
                 grupo_enemy.add([Enemy(int(fator/2)) for i in range(random.randint(1,fator))])
                 tick_enemies = 100
         tick_enemies -= 1

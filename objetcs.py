@@ -12,6 +12,7 @@ class PedraPlayer(pygame.sprite.Sprite):
         self.counter = 0
         self.speed = random.randint(5,15)
         self.direction = direction
+        self.damage = 3
         if direction == RIGHT: 
             self.rect.x = x
         if direction == LEFT:

@@ -43,6 +43,7 @@ class SpritePerson(pygame.sprite.Sprite):
         self.reverse = False
         self.pedras = 10
         self.life = 20
+        self.damage_attack_1 = 2
         self.execute = self.action_parado
 
     def update_image(self, images_list):
@@ -74,6 +75,10 @@ class SpritePerson(pygame.sprite.Sprite):
                 self.rect.bottom = SPRITE_LEVEL_Y_HIGH
             if self.rect.bottom >= SCREEN_HEIGHT:
                 self.rect.bottom = SCREEN_HEIGHT
+
+    def calcule_hit(self):
+        if self.execute == self.action_attack:
+            return self.damage_attack_1
 
     def action_parado(self):
         self.update_image(self.imagesstop)
@@ -107,13 +112,14 @@ class SpritePerson(pygame.sprite.Sprite):
             self.execute = self.action_parado
 
     def action_hit(self):
-        if not self.images_list == self.imageshit:
-            self.life -= 1
-            if self.life <=0:
-                self.kill()
-            self.update_image(self.imageshit)
         if self.update_image(self.imageshit):
             self.execute = self.action_parado
+    
+    def move_hit(self,damage):
+        self.execute = self.action_hit
+        self.life -= damage
+        if self.life <=0:
+            self.kill()
 
     def calculate_path(self, group, diametro):
         

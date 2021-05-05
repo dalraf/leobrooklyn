@@ -99,9 +99,6 @@ class Player(SpritePerson):
 
     def move_moonwalk(self):
         self.move_list.append(MOONWALK)
-    
-    def move_hit(self):
-        self.execute = self.action_hit
 
     def move_atirar(self):
         self.execute = self.action_atirar

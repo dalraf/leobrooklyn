@@ -55,9 +55,6 @@ class Enemy(SpritePerson):
         else:
             self.execute = self.action_parado
 
-    def move_hit(self):
-        self.execute = self.action_hit
-
     def paralaxe(self,step):
         self.rect.x -= step
    

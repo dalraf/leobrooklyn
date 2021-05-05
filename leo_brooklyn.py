@@ -70,13 +70,13 @@ while running:
     for enemycol in grupo_enemy:
         for objectcol in grupo_objets_player:
             if calcule_vetor_distance(enemycol.rect.center,objectcol.rect.center) < DERIVACAO:
-                enemycol.move_hit()
+                enemycol.move_hit(objectcol.damage)
                 objectcol.kill()
 
     for playercol in grupo_player:
         for objectcol in grupo_objets_enemy:
             if calcule_vetor_distance(playercol.rect.center,objectcol.rect.center) < DERIVACAO:
-                playercol.move_hit()
+                playercol.move_hit(objectcol.damage)
                 objectcol.kill()
 
     for playercol in grupo_player:
@@ -86,21 +86,21 @@ while running:
                     if playercol.reverse:
                         if playercol.rect.left > enemycol.rect.left:
                             placar.add_enemy_kill(enemycol.speed)
-                            enemycol.move_hit()
+                            enemycol.move_hit(playercol.calcule_hit())
                     else:
                         if playercol.rect.left < enemycol.rect.left:
                             placar.add_enemy_kill(enemycol.speed)
-                            enemycol.move_hit()
+                            enemycol.move_hit(playercol.calcule_hit())
         else:
             for enemycol in grupo_enemy:
                 if enemycol.execute == enemycol.action_attack:
                     if calcule_vetor_distance(playercol.rect.center,enemycol.rect.center) < DERIVACAO:
                         if enemycol.reverse:
                             if enemycol.rect.left > playercol.rect.left:
-                                playercol.move_hit()
+                                playercol.move_hit(enemycol.calcule_hit())
                         else:
                             if enemycol.rect.left < playercol.rect.left:
-                                playercol.move_hit()
+                                playercol.move_hit(enemycol.calcule_hit())
 
     if len(grupo_player) == 0:
         stopgame = True

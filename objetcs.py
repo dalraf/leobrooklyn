@@ -13,9 +13,9 @@ class Pedra(pygame.sprite.Sprite):
         self.speed = random.randint(5,15)
         self.direction = direction
         if direction == RIGHT: 
-            self.rect.x = x + 35
+            self.rect.x = x + 55
         if direction == LEFT:
-            self.rect.x = x - 35
+            self.rect.x = x - 55
     
     def paralaxe(self,step):
         self.rect.x -= step

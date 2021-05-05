@@ -71,7 +71,7 @@ while running:
     
     if len(colisao_object_inimigo) > 0:
         for enemycol, objectlistcol in colisao_object_inimigo.items():
-            enemycol.hit()
+            enemycol.move_hit()
 
     colisao_object_player = groupcollide(grupo_player, grupo_objets, False, True, pygame.sprite.collide_circle_ratio(OBJET_KILL_RATIO))
 
@@ -88,14 +88,14 @@ while running:
                     if playercol.reverse:
                         if playercol.rect.left > enemycol.rect.left:
                             placar.add_enemy_kill(enemycol.speed)
-                            enemycol.hit()
+                            enemycol.move_hit()
                     else:
                         if playercol.rect.left < enemycol.rect.left:
                             placar.add_enemy_kill(enemycol.speed)
-                            enemycol.hit()
+                            enemycol.move_hit()
             else:
                 for enemycol in enemylistcol:
-                    if enemycol.state == STATE_ATTACK:
+                    if enemycol.execute == enemycol.action_attack:
                         if enemycol.reverse:
                             if enemycol.rect.left > playercol.rect.left:
                                 playercol.move_hit()

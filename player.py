@@ -39,7 +39,6 @@ class Player(SpriteGame):
         self.sprint_walk_factor = 3
         self.counter = 0
         self.reverse = False
-        self.armtime = 0
         self.pedras = 10
         self.life = 20
         self.execute = self.action_parado

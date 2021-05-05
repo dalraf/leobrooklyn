@@ -25,30 +25,95 @@ class Enemy(SpriteGame):
         self.tipo = random.choice([1,2])
         self.imageswalk = [resource_path('images/Enemy-' + str(self.tipo) + '-Walk-' + str(i) + '.png') for i in range(1,6)]
         self.imagesattack = [resource_path('images/Enemy-' + str(self.tipo) + '-Attack-' + str(i) + '.png') for i in range(1,6)]
+        self.imagesstop = [resource_path('images/Enemy-' + str(self.tipo) + '-Walk-' + str(i) + '.png') for i in [1,]]
+        self.imageshit = [resource_path('images/Enemy-' + str(self.tipo) + '-Walk-' + str(i) + '.png') for i in range(1,6)]
+        self.imagesatirar = [resource_path('images/Enemy-' + str(self.tipo) + '-Attack-' + str(i) + '.png') for i in range(1,6)]
         self.image = load(self.imageswalk[0])
+        self.images_list = self.imagesstop
         self.rect = self.image.get_rect()
         self.rect.y = SCREEN_HEIGHT - random.randint(0,500)
         self.rect.x = SCREEN_WIDTH
         self.counter = 0
         self.speed = random.randint(3, 3 + speed)
         self.sprint_walk_factor = 3
-        self.armtime = 0
-        self.state = STATE_STOP
         self.pedras = random.randint(0,2)
         self.reverse = False
         self.life = 3
-        self.hittime = 0
+        self.execute = self.action_parado
 
-    def update_image(self, images_list,reset):
-        if not reset:
+    def update_image(self, images_list):
+        
+        if  self.images_list == images_list:
             self.counter = (self.counter + 1) % (len(images_list) * self.sprint_walk_factor)
-            self.image = load(images_list[int(self.counter / self.sprint_walk_factor)])
+            self.image = load(self.images_list[int(self.counter / self.sprint_walk_factor)])
+            if self.reverse:
+                self.image = pygame.transform.flip(self.image, True, False)
+            if self.counter == 0:
+                return True
+            else:
+                return False
         else:
             self.counter = 0
-            self.image = load(images_list[0])
-        if self.reverse:
-            self.image = pygame.transform.flip(self.image, True, False) 
+            self.images_list = images_list
+            self.image = load(self.images_list[0])
+            if self.reverse:
+                self.image = pygame.transform.flip(self.image, True, False)
+            return False
 
+    def move(self, direction_vetor):
+            self.rect.move_ip(direction_vetor)
+            if self.rect.left < 0:
+                self.rect.left = 0
+            if self.rect.right > SCREEN_WIDTH:
+                self.rect.right = SCREEN_WIDTH
+            if self.rect.bottom <= SPRITE_LEVEL_Y_HIGH:
+                self.rect.bottom = SPRITE_LEVEL_Y_HIGH
+            if self.rect.bottom >= SCREEN_HEIGHT:
+                self.rect.bottom = SCREEN_HEIGHT
+
+    def action_parado(self):
+        self.update_image(self.imagesstop)
+    
+    def action_andando(self):
+        self.update_image(self.imageswalk)
+
+    def action_atirar(self):
+        if self.pedras > 0:
+            if not self.images_list == self.imagesatirar:
+                if self.reverse:
+                    grupo_objets.add(Pedra(self.rect.x , self.rect.y, LEFT))
+                if not self.reverse:
+                    grupo_objets.add(Pedra(self.rect.x , self.rect.y, RIGHT))
+                self.pedras -= 1
+                self.update_image(self.imagesatirar)
+            if self.update_image(self.imagesatirar):
+                self.execute = self.action_parado
+        else:
+            self.execute = self.action_parado
+
+    def action_in_attack(self):
+        if not self.images_list == self.imagesattack:
+            self.update_image(self.imagesattack)
+        if self.images_list == self.imagesattack:
+            self.update_image(self.imagesattack)         
+            if self.counter == ((len(self.imagesattack) - 1) * self.sprint_walk_factor):
+                self.execute = self.action_attack
+    
+    def action_attack(self):
+        if self.update_image(self.imagesattack):
+            self.execute = self.action_parado
+
+    def action_hit(self):
+        if not self.images_list == self.imageshit:
+            self.life -= 1
+            if self.life <=0:
+                self.kill()
+            self.update_image(self.imageshit)
+        if self.update_image(self.imageshit):
+            self.execute = self.action_parado
+
+    def move_hit(self):
+        self.execute = self.action_hit
 
     def paralaxe(self,step):
         self.rect.x -= step
@@ -59,48 +124,22 @@ class Enemy(SpriteGame):
             return True
         else:
             return False
-
-    def shoot(self):
-        if self.pedras > 0:
-            if self.armtime <= 0:
-                if self.reverse:
-                    grupo_objets.add(Pedra(self.rect.x , self.rect.y, LEFT))
-                if not self.reverse:
-                    grupo_objets.add(Pedra(self.rect.x , self.rect.y, RIGHT))
-                self.armtime = 20
-                self.pedras -= 1
-
-    def attack(self):
-        if self.armtime <= 0:
-            self.state = STATE_INATTACK
-            self.counter = 0
-            self.armtime = len(self.imagesattack) * self.sprint_walk_factor
-
-    def hit(self):
-        if self.hittime <= 0:
-            self.life -= 1
-            if self.life <=0:
-                self.kill()
-            self.hittime = self.sprint_walk_factor * 6
     
     def update(self,grupo_player,grupo_enemy):
 
-        self.hittime -= self.sprint_walk_factor
-        self.armtime -= 1
-
-        if not self.state == STATE_INATTACK and not self.state == STATE_ATTACK and self.armtime <= 0 and self.hittime <= 0:
+        if not self.execute in [self.action_in_attack, self.action_attack, self.action_hit, self.action_atirar]:
 
             if not pygame.sprite.spritecollide(self, grupo_player, False, pygame.sprite.collide_circle_ratio(ATTACK_RATIO)):
                 for player_active in grupo_player:
                     if self.rect.y in range(player_active.rect.y - Y_DEVIRACAO, player_active.rect.y + Y_DEVIRACAO):
                         if self.attack_trigger():
-                            self.shoot()
+                            self.execute = self.action_atirar
             
             if pygame.sprite.spritecollide(self, grupo_player, False, pygame.sprite.collide_circle_ratio(ATTACK_RATIO)):
                 for player_active in grupo_player:
                     if self.rect.y in range(player_active.rect.y - Y_DEVIRACAO, player_active.rect.y + Y_DEVIRACAO):
                         if self.attack_trigger():
-                            self.attack()
+                            self.execute = self.action_in_attack
 
         self.dx = 0
         self.dy = 0
@@ -120,40 +159,19 @@ class Enemy(SpriteGame):
         self.passo_x = int(self.dx * self.speed)
         self.passo_y = int(self.dy * self.speed)
 
-        self.rect.x += self.passo_x
-        self.rect.y += self.passo_y
-        
-        if self.rect.bottom <= SPRITE_LEVEL_Y_HIGH:
-            self.rect.bottom = SPRITE_LEVEL_Y_HIGH
-        if self.rect.bottom >= SCREEN_HEIGHT:
-            self.rect.bottom = SCREEN_HEIGHT
+        self.move((self.passo_x,self.passo_y))
 
         if self.dx < 0:
             self.reverse = True
         elif self.dx > 0:
             self.reverse = False
-        
-        if not self.state == STATE_INATTACK and not self.state == STATE_ATTACK and self.dx == 0 and self.dy == 0:
-            self.state = STATE_STOP
-        elif not self.state == STATE_INATTACK and not self.state == STATE_ATTACK:
-            self.state = STATE_WALK
 
-        if self.state==STATE_INATTACK and self.armtime > 0:
-            self.update_image(self.imagesattack,False)
-            if int(self.counter / self.sprint_walk_factor) == (len(self.imagesattack) - 1):
-                self.state = STATE_ATTACK
-        
-        elif self.state==STATE_ATTACK and self.armtime <= 0:
-            self.state = STATE_STOP
-            self.update_image(self.imageswalk,True)
+        if not self.execute in [self.action_in_attack, self.action_attack, self.action_hit, self.action_atirar]:
+            if self.dx == 0 and self.dy == 0:
+                self.execute = self.action_parado
+            else:
+                self.execute = self.action_andando
 
-        elif self.state==STATE_STOP:
-            self.update_image(self.imageswalk,True)
-
-        elif self.state==STATE_WALK:
-            self.update_image(self.imageswalk,False)
-
-
-
+        self.execute()
 
 

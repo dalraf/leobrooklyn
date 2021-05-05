@@ -4,7 +4,7 @@ from config import (
     SPRITE_LEVEL_Y_HIGH,
     LEFT, RIGHT,
     ATTACK_RATIO,
-    Y_DEVIRACAO,
+    DERIVACAO,
     STATE_ATTACK,
     STATE_INATTACK,
     STATE_WALK,
@@ -59,13 +59,13 @@ class Enemy(SpritePerson):
 
             if not pygame.sprite.spritecollide(self, grupo_player, False, pygame.sprite.collide_circle_ratio(ATTACK_RATIO)):
                 for player_active in grupo_player:
-                    if self.rect.y in range(player_active.rect.y - Y_DEVIRACAO, player_active.rect.y + Y_DEVIRACAO):
+                    if self.rect.y in range(player_active.rect.y - DERIVACAO, player_active.rect.y + DERIVACAO):
                         if self.attack_trigger():
                             self.execute = self.action_atirar
             
             if pygame.sprite.spritecollide(self, grupo_player, False, pygame.sprite.collide_circle_ratio(ATTACK_RATIO)):
                 for player_active in grupo_player:
-                    if self.rect.y in range(player_active.rect.y - Y_DEVIRACAO, player_active.rect.y + Y_DEVIRACAO):
+                    if self.rect.y in range(player_active.rect.y - DERIVACAO, player_active.rect.y + DERIVACAO):
                         if self.attack_trigger():
                             self.execute = self.action_in_attack
 

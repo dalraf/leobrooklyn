@@ -81,26 +81,28 @@ while running:
 
     for playercol in grupo_player:
         if playercol.execute == player.action_attack:
-            for enemycol in grupo_enemy: 
-                if calcule_vetor_distance(playercol.rect.center,enemycol.rect.center) < DERIVACAO:
-                    if playercol.reverse:
-                        if playercol.rect.left > enemycol.rect.left:
-                            placar.add_enemy_kill(enemycol.speed)
-                            enemycol.move_hit(playercol.calcule_hit())
-                    else:
-                        if playercol.rect.left < enemycol.rect.left:
-                            placar.add_enemy_kill(enemycol.speed)
-                            enemycol.move_hit(playercol.calcule_hit())
+            for enemycol in grupo_enemy:
+                if not enemycol.execute == player.action_hit:
+                    if calcule_vetor_distance(playercol.rect.center,enemycol.rect.center) < DERIVACAO:
+                        if playercol.reverse:
+                            if playercol.rect.left > enemycol.rect.left:
+                                placar.add_enemy_kill(enemycol.speed)
+                                enemycol.move_hit(playercol.calcule_hit())
+                        else:
+                            if playercol.rect.left < enemycol.rect.left:
+                                placar.add_enemy_kill(enemycol.speed)
+                                enemycol.move_hit(playercol.calcule_hit())
         else:
             for enemycol in grupo_enemy:
                 if enemycol.execute == enemycol.action_attack:
-                    if calcule_vetor_distance(playercol.rect.center,enemycol.rect.center) < DERIVACAO:
-                        if enemycol.reverse:
-                            if enemycol.rect.left > playercol.rect.left:
-                                playercol.move_hit(enemycol.calcule_hit())
-                        else:
-                            if enemycol.rect.left < playercol.rect.left:
-                                playercol.move_hit(enemycol.calcule_hit())
+                    if not playercol.execute == player.action_hit:
+                        if calcule_vetor_distance(playercol.rect.center,enemycol.rect.center) < DERIVACAO:
+                            if enemycol.reverse:
+                                if enemycol.rect.left > playercol.rect.left:
+                                    playercol.move_hit(enemycol.calcule_hit())
+                            else:
+                                if enemycol.rect.left < playercol.rect.left:
+                                    playercol.move_hit(enemycol.calcule_hit())
 
     if len(grupo_player) == 0:
         stopgame = True

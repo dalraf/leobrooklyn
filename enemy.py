@@ -23,11 +23,11 @@ class Enemy(SpritePerson):
     def __init__(self, speed):
         super(Enemy, self).__init__()
         self.tipo = random.choice([1,2])
-        self.imageswalk = [resource_path('images/Enemy-' + str(self.tipo) + '-Walk-' + str(i) + '.png') for i in range(1,6)]
-        self.imagesattack = [resource_path('images/Enemy-' + str(self.tipo) + '-Attack-' + str(i) + '.png') for i in range(1,6)]
+        self.imageswalk = [resource_path('images/Enemy-' + str(self.tipo) + '-Walk-' + str(i) + '.png') for i in range(1,7)]
+        self.imagesattack = [resource_path('images/Enemy-' + str(self.tipo) + '-Attack-' + str(i) + '.png') for i in range(1,7)]
         self.imagesstop = [resource_path('images/Enemy-' + str(self.tipo) + '-Walk-' + str(i) + '.png') for i in [1,]]
-        self.imageshit = [resource_path('images/Enemy-' + str(self.tipo) + '-Walk-' + str(i) + '.png') for i in range(1,6)]
-        self.imagesatirar = [resource_path('images/Enemy-' + str(self.tipo) + '-Attack-' + str(i) + '.png') for i in range(1,6)]
+        self.imageshit = [resource_path('images/Enemy-' + str(self.tipo) + '-Walk-' + str(i) + '.png') for i in range(1,7)]
+        self.imagesatirar = [resource_path('images/Enemy-' + str(self.tipo) + '-Attack-' + str(i) + '.png') for i in range(1,7)]
         self.image = load(self.imageswalk[0])
         self.images_list = self.imagesstop
         self.rect = self.image.get_rect()
@@ -35,7 +35,7 @@ class Enemy(SpritePerson):
         self.rect.x = SCREEN_WIDTH
         self.counter = 0
         self.speed = random.randint(3, 3 + speed)
-        self.sprint_walk_factor = 3
+        self.sprint_walk_factor = 2
         self.pedras = random.randint(0,2)
         self.reverse = False
         self.life = 3

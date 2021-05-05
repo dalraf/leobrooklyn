@@ -23,11 +23,11 @@ from grupos import grupo_objets
 class Player(SpritePerson):
     def __init__(self):
         super(Player, self).__init__()
-        self.imagesattack = [resource_path('images/Player-1-Attack-' + str(i) + '.png') for i in range(1,5)]
-        self.imageswalk = [resource_path('images/Player-1-Walk-' + str(i) + '.png') for i in range(1,4)]
-        self.imagesstop = [resource_path('images/Player-1-Stop-' + str(i) + '.png') for i in range(1,4)]
-        self.imageshit = [resource_path('images/Player-1-Stop-' + str(i) + '.png') for i in range(1,3)]
-        self.imagesatirar = [resource_path('images/Player-1-Stop-' + str(i) + '.png') for i in range(1,2)]
+        self.imagesattack = [resource_path('images/Player-1-Attack-' + str(i) + '.png') for i in range(1,6)]
+        self.imageswalk = [resource_path('images/Player-1-Walk-' + str(i) + '.png') for i in range(1,5)]
+        self.imagesstop = [resource_path('images/Player-1-Stop-' + str(i) + '.png') for i in range(1,5)]
+        self.imageshit = [resource_path('images/Player-1-Hit-' + str(i) + '.png') for i in range(1,5)]
+        self.imagesatirar = [resource_path('images/Player-1-Atirar-' + str(i) + '.png') for i in range(1,5)]
         self.images_list = self.imagesstop
         self.image = load(self.images_list[0])
         self.rect = self.image.get_rect()
@@ -35,7 +35,7 @@ class Player(SpritePerson):
         self.rect.x = SCREEN_WIDTH/2
         self.step = 10
         self.move_list = []
-        self.sprint_walk_factor = 3
+        self.sprint_walk_factor = 2
         self.counter = 0
         self.reverse = False
         self.pedras = 10

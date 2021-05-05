@@ -52,7 +52,7 @@ stopgame = True
 
 while running:
 
-    clock.tick(20)
+    clock.tick(25)
 
     screen.fill((255, 255, 255))
 

@@ -25,11 +25,11 @@ import math
 class SpritePerson(pygame.sprite.Sprite):
     def __init__(self):
         super(SpritePerson, self).__init__()
-        self.imagesattack = [resource_path('images/Player-1-Attack-' + str(i) + '.png') for i in range(1,5)]
-        self.imageswalk = [resource_path('images/Player-1-Walk-' + str(i) + '.png') for i in range(1,4)]
-        self.imagesstop = [resource_path('images/Player-1-Stop-' + str(i) + '.png') for i in range(1,4)]
-        self.imageshit = [resource_path('images/Player-1-Hit-' + str(i) + '.png') for i in range(1,4)]
-        self.imagesatirar = [resource_path('images/Player-1-Atirar-' + str(i) + '.png') for i in range(1,4)]
+        self.imagesattack = [resource_path('images/Player-1-Attack-' + str(i) + '.png') for i in range(1,6)]
+        self.imageswalk = [resource_path('images/Player-1-Walk-' + str(i) + '.png') for i in range(1,5)]
+        self.imagesstop = [resource_path('images/Player-1-Stop-' + str(i) + '.png') for i in range(1,5)]
+        self.imageshit = [resource_path('images/Player-1-Hit-' + str(i) + '.png') for i in range(1,5)]
+        self.imagesatirar = [resource_path('images/Player-1-Atirar-' + str(i) + '.png') for i in range(1,5)]
         self.images_list = self.imagesstop
         self.image = load(self.images_list[0])
         self.rect = self.image.get_rect()

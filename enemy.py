@@ -44,15 +44,14 @@ class Enemy(SpritePerson):
     
     def action_atirar(self):
         if self.pedras > 0:
-            if not self.images_list == self.imagesatirar:
-                if self.reverse:
-                    grupo_objets_enemy.add(PedraEnemy(self.rect.x , self.rect.y, LEFT))
-                if not self.reverse:
-                    grupo_objets_enemy.add(PedraEnemy(self.rect.x , self.rect.y, RIGHT))
-                self.pedras -= 1
-                self.update_image(self.imagesatirar)
             if self.update_image(self.imagesatirar):
                 self.execute = self.action_parado
+            else:
+                if self.counter == ((len(self.imagesatirar) - 1) * self.sprint_walk_factor):
+                    if self.reverse:
+                        grupo_objets_enemy.add(PedraEnemy(self.rect.x , self.rect.y, LEFT))
+                    if not self.reverse:
+                        grupo_objets_enemy.add(PedraEnemy(self.rect.x , self.rect.y, RIGHT))                
         else:
             self.execute = self.action_parado
 

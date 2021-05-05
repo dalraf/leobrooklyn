@@ -27,7 +27,7 @@ class Player(SpritePerson):
         self.imageswalk = [resource_path('images/Player-1-Walk-' + str(i) + '.png') for i in range(1,5)]
         self.imagesstop = [resource_path('images/Player-1-Stop-' + str(i) + '.png') for i in range(1,5)]
         self.imageshit = [resource_path('images/Player-1-Hit-' + str(i) + '.png') for i in range(1,5)]
-        self.imagesatirar = [resource_path('images/Player-1-Atirar-' + str(i) + '.png') for i in range(1,5)]
+        self.imagesatirar = [resource_path('images/Player-1-Atirar-' + str(i) + '.png') for i in range(1,6)]
         self.images_list = self.imagesstop
         self.image = load(self.images_list[0])
         self.rect = self.image.get_rect()
@@ -44,15 +44,14 @@ class Player(SpritePerson):
 
     def action_atirar(self):
         if self.pedras > 0:
-            if not self.images_list == self.imagesatirar:
-                if self.reverse:
-                    grupo_objets_player.add(PedraPlayer(self.rect.x , self.rect.y, LEFT))
-                if not self.reverse:
-                    grupo_objets_player.add(PedraPlayer(self.rect.x , self.rect.y, RIGHT))
-                self.pedras -= 1
-                self.update_image(self.imagesatirar)
             if self.update_image(self.imagesatirar):
                 self.execute = self.action_parado
+            else:
+                if self.counter == ((len(self.imagesatirar) - 1) * self.sprint_walk_factor):
+                    if self.reverse:
+                        grupo_objets_player.add(PedraPlayer(self.rect.x , self.rect.y, LEFT))
+                    if not self.reverse:
+                        grupo_objets_player.add(PedraPlayer(self.rect.x , self.rect.y, RIGHT))                
         else:
             self.execute = self.action_parado
 

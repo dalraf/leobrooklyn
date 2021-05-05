@@ -8,7 +8,7 @@ class PedraPlayer(pygame.sprite.Sprite):
         self.images = [resource_path('images/pedra.png'),]
         self.image = load(self.images[0])
         self.rect = self.image.get_rect()
-        self.rect.y = y + 35
+        self.rect.y = y + 15
         self.counter = 0
         self.speed = random.randint(5,15)
         self.direction = direction

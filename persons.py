@@ -25,6 +25,7 @@ import math
 class SpritePerson(pygame.sprite.Sprite):
     def __init__(self):
         super(SpritePerson, self).__init__()
+        self.pedra = PedraPlayer
         self.imagesattack = [resource_path('images/Player-1-Attack-' + str(i) + '.png') for i in range(1,6)]
         self.imageswalk = [resource_path('images/Player-1-Walk-' + str(i) + '.png') for i in range(1,5)]
         self.imagesstop = [resource_path('images/Player-1-Stop-' + str(i) + '.png') for i in range(1,5)]
@@ -82,15 +83,14 @@ class SpritePerson(pygame.sprite.Sprite):
 
     def action_atirar(self):
         if self.pedras > 0:
-            if not self.images_list == self.imagesatirar:
-                if self.reverse:
-                    grupo_objets_player.add(PedraPlayer(self.rect.x , self.rect.y, LEFT))
-                if not self.reverse:
-                    grupo_objets_player.add(PedraPlayer(self.rect.x , self.rect.y, RIGHT))
-                self.pedras -= 1
-                self.update_image(self.imagesatirar)
             if self.update_image(self.imagesatirar):
                 self.execute = self.action_parado
+            else:
+                if self.counter >= (len(self.imagesatirar) * self.sprint_walk_factor):
+                    if self.reverse:
+                        grupo_objets_player.add(PedraPlayer(self.rect.x , self.rect.y, LEFT))
+                    if not self.reverse:
+                        grupo_objets_player.add(PedraPlayer(self.rect.x , self.rect.y, RIGHT))                
         else:
             self.execute = self.action_parado
 

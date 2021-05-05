@@ -51,7 +51,8 @@ class Player(SpritePerson):
                     if self.reverse:
                         grupo_objets_player.add(PedraPlayer(self.rect.left , self.rect.y, LEFT))
                     if not self.reverse:
-                        grupo_objets_player.add(PedraPlayer(self.rect.right , self.rect.y, RIGHT))                
+                        grupo_objets_player.add(PedraPlayer(self.rect.right , self.rect.y, RIGHT))
+                    self.pedras -= 1             
         else:
             self.execute = self.action_parado
 

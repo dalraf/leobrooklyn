@@ -96,7 +96,8 @@ class SpritePerson(pygame.sprite.Sprite):
                     if self.reverse:
                         grupo_objets_player.add(PedraPlayer(self.rect.x , self.rect.y, LEFT))
                     if not self.reverse:
-                        grupo_objets_player.add(PedraPlayer(self.rect.x , self.rect.y, RIGHT))                
+                        grupo_objets_player.add(PedraPlayer(self.rect.x , self.rect.y, RIGHT))
+                    self.pedras -= 1                
         else:
             self.execute = self.action_parado
 
@@ -122,6 +123,7 @@ class SpritePerson(pygame.sprite.Sprite):
         self.execute = self.action_hit
         self.life -= damage
         if self.life <=0:
+            self.life = 0
             self.in_kill = True
 
     def calculate_path(self, group, diametro):

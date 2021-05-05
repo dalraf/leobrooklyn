@@ -2,10 +2,7 @@ from config import SCREEN_HEIGHT, SCREEN_WIDTH, SPRITE_LEVEL_Y_HIGH, LEFT, RIGHT
 import pygame
 from pygame.image import load
 import random
-from sprite_class import SpriteGame
-import random
-
-class Pedra(SpriteGame):
+class Pedra(pygame.sprite.Sprite):
     def __init__(self,x,y,direction):
         super(Pedra, self).__init__()
         self.images = [resource_path('images/pedra.png'),]

@@ -29,7 +29,7 @@ from background import Background
 from placar import Placar
 from som import Som
 from player import Player
-from enemy import Enemy
+from enemy import Enemy, Wooden, Steam
 from controle import Controle
 from grupos import grupo_player, grupo_enemy, grupo_objets_player, grupo_objets_enemy, All_sprites
 
@@ -45,7 +45,7 @@ background = Background()
 som = Som()
 placar = Placar()
 controle = Controle()
-
+enemylist = [Wooden,Steam]
 paralaxe = 0
 running = True
 stopgame = True
@@ -61,7 +61,7 @@ while running:
         if tick_enemies == 0:
             if background.distance % DIFICULT_AVANCE == 0:
                 fator = 1 + int(background.distance / DIFICULT_AVANCE)
-                grupo_enemy.add([Enemy(int(fator/2)) for i in range(random.randint(1,fator))])
+                grupo_enemy.add([random.choice(enemylist)(int(fator/2)) for i in range(random.randint(1,fator))])
                 tick_enemies = 100
         tick_enemies -= 1
         if tick_enemies < 0:

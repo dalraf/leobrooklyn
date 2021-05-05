@@ -39,7 +39,7 @@ class Enemy(SpritePerson):
         self.sprint_walk_factor = 3
         self.pedras = random.randint(0,2)
         self.reverse = False
-        self.life = 3
+        self.life = 6
         self.execute = self.action_parado
     
     def action_atirar(self):

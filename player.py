@@ -19,7 +19,7 @@ import pygame
 from pygame.image import load
 from persons import SpritePerson
 from objetcs import Pedra
-from sprite_groups import grupo_objets
+from grupos import grupo_objets
 class Player(SpritePerson):
     def __init__(self):
         super(Player, self).__init__()

@@ -14,10 +14,10 @@ from config import (
 )
 import pygame
 from pygame.image import load
-import random
 from persons import SpritePerson
 from objetcs import Pedra
-from sprite_groups import grupo_objets, grupo_player
+from grupos import grupo_objets, grupo_player
+import random
 
 class Enemy(SpritePerson):
     def __init__(self, speed):

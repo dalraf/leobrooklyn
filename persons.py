@@ -16,11 +16,12 @@ from config import (
     resource_path
 )
 import pygame
+from pygame.image import load
+from grupos import grupo_objets
+from objetcs import Pedra
 import random
 import math
-from pygame.image import load
-from sprite_groups import grupo_objets
-from objetcs import Pedra
+
 class SpritePerson(pygame.sprite.Sprite):
     def __init__(self):
         super(SpritePerson, self).__init__()

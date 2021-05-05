@@ -30,7 +30,7 @@ from som import Som
 from player import Player
 from enemy import Enemy
 from controle import Controle
-from sprite_groups import grupo_player, grupo_enemy, grupo_objets, All_sprites
+from grupos import grupo_player, grupo_enemy, grupo_objets, All_sprites
 
 pygame.init()
 

@@ -49,9 +49,9 @@ class Player(SpritePerson):
             else:
                 if self.counter == ((len(self.imagesatirar) - 1) * self.sprint_walk_factor):
                     if self.reverse:
-                        grupo_objets_player.add(PedraPlayer(self.rect.x , self.rect.y, LEFT))
+                        grupo_objets_player.add(PedraPlayer(self.rect.left , self.rect.y, LEFT))
                     if not self.reverse:
-                        grupo_objets_player.add(PedraPlayer(self.rect.x , self.rect.y, RIGHT))                
+                        grupo_objets_player.add(PedraPlayer(self.rect.right , self.rect.y, RIGHT))                
         else:
             self.execute = self.action_parado
 

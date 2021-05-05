@@ -31,5 +31,6 @@ class PedraPlayer(pygame.sprite.Sprite):
 class PedraEnemy(PedraPlayer):
     def __init__(self,x,y,direction):
         super(PedraEnemy, self).__init__(x,y,direction)
+        self.rect.y = y + 35
 
 

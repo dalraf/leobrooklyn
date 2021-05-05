@@ -44,7 +44,6 @@ background = Background()
 som = Som()
 placar = Placar()
 controle = Controle()
-grupo_player.add(Player())
 
 paralaxe = 0
 running = True

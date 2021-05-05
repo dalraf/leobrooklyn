@@ -119,9 +119,12 @@ while running:
                     stopgame = False
                     player = Player()
                     grupo_player.add(player)
-                    grupo_enemy.empty()
-                    grupo_objets_player.empty()
-                    grupo_objets_enemy.empty()
+                    for enemy in grupo_enemy:
+                        enemy.kill()
+                    for objects in grupo_objets_enemy:
+                        objects.kill()
+                    for objects in grupo_objets_player:
+                        objects.kill()
                     placar.zero()
                     background.zero()
         

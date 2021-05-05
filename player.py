@@ -60,27 +60,22 @@ class Player(SpritePerson):
         if UP in self.move_list:
             self.move((0, -self.step))
             self.execute = self.action_andando
-            self.move_list = []
         if DOWN in self.move_list:
             self.move((0, self.step))
             self.execute = self.action_andando
-            self.move_list = []
         if RIGHT in self.move_list:
             self.reverse = False
             self.move((self.step, 0))
             self.execute = self.action_andando
-            self.move_list = []
         if LEFT in self.move_list:
             self.reverse = True
             self.move((-self.step, 0))   
             self.execute = self.action_andando
-            self.move_list = []
         if STOPPED in self.move_list:
             self.execute = self.action_parado
-            self.move_list = []
         if MOONWALK in self.move_list:
             self.execute = self.action_andando
-            self.move_list = []
+        self.move_list = []
 
     def move_up(self):
         self.move_list.append(UP)

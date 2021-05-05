@@ -67,30 +67,24 @@ while running:
         if tick_enemies < 0:
             tick_enemies = 0
 
-    colisao_object_inimigo = groupcollide(grupo_enemy, grupo_objets, False, False, pygame.sprite.collide_circle_ratio(OBJET_KILL_RATIO))
-    
-    if len(colisao_object_inimigo) > 0:
-        for enemycol, objectlistcol in colisao_object_inimigo.items():
-            for objectcol in objectlistcol:
+    for enemycol in grupo_enemy:
+        for objectcol in grupo_objets:
+            if  enemycol.rect.x in range(objectcol.rect.x - Y_DEVIRACAO, objectcol.rect.x + Y_DEVIRACAO):
                 if  enemycol.rect.y in range(objectcol.rect.y - Y_DEVIRACAO, objectcol.rect.y + Y_DEVIRACAO):
                     enemycol.move_hit()
                     objectcol.kill()
 
-    colisao_object_player = groupcollide(grupo_player, grupo_objets, False, False, pygame.sprite.collide_circle_ratio(OBJET_KILL_RATIO))
-
-    if len(colisao_object_player) > 0:
-        for playercol, objectlistcol in colisao_object_player.items():
-            for objectcol in objectlistcol:
+    for playercol in grupo_player:
+        for objectcol in grupo_objets:
+            if  playercol.rect.x in range(objectcol.rect.x - Y_DEVIRACAO, objectcol.rect.x + Y_DEVIRACAO):
                 if  playercol.rect.y in range(objectcol.rect.y - Y_DEVIRACAO, objectcol.rect.y + Y_DEVIRACAO):
                     playercol.move_hit()
                     objectcol.kill()
 
-    colisao_attack_player_inimigo = groupcollide(grupo_player, grupo_enemy, False, False, pygame.sprite.collide_circle_ratio(ATTACK_RATIO))
-
-    if len(colisao_attack_player_inimigo) > 0:
-        for playercol, enemylistcol in colisao_attack_player_inimigo.items():
-            if playercol.execute == player.action_attack:
-                for enemycol in enemylistcol:
+    for playercol in grupo_player:
+        if playercol.execute == player.action_attack:
+            for enemycol in grupo_enemy: 
+                if  playercol.rect.x in range(enemycol.rect.x - Y_DEVIRACAO, enemycol.rect.x + Y_DEVIRACAO):
                     if  playercol.rect.y in range(enemycol.rect.y - Y_DEVIRACAO, enemycol.rect.y + Y_DEVIRACAO):
                         if playercol.reverse:
                             if playercol.rect.left > enemycol.rect.left:
@@ -100,9 +94,10 @@ while running:
                             if playercol.rect.left < enemycol.rect.left:
                                 placar.add_enemy_kill(enemycol.speed)
                                 enemycol.move_hit()
-            else:
-                for enemycol in enemylistcol:
-                    if enemycol.execute == enemycol.action_attack:
+        else:
+            for enemycol in grupo_enemy:
+                if enemycol.execute == enemycol.action_attack:
+                    if  enemycol.rect.x in range(playercol.rect.x - Y_DEVIRACAO, playercol.rect.x + Y_DEVIRACAO):
                         if  enemycol.rect.y in range(playercol.rect.y - Y_DEVIRACAO, playercol.rect.y + Y_DEVIRACAO):
                             if enemycol.reverse:
                                 if enemycol.rect.left > playercol.rect.left:

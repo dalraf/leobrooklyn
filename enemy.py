@@ -36,7 +36,7 @@ class Enemy(SpritePerson):
         self.rect.x = SCREEN_WIDTH
         self.counter = 0
         self.speed = random.randint(3, 3 + speed)
-        self.sprint_walk_factor = 2
+        self.sprint_walk_factor = 3
         self.pedras = random.randint(0,2)
         self.reverse = False
         self.life = 3

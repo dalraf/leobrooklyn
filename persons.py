@@ -17,8 +17,8 @@ from config import (
 )
 import pygame
 from pygame.image import load
-from grupos import grupo_objets
-from objetcs import Pedra
+from grupos import grupo_objets_player
+from objetcs import PedraPlayer
 import random
 import math
 
@@ -84,9 +84,9 @@ class SpritePerson(pygame.sprite.Sprite):
         if self.pedras > 0:
             if not self.images_list == self.imagesatirar:
                 if self.reverse:
-                    grupo_objets.add(Pedra(self.rect.x , self.rect.y, LEFT))
+                    grupo_objets_player.add(PedraPlayer(self.rect.x , self.rect.y, LEFT))
                 if not self.reverse:
-                    grupo_objets.add(Pedra(self.rect.x , self.rect.y, RIGHT))
+                    grupo_objets_player.add(PedraPlayer(self.rect.x , self.rect.y, RIGHT))
                 self.pedras -= 1
                 self.update_image(self.imagesatirar)
             if self.update_image(self.imagesatirar):

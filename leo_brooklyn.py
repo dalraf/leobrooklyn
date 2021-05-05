@@ -32,7 +32,7 @@ from som import Som
 from player import Player
 from enemy import Enemy
 from controle import Controle
-from grupos import grupo_player, grupo_enemy, grupo_objets, All_sprites
+from grupos import grupo_player, grupo_enemy, grupo_objets_player, grupo_objets_enemy, All_sprites
 
 pygame.init()
 
@@ -69,13 +69,13 @@ while running:
             tick_enemies = 0
 
     for enemycol in grupo_enemy:
-        for objectcol in grupo_objets:
+        for objectcol in grupo_objets_player:
             if calcule_vetor_distance(enemycol.rect.center,objectcol.rect.center) < DERIVACAO:
                 enemycol.move_hit()
                 objectcol.kill()
 
     for playercol in grupo_player:
-        for objectcol in grupo_objets:
+        for objectcol in grupo_objets_enemy:
             if calcule_vetor_distance(playercol.rect.center,objectcol.rect.center) < DERIVACAO:
                 playercol.move_hit()
                 objectcol.kill()
@@ -119,7 +119,8 @@ while running:
                     player = Player()
                     grupo_player.add(player)
                     grupo_enemy.empty()
-                    grupo_objets.empty()
+                    grupo_objets_player.empty()
+                    grupo_objets_enemy.empty()
                     placar.zero()
                     background.zero()
         
@@ -165,7 +166,9 @@ while running:
         if paralaxe > 0:
             for enemy_active in grupo_enemy:
                 enemy_active.paralaxe(paralaxe)
-            for object_active in grupo_objets:
+            for object_active in grupo_objets_player:
+                object_active.paralaxe(paralaxe)
+            for object_active in grupo_objets_enemy:
                 object_active.paralaxe(paralaxe)
             background.paralaxe(paralaxe)
             paralaxe = 0
@@ -173,7 +176,8 @@ while running:
 
         grupo_player.update()
         grupo_enemy.update(grupo_player, grupo_enemy)
-        grupo_objets.update()
+        grupo_objets_player.update()
+        grupo_objets_enemy.update()
     
     else:
         controle.draw(screen)
@@ -190,7 +194,8 @@ while running:
 
     All_sprites.add(grupo_player)
     All_sprites.add(grupo_enemy)
-    All_sprites.add(grupo_objets)
+    All_sprites.add(grupo_objets_player)
+    All_sprites.add(grupo_objets_enemy)
     
     for sprite in sorted(All_sprites, key=lambda spr: spr.rect.bottom):
         screen.blit(sprite.image, sprite.rect)

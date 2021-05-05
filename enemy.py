@@ -15,8 +15,8 @@ from config import (
 import pygame
 from pygame.image import load
 from persons import SpritePerson
-from objetcs import Pedra
-from grupos import grupo_objets, grupo_player
+from objetcs import PedraEnemy
+from grupos import grupo_objets_enemy, grupo_player
 import random
 
 class Enemy(SpritePerson):
@@ -40,6 +40,20 @@ class Enemy(SpritePerson):
         self.reverse = False
         self.life = 3
         self.execute = self.action_parado
+    
+    def action_atirar(self):
+        if self.pedras > 0:
+            if not self.images_list == self.imagesatirar:
+                if self.reverse:
+                    grupo_objets_enemy.add(PedraEnemy(self.rect.x , self.rect.y, LEFT))
+                if not self.reverse:
+                    grupo_objets_enemy.add(PedraEnemy(self.rect.x , self.rect.y, RIGHT))
+                self.pedras -= 1
+                self.update_image(self.imagesatirar)
+            if self.update_image(self.imagesatirar):
+                self.execute = self.action_parado
+        else:
+            self.execute = self.action_parado
 
     def move_hit(self):
         self.execute = self.action_hit

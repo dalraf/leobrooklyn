@@ -11,6 +11,8 @@ from config import (
     STATE_STOP,
     STATE_MOONWALK,
     resource_path,
+    calcule_vetor_distance,
+    verify_align,
 )
 import pygame
 from pygame.image import load
@@ -71,15 +73,13 @@ class Enemy(SpritePerson):
 
         if not self.execute in [self.action_in_attack, self.action_attack, self.action_hit, self.action_atirar]:
 
-            if not pygame.sprite.spritecollide(self, grupo_player, False, pygame.sprite.collide_circle_ratio(ATTACK_RATIO)):
-                for player_active in grupo_player:
-                    if self.rect.y in range(player_active.rect.y - DERIVACAO, player_active.rect.y + DERIVACAO):
+            for player_active in grupo_player:
+                if verify_align(self.rect.y,player_active.rect.y):
+                    if calcule_vetor_distance(self.rect.center,player_active.rect.center) > DERIVACAO:
                         if self.attack_trigger():
                             self.execute = self.action_atirar
-            
-            if pygame.sprite.spritecollide(self, grupo_player, False, pygame.sprite.collide_circle_ratio(ATTACK_RATIO)):
-                for player_active in grupo_player:
-                    if self.rect.y in range(player_active.rect.y - DERIVACAO, player_active.rect.y + DERIVACAO):
+                
+                    if calcule_vetor_distance(self.rect.center,player_active.rect.center) < DERIVACAO:
                         if self.attack_trigger():
                             self.execute = self.action_in_attack
 

@@ -15,6 +15,13 @@ def resource_path(relative_path):
 def calcule_vetor_distance(center1,center2):
     return pygame.Vector2(center1).distance_to(pygame.Vector2(center2))
 
+def verify_align(y1,y2):
+    if y1 in range(y2 - DERIVACAO, y2 + DERIVACAO):
+        return True
+    else:
+        return False
+
+
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 450
 SPRITE_LEVEL_Y_HIGH = 310

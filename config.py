@@ -1,3 +1,4 @@
+import pygame
 import sys
 import os
 
@@ -10,6 +11,9 @@ def resource_path(relative_path):
         base_path = os.path.abspath(".")
 
     return os.path.join(base_path, relative_path)
+
+def calcule_vetor_distance(center1,center2):
+    return pygame.Vector2(center1).distance_to(pygame.Vector2(center2))
 
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 450

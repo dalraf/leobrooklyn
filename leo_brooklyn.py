@@ -5,6 +5,7 @@ from config import (
     OBJET_KILL_RATIO,
     STATE_ATTACK,
     DERIVACAO,
+    calcule_vetor_distance,
 )
 import pygame
 from pygame.sprite import groupcollide
@@ -69,42 +70,38 @@ while running:
 
     for enemycol in grupo_enemy:
         for objectcol in grupo_objets:
-            if  enemycol.rect.x in range(objectcol.rect.x - DERIVACAO, objectcol.rect.x + DERIVACAO):
-                if  enemycol.rect.y in range(objectcol.rect.y - DERIVACAO, objectcol.rect.y + DERIVACAO):
-                    enemycol.move_hit()
-                    objectcol.kill()
+            if calcule_vetor_distance(enemycol.rect.center,objectcol.rect.center) < DERIVACAO:
+                enemycol.move_hit()
+                objectcol.kill()
 
     for playercol in grupo_player:
         for objectcol in grupo_objets:
-            if  playercol.rect.x in range(objectcol.rect.x - DERIVACAO, objectcol.rect.x + DERIVACAO):
-                if  playercol.rect.y in range(objectcol.rect.y - DERIVACAO, objectcol.rect.y + DERIVACAO):
-                    playercol.move_hit()
-                    objectcol.kill()
+            if calcule_vetor_distance(playercol.rect.center,objectcol.rect.center) < DERIVACAO:
+                playercol.move_hit()
+                objectcol.kill()
 
     for playercol in grupo_player:
         if playercol.execute == player.action_attack:
             for enemycol in grupo_enemy: 
-                if  playercol.rect.x in range(enemycol.rect.x - DERIVACAO, enemycol.rect.x + DERIVACAO):
-                    if  playercol.rect.y in range(enemycol.rect.y - DERIVACAO, enemycol.rect.y + DERIVACAO):
-                        if playercol.reverse:
-                            if playercol.rect.left > enemycol.rect.left:
-                                placar.add_enemy_kill(enemycol.speed)
-                                enemycol.move_hit()
-                        else:
-                            if playercol.rect.left < enemycol.rect.left:
-                                placar.add_enemy_kill(enemycol.speed)
-                                enemycol.move_hit()
+                if calcule_vetor_distance(playercol.rect.center,enemycol.rect.center) < DERIVACAO:
+                    if playercol.reverse:
+                        if playercol.rect.left > enemycol.rect.left:
+                            placar.add_enemy_kill(enemycol.speed)
+                            enemycol.move_hit()
+                    else:
+                        if playercol.rect.left < enemycol.rect.left:
+                            placar.add_enemy_kill(enemycol.speed)
+                            enemycol.move_hit()
         else:
             for enemycol in grupo_enemy:
                 if enemycol.execute == enemycol.action_attack:
-                    if  enemycol.rect.x in range(playercol.rect.x - DERIVACAO, playercol.rect.x + DERIVACAO):
-                        if  enemycol.rect.y in range(playercol.rect.y - DERIVACAO, playercol.rect.y + DERIVACAO):
-                            if enemycol.reverse:
-                                if enemycol.rect.left > playercol.rect.left:
-                                    playercol.move_hit()
-                            else:
-                                if enemycol.rect.left < playercol.rect.left:
-                                    playercol.move_hit()
+                    if calcule_vetor_distance(playercol.rect.center,enemycol.rect.center) < DERIVACAO:
+                        if enemycol.reverse:
+                            if enemycol.rect.left > playercol.rect.left:
+                                playercol.move_hit()
+                        else:
+                            if enemycol.rect.left < playercol.rect.left:
+                                playercol.move_hit()
 
     if len(grupo_player) == 0:
         stopgame = True

@@ -20,7 +20,7 @@ jobs:
         pip install -r requirements.txt
     - name: build with pyinstaller
       run: |
-        python -m PyInstaller --onefile --noconsole leo_brooklyn.spec
+        python -m nuitka --onefile --windows-company-name=Dalraf --windows-product-version=0001 --assume-yes-for-downloads leo_brooklyn.py
     - uses: actions/upload-artifact@v2
       with:
         name: leo_brooklyn.exe

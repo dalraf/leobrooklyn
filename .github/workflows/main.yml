@@ -1,4 +1,4 @@
-name: PyInstaller
+name: Compilação
 on:
   push:
     tags:
@@ -20,11 +20,11 @@ jobs:
         pip install -r requirements.txt
     - name: build with pyinstaller
       run: |
-        python -m nuitka --onefile --windows-company-name=Dalraf --windows-product-version=0001 --assume-yes-for-downloads leo_brooklyn.py
+        python -m nuitka --windows-disable-console --onefile --windows-company-name=Dalraf --windows-product-version=0001 --assume-yes-for-downloads leo_brooklyn.py
     - uses: actions/upload-artifact@v2
       with:
         name: leo_brooklyn.exe
-        path: dist\leo_brooklyn.exe
+        path: leo_brooklyn.exe
     - name: release
       uses: actions/create-release@v1
       id: create_release
@@ -41,6 +41,6 @@ jobs:
         GITHUB_TOKEN: ${{ github.token }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: dist\leo_brooklyn.exe
+        asset_path: leo_brooklyn.exe
         asset_name: leo_brooklyn.exe
         asset_content_type: application/exe

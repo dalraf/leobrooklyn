@@ -149,3 +149,4 @@ Pipfile
 Pipfile.lock
 *log
 *exe
+.buildozer

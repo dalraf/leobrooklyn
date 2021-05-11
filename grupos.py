@@ -1,4 +1,4 @@
-from pygame.sprite import Group, GroupSingle
+from pygame.sprite import Group
 
 grupo_player = Group()
 grupo_enemy = Group()

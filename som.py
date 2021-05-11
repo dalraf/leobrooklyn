@@ -1,8 +1,9 @@
 import pygame
 from config import resource_path
 
+
 class Som():
-    def __init__(self):    
+    def __init__(self):
         self.musica = pygame.mixer.music
         self.musica.load(resource_path("sounds/musica_fundo.ogg"))
         self.musica.set_volume(0.1)

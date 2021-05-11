@@ -35,7 +35,7 @@ class Player(SpritePerson):
         self.rect.x = SCREEN_WIDTH/2
         self.step = 10
         self.move_list = []
-        self.sprint_walk_factor = 2
+        self.sprint = 2
         self.counter = 0
         self.reverse = False
         self.pedras = 10
@@ -47,7 +47,7 @@ class Player(SpritePerson):
             if self.update_image(self.imagesatirar):
                 self.execute = self.action_parado
             else:
-                if self.counter == ((len(self.imagesatirar) - 1) * self.sprint_walk_factor):
+                if self.counter == ((len(self.imagesatirar) - 1) * self.sprint):
                     if self.reverse:
                         grupo_objets_player.add(PedraPlayer(self.rect.left , self.rect.y, LEFT))
                     if not self.reverse:

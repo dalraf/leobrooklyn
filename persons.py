@@ -39,8 +39,9 @@ class SpritePerson(pygame.sprite.Sprite):
         ]
         self.images_list = self.imagesstop
         self.image_raw = load(self.images_list[0])
+        self.rect_raw = self.image_raw.get_rect()
         self.image = pygame.transform.scale(
-            self.image_raw, (int(80 * RESIZE_FACTOR), int(80 * RESIZE_FACTOR))
+            self.image_raw, (int(self.rect_raw.width * RESIZE_FACTOR), int(self.rect_raw.height * RESIZE_FACTOR))
         )
         self.rect = self.image.get_rect()
         self.rect.y = SCREEN_HEIGHT * (0.65)

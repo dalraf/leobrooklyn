@@ -29,8 +29,6 @@ pygame.init()
 
 pygame.display.set_caption("Leo Brooklin Stories")
 
-print(pygame.display.list_modes())
-
 SCREEN_HEIGHT = pygame.display.Info().current_h
 SCREEN_WIDTH = pygame.display.Info().current_w
 
@@ -47,7 +45,7 @@ RESIZE_FACTOR = SCREEN_HEIGHT / 600
 
 FONT_SIZE = int(SCREEN_HEIGHT * 0.06)
 
-SPRITE_LEVEL_Y_HIGH = SCREEN_HEIGHT * 0.72
+SPRITE_LEVEL_Y_HIGH = SCREEN_HEIGHT * 0.70
 LEFT = "Left"
 RIGHT = "Right"
 UP = "Up"

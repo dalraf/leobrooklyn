@@ -1,3 +1,4 @@
+from config import FONT_SIZE
 import pygame
 
 pygame.font.init()
@@ -5,7 +6,7 @@ pygame.font.init()
 
 class Placar():
     def __init__(self):
-        self.font = pygame.font.SysFont('Sans', 25)
+        self.font = pygame.font.SysFont('Sans', FONT_SIZE)
         self.placar = 0
         self.pedras = 0
         self.life = 0

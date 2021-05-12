@@ -25,9 +25,28 @@ def verify_align(y1, y2):
         return False
 
 
-SCREEN_WIDTH = 800
-SCREEN_HEIGHT = 450
-SPRITE_LEVEL_Y_HIGH = 310
+pygame.init()
+
+pygame.display.set_caption('Leo Brooklin Stories')
+
+SCREEN_HEIGHT = pygame.display.Info().current_h
+SCREEN_WIDTH = pygame.display.Info().current_w
+
+if pygame.display.get_driver() in ['x11', 'windib', 'directx']:
+    flag = pygame.RESIZABLE
+    SCREEN_WIDTH = int(SCREEN_WIDTH / 1.5)
+    SCREEN_HEIGHT = int(SCREEN_HEIGHT / 1.5)
+else:
+    flag = pygame.FULLSCREEN
+
+screen = pygame.display.set_mode(
+    (SCREEN_WIDTH, SCREEN_HEIGHT), flag)
+
+RESIZE_FACTOR = SCREEN_HEIGHT / 600
+
+FONT_SIZE = int(SCREEN_HEIGHT * 0.06)
+
+SPRITE_LEVEL_Y_HIGH = SCREEN_HEIGHT * 0.72
 LEFT = "Left"
 RIGHT = "Right"
 UP = "Up"

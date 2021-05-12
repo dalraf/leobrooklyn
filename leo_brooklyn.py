@@ -1,5 +1,5 @@
 from config import (
-    SCREEN_HEIGHT,
+    screen,
     SCREEN_WIDTH,
     DIFICULT_AVANCE,
     DERIVACAO,
@@ -36,11 +36,6 @@ from grupos import (grupo_player,
                     All_sprites
                     )
 
-pygame.init()
-
-pygame.display.set_caption('Leo Brooklin Stories')
-
-screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
 tick_enemies = 0
 clock = Clock()

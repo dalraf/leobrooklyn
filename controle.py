@@ -1,12 +1,12 @@
 import pygame
-from config import SCREEN_HEIGHT, SCREEN_WIDTH
+from config import SCREEN_HEIGHT, SCREEN_WIDTH, FONT_SIZE
 
 pygame.font.init()
 
 
 class Controle():
     def __init__(self):
-        self.font = pygame.font.SysFont('Sans', 35)
+        self.font = pygame.font.SysFont('Sans', FONT_SIZE)
         self.controle1 = self.font.render(
             'Pressione ENTER para continuar', False, (255, 255, 255))
         self.controle2 = self.font.render(

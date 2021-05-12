@@ -1,6 +1,7 @@
 from config import (
     SCREEN_HEIGHT,
     SCREEN_WIDTH,
+    RESIZE_FACTOR,
     SPRITE_LEVEL_Y_HIGH,
     LEFT,
     RIGHT,
@@ -33,7 +34,9 @@ class SpritePerson(pygame.sprite.Sprite):
             resource_path('images/Player-1-Atirar-' + str(i) + '.png')
             for i in range(1, 5)]
         self.images_list = self.imagesstop
-        self.image = load(self.images_list[0])
+        self.image_raw = load(self.images_list[0])
+        self.image = pygame.transform.scale(
+            self.image_raw, (int(80 * RESIZE_FACTOR), int(80 * RESIZE_FACTOR)))
         self.rect = self.image.get_rect()
         self.rect.y = SCREEN_HEIGHT * (0.65)
         self.rect.x = SCREEN_WIDTH/2
@@ -52,7 +55,11 @@ class SpritePerson(pygame.sprite.Sprite):
 
         if self.images_list == images_list:
             self.counter = (self.counter+1) % (len(images_list)*self.sprint)
-            self.image = load(self.images_list[int(self.counter/self.sprint)])
+            self.image_raw = load(
+                self.images_list[int(self.counter/self.sprint)])
+            self.image = pygame.transform.scale(
+                self.image_raw, (
+                    (int(80 * RESIZE_FACTOR), int(80 * RESIZE_FACTOR))))
             if self.reverse:
                 self.image = pygame.transform.flip(self.image, True, False)
             if self.counter == 0:

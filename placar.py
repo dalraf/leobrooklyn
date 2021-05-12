@@ -4,9 +4,9 @@ import pygame
 pygame.font.init()
 
 
-class Placar():
+class Placar:
     def __init__(self):
-        self.font = pygame.font.SysFont('Sans', FONT_SIZE)
+        self.font = pygame.font.SysFont("Sans", FONT_SIZE)
         self.placar = 0
         self.pedras = 0
         self.life = 0
@@ -24,8 +24,14 @@ class Placar():
         self.life = life
 
     def draw(self, screen):
-        self.placarshow = self.font.render('Placar: ' + str(
-            self.placar) + '  Vida: ' + str(
-            self.life) + '  Pedras: ' + str(
-                self.pedras), False, (255, 255, 255))
+        self.placarshow = self.font.render(
+            "Placar: "
+            + str(self.placar)
+            + "  Vida: "
+            + str(self.life)
+            + "  Pedras: "
+            + str(self.pedras),
+            False,
+            (255, 255, 255),
+        )
         screen.blit(self.placarshow, (0, 0))

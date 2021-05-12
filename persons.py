@@ -5,7 +5,7 @@ from config import (
     SPRITE_LEVEL_Y_HIGH,
     LEFT,
     RIGHT,
-    resource_path
+    resource_path,
 )
 import pygame
 from pygame.image import load
@@ -19,27 +19,32 @@ class SpritePerson(pygame.sprite.Sprite):
         super(SpritePerson, self).__init__()
         self.pedra = PedraPlayer
         self.imagesattack = [
-            resource_path('images/Player-1-Attack-' + str(i) + '.png')
-            for i in range(1, 6)]
+            resource_path("images/Player-1-Attack-" + str(i) + ".png")
+            for i in range(1, 6)
+        ]
         self.imageswalk = [
-            resource_path('images/Player-1-Walk-' + str(i) + '.png')
-            for i in range(1, 5)]
+            resource_path("images/Player-1-Walk-" + str(i) + ".png")
+            for i in range(1, 5)
+        ]
         self.imagesstop = [
-            resource_path('images/Player-1-Stop-' + str(i) + '.png')
-            for i in range(1, 5)]
+            resource_path("images/Player-1-Stop-" + str(i) + ".png")
+            for i in range(1, 5)
+        ]
         self.imageshit = [
-            resource_path('images/Player-1-Hit-' + str(i) + '.png')
-            for i in range(1, 5)]
+            resource_path("images/Player-1-Hit-" + str(i) + ".png") for i in range(1, 5)
+        ]
         self.imagesatirar = [
-            resource_path('images/Player-1-Atirar-' + str(i) + '.png')
-            for i in range(1, 5)]
+            resource_path("images/Player-1-Atirar-" + str(i) + ".png")
+            for i in range(1, 5)
+        ]
         self.images_list = self.imagesstop
         self.image_raw = load(self.images_list[0])
         self.image = pygame.transform.scale(
-            self.image_raw, (int(80 * RESIZE_FACTOR), int(80 * RESIZE_FACTOR))).convert()
+            self.image_raw, (int(80 * RESIZE_FACTOR), int(80 * RESIZE_FACTOR))
+        ).convert()
         self.rect = self.image.get_rect()
         self.rect.y = SCREEN_HEIGHT * (0.65)
-        self.rect.x = SCREEN_WIDTH/2
+        self.rect.x = SCREEN_WIDTH / 2
         self.step = 10
         self.move_list = []
         self.sprint = 3
@@ -54,12 +59,13 @@ class SpritePerson(pygame.sprite.Sprite):
     def update_image(self, images_list):
 
         if self.images_list == images_list:
-            self.counter = (self.counter+1) % (len(images_list)*self.sprint)
+            self.counter = (self.counter + 1) % (len(images_list) * self.sprint)
             self.image_raw = load(
-                self.images_list[int(self.counter/self.sprint)]).convert()
+                self.images_list[int(self.counter / self.sprint)]
+            ).convert()
             self.image = pygame.transform.scale(
-                self.image_raw, (
-                    (int(80 * RESIZE_FACTOR), int(80 * RESIZE_FACTOR))))
+                self.image_raw, ((int(80 * RESIZE_FACTOR), int(80 * RESIZE_FACTOR)))
+            )
             if self.reverse:
                 self.image = pygame.transform.flip(self.image, True, False)
             if self.counter == 0:
@@ -103,10 +109,12 @@ class SpritePerson(pygame.sprite.Sprite):
                 if self.counter >= (len(self.imagesatirar) * self.sprint):
                     if self.reverse:
                         grupo_objets_player.add(
-                            PedraPlayer(self.rect.x, self.rect.y, LEFT))
+                            PedraPlayer(self.rect.x, self.rect.y, LEFT)
+                        )
                     if not self.reverse:
                         grupo_objets_player.add(
-                            PedraPlayer(self.rect.x, self.rect.y, RIGHT))
+                            PedraPlayer(self.rect.x, self.rect.y, RIGHT)
+                        )
                     self.pedras -= 1
         else:
             self.execute = self.action_parado
@@ -145,7 +153,7 @@ class SpritePerson(pygame.sprite.Sprite):
 
             if sprite != self:
 
-                dx, dy = sprite.rect.x-self.rect.x, sprite.rect.y-self.rect.y
+                dx, dy = sprite.rect.x - self.rect.x, sprite.rect.y - self.rect.y
 
                 dist = math.hypot(dx, dy)
 

@@ -7,7 +7,9 @@ import random
 class PedraPlayer(pygame.sprite.Sprite):
     def __init__(self, x, y, direction):
         super(PedraPlayer, self).__init__()
-        self.images = [resource_path('images/pedra.png'), ]
+        self.images = [
+            resource_path("images/pedra.png"),
+        ]
         self.image = load(self.images[0])
         self.rect = self.image.get_rect()
         self.rect.y = y + 15

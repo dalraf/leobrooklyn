@@ -1,7 +1,8 @@
 from config import (
     SCREEN_HEIGHT,
     SCREEN_WIDTH,
-    LEFT, RIGHT,
+    LEFT,
+    RIGHT,
     DERIVACAO,
     resource_path,
     calcule_vetor_distance,
@@ -18,21 +19,32 @@ class Enemy(SpritePerson):
     def __init__(self, speed):
         super(Enemy, self).__init__()
         self.tipo = 1
-        self.imageswalk = [resource_path(
-            'images/Enemy-' + str(self.tipo) + '-Walk-' + str(i) + '.png')
-            for i in range(1, 6)]
-        self.imagesattack = [resource_path(
-            'images/Enemy-' + str(self.tipo) + '-Attack-' + str(i) + '.png')
-            for i in range(1, 7)]
-        self.imagesstop = [resource_path(
-            'images/Enemy-' + str(self.tipo) + '-Walk-' + str(i) + '.png')
-            for i in [1, ]]
-        self.imageshit = [resource_path(
-            'images/Enemy-' + str(self.tipo) + '-Hit-' + str(i) + '.png')
-            for i in range(1, 4)]
-        self.imagesatirar = [resource_path(
-            'images/Enemy-' + str(self.tipo) + '-Attack-' + str(i) + '.png')
-            for i in range(1, 7)]
+        self.imageswalk = [
+            resource_path("images/Enemy-" + str(self.tipo) + "-Walk-" + str(i) + ".png")
+            for i in range(1, 6)
+        ]
+        self.imagesattack = [
+            resource_path(
+                "images/Enemy-" + str(self.tipo) + "-Attack-" + str(i) + ".png"
+            )
+            for i in range(1, 7)
+        ]
+        self.imagesstop = [
+            resource_path("images/Enemy-" + str(self.tipo) + "-Walk-" + str(i) + ".png")
+            for i in [
+                1,
+            ]
+        ]
+        self.imageshit = [
+            resource_path("images/Enemy-" + str(self.tipo) + "-Hit-" + str(i) + ".png")
+            for i in range(1, 4)
+        ]
+        self.imagesatirar = [
+            resource_path(
+                "images/Enemy-" + str(self.tipo) + "-Attack-" + str(i) + ".png"
+            )
+            for i in range(1, 7)
+        ]
         self.image = load(self.imageswalk[0])
         self.images_list = self.imagesstop
         self.rect = self.image.get_rect()
@@ -51,15 +63,15 @@ class Enemy(SpritePerson):
             if self.update_image(self.imagesatirar):
                 self.execute = self.action_parado
             else:
-                if self.counter == (
-                        (len(self.imagesatirar) - 1)
-                        * self.sprint):
+                if self.counter == ((len(self.imagesatirar) - 1) * self.sprint):
                     if self.reverse:
-                        grupo_objets_enemy.add(PedraEnemy(
-                            self.rect.left, self.rect.y, LEFT))
+                        grupo_objets_enemy.add(
+                            PedraEnemy(self.rect.left, self.rect.y, LEFT)
+                        )
                     if not self.reverse:
-                        grupo_objets_enemy.add(PedraEnemy(
-                            self.rect.right, self.rect.y, RIGHT))
+                        grupo_objets_enemy.add(
+                            PedraEnemy(self.rect.right, self.rect.y, RIGHT)
+                        )
                     self.pedras -= 1
         else:
             self.execute = self.action_parado
@@ -76,22 +88,29 @@ class Enemy(SpritePerson):
     def update(self, grupo_player, grupo_enemy):
 
         if self.execute not in [
-                self.action_in_attack,
-                self.action_attack,
-                self.action_hit,
-                self.action_atirar]:
+            self.action_in_attack,
+            self.action_attack,
+            self.action_hit,
+            self.action_atirar,
+        ]:
 
             for player_active in grupo_player:
                 if verify_align(self.rect.y, player_active.rect.y):
-                    if calcule_vetor_distance(
-                            self.rect.center,
-                            player_active.rect.center) > DERIVACAO:
+                    if (
+                        calcule_vetor_distance(
+                            self.rect.center, player_active.rect.center
+                        )
+                        > DERIVACAO
+                    ):
                         if self.attack_trigger():
                             self.execute = self.action_atirar
 
-                    if calcule_vetor_distance(
-                            self.rect.center,
-                            player_active.rect.center) < DERIVACAO:
+                    if (
+                        calcule_vetor_distance(
+                            self.rect.center, player_active.rect.center
+                        )
+                        < DERIVACAO
+                    ):
                         if self.attack_trigger():
                             self.execute = self.action_in_attack
 
@@ -99,9 +118,10 @@ class Enemy(SpritePerson):
         self.dy = 0
 
         for player_active in grupo_player:
-            if calcule_vetor_distance(
-                    self.rect.center,
-                    player_active.rect.center) > DERIVACAO:
+            if (
+                calcule_vetor_distance(self.rect.center, player_active.rect.center)
+                > DERIVACAO
+            ):
 
                 dx, dy = self.calculate_path(grupo_player, 0)
 
@@ -124,10 +144,11 @@ class Enemy(SpritePerson):
             self.reverse = False
 
         if self.execute not in [
-                self.action_in_attack,
-                self.action_attack,
-                self.action_hit,
-                self.action_atirar]:
+            self.action_in_attack,
+            self.action_attack,
+            self.action_hit,
+            self.action_atirar,
+        ]:
             if self.dx == 0 and self.dy == 0:
                 self.execute = self.action_parado
             else:
@@ -140,39 +161,61 @@ class Wooden(Enemy):
     def __init__(self, speed):
         super(Wooden, self).__init__(speed)
         self.tipo = 1
-        self.imageswalk = [resource_path(
-            'images/Enemy-' + str(self.tipo) + '-Walk-' + str(i) + '.png')
-            for i in range(1, 6)]
-        self.imagesattack = [resource_path(
-            'images/Enemy-' + str(self.tipo) + '-Attack-' + str(i) + '.png')
-            for i in range(1, 7)]
-        self.imagesstop = [resource_path(
-            'images/Enemy-' + str(self.tipo) + '-Walk-' + str(i) + '.png')
-            for i in [1, ]]
-        self.imageshit = [resource_path(
-            'images/Enemy-' + str(self.tipo) + '-Hit-' + str(i) + '.png')
-            for i in range(1, 4)]
-        self.imagesatirar = [resource_path(
-            'images/Enemy-' + str(self.tipo) + '-Attack-' + str(i) + '.png')
-            for i in range(1, 7)]
+        self.imageswalk = [
+            resource_path("images/Enemy-" + str(self.tipo) + "-Walk-" + str(i) + ".png")
+            for i in range(1, 6)
+        ]
+        self.imagesattack = [
+            resource_path(
+                "images/Enemy-" + str(self.tipo) + "-Attack-" + str(i) + ".png"
+            )
+            for i in range(1, 7)
+        ]
+        self.imagesstop = [
+            resource_path("images/Enemy-" + str(self.tipo) + "-Walk-" + str(i) + ".png")
+            for i in [
+                1,
+            ]
+        ]
+        self.imageshit = [
+            resource_path("images/Enemy-" + str(self.tipo) + "-Hit-" + str(i) + ".png")
+            for i in range(1, 4)
+        ]
+        self.imagesatirar = [
+            resource_path(
+                "images/Enemy-" + str(self.tipo) + "-Attack-" + str(i) + ".png"
+            )
+            for i in range(1, 7)
+        ]
 
 
 class Steam(Enemy):
     def __init__(self, speed):
         super(Steam, self).__init__(speed)
         self.tipo = 2
-        self.imageswalk = [resource_path(
-            'images/Enemy-' + str(self.tipo) + '-Walk-' + str(i) + '.png')
-            for i in range(1, 7)]
-        self.imagesattack = [resource_path(
-            'images/Enemy-' + str(self.tipo) + '-Attack-' + str(i) + '.png')
-            for i in range(1, 7)]
-        self.imagesstop = [resource_path(
-            'images/Enemy-' + str(self.tipo) + '-Walk-' + str(i) + '.png')
-            for i in [1, ]]
-        self.imageshit = [resource_path(
-            'images/Enemy-' + str(self.tipo) + '-Hit-' + str(i) + '.png')
-            for i in range(1, 4)]
-        self.imagesatirar = [resource_path(
-            'images/Enemy-' + str(self.tipo) + '-Attack-' + str(i) + '.png')
-            for i in range(1, 7)]
+        self.imageswalk = [
+            resource_path("images/Enemy-" + str(self.tipo) + "-Walk-" + str(i) + ".png")
+            for i in range(1, 7)
+        ]
+        self.imagesattack = [
+            resource_path(
+                "images/Enemy-" + str(self.tipo) + "-Attack-" + str(i) + ".png"
+            )
+            for i in range(1, 7)
+        ]
+        self.imagesstop = [
+            resource_path("images/Enemy-" + str(self.tipo) + "-Walk-" + str(i) + ".png")
+            for i in [
+                1,
+            ]
+        ]
+        self.imageshit = [
+            resource_path("images/Enemy-" + str(self.tipo) + "-Hit-" + str(i) + ".png")
+            for i in range(1, 4)
+        ]
+        self.imagesatirar = [
+            resource_path(
+                "images/Enemy-" + str(self.tipo) + "-Attack-" + str(i) + ".png"
+            )
+            for i in range(1, 7)
+        ]

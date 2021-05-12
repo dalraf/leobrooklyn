@@ -13,26 +13,42 @@ from config import (
     STATE_WALK,
     STATE_STOP,
     STATE_MOONWALK,
-    resource_path
+    resource_path,
 )
 import pygame
 from pygame.image import load
 from persons import SpritePerson
 from objetcs import PedraPlayer
 from grupos import grupo_objets_player
+
+
 class Player(SpritePerson):
     def __init__(self):
         super(Player, self).__init__()
-        self.imagesattack = [resource_path('images/Player-1-Attack-' + str(i) + '.png') for i in range(1,6)]
-        self.imageswalk = [resource_path('images/Player-1-Walk-' + str(i) + '.png') for i in range(1,5)]
-        self.imagesstop = [resource_path('images/Player-1-Stop-' + str(i) + '.png') for i in range(1,5)]
-        self.imageshit = [resource_path('images/Player-1-Hit-' + str(i) + '.png') for i in range(1,5)]
-        self.imagesatirar = [resource_path('images/Player-1-Atirar-' + str(i) + '.png') for i in range(1,6)]
+        self.imagesattack = [
+            resource_path("images/Player-1-Attack-" + str(i) + ".png")
+            for i in range(1, 6)
+        ]
+        self.imageswalk = [
+            resource_path("images/Player-1-Walk-" + str(i) + ".png")
+            for i in range(1, 5)
+        ]
+        self.imagesstop = [
+            resource_path("images/Player-1-Stop-" + str(i) + ".png")
+            for i in range(1, 5)
+        ]
+        self.imageshit = [
+            resource_path("images/Player-1-Hit-" + str(i) + ".png") for i in range(1, 5)
+        ]
+        self.imagesatirar = [
+            resource_path("images/Player-1-Atirar-" + str(i) + ".png")
+            for i in range(1, 6)
+        ]
         self.images_list = self.imagesstop
         self.image = load(self.images_list[0])
         self.rect = self.image.get_rect()
         self.rect.y = SCREEN_HEIGHT * (0.65)
-        self.rect.x = SCREEN_WIDTH/2
+        self.rect.x = SCREEN_WIDTH / 2
         self.step = 10
         self.move_list = []
         self.sprint = 2
@@ -49,10 +65,14 @@ class Player(SpritePerson):
             else:
                 if self.counter == ((len(self.imagesatirar) - 1) * self.sprint):
                     if self.reverse:
-                        grupo_objets_player.add(PedraPlayer(self.rect.left , self.rect.y, LEFT))
+                        grupo_objets_player.add(
+                            PedraPlayer(self.rect.left, self.rect.y, LEFT)
+                        )
                     if not self.reverse:
-                        grupo_objets_player.add(PedraPlayer(self.rect.right , self.rect.y, RIGHT))
-                    self.pedras -= 1             
+                        grupo_objets_player.add(
+                            PedraPlayer(self.rect.right, self.rect.y, RIGHT)
+                        )
+                    self.pedras -= 1
         else:
             self.execute = self.action_parado
 
@@ -69,7 +89,7 @@ class Player(SpritePerson):
             self.execute = self.action_andando
         if LEFT in self.move_list:
             self.reverse = True
-            self.move((-self.step, 0))   
+            self.move((-self.step, 0))
             self.execute = self.action_andando
         if STOPPED in self.move_list:
             self.execute = self.action_parado
@@ -79,10 +99,10 @@ class Player(SpritePerson):
 
     def move_up(self):
         self.move_list.append(UP)
-    
+
     def move_down(self):
         self.move_list.append(DOWN)
-    
+
     def move_left(self):
         self.move_list.append(LEFT)
 
@@ -90,7 +110,12 @@ class Player(SpritePerson):
         self.move_list.append(RIGHT)
 
     def move_stopped(self):
-        if not self.execute in [self.action_in_attack, self.action_attack, self.action_hit, self.action_atirar]:
+        if not self.execute in [
+            self.action_in_attack,
+            self.action_attack,
+            self.action_hit,
+            self.action_atirar,
+        ]:
             self.move_list.append(STOPPED)
 
     def move_moonwalk(self):
@@ -98,15 +123,10 @@ class Player(SpritePerson):
 
     def move_atirar(self):
         self.execute = self.action_atirar
-    
+
     def move_attack(self):
         self.execute = self.action_in_attack
-            
+
     def update(self):
         self.combine_moviment()
         self.execute()
-
-
-
-
-

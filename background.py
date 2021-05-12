@@ -2,14 +2,13 @@ from config import resource_path, SCREEN_WIDTH, SCREEN_HEIGHT
 import pygame
 
 
-class Background():
-
+class Background:
     def __init__(self):
         self.backgroundwidth = SCREEN_WIDTH * 3
         self.background = pygame.image.load(resource_path("images/bg.png"))
         self.background = pygame.transform.scale(
-            self.background,
-            (self.backgroundwidth, SCREEN_HEIGHT))
+            self.background, (self.backgroundwidth, SCREEN_HEIGHT)
+        )
         self.rect = self.background.get_rect()
         self.step = 0
         self.distance = 0

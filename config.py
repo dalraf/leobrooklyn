@@ -4,7 +4,7 @@ import os
 
 
 def resource_path(relative_path):
-    """ Get absolute path to resource, works for dev and for PyInstaller """
+    """Get absolute path to resource, works for dev and for PyInstaller"""
     try:
         # PyInstaller creates a temp folder and stores path in _MEIPASS
         base_path = sys._MEIPASS
@@ -27,22 +27,21 @@ def verify_align(y1, y2):
 
 pygame.init()
 
-pygame.display.set_caption('Leo Brooklin Stories')
+pygame.display.set_caption("Leo Brooklin Stories")
 
 print(pygame.display.list_modes())
 
 SCREEN_HEIGHT = pygame.display.Info().current_h
 SCREEN_WIDTH = pygame.display.Info().current_w
 
-if pygame.display.get_driver() in ['x11', 'windib', 'directx']:
+if pygame.display.get_driver() in ["x11", "windib", "directx"]:
     flag = pygame.RESIZABLE
     SCREEN_WIDTH = int(SCREEN_WIDTH / 1.5)
     SCREEN_HEIGHT = int(SCREEN_HEIGHT / 1.5)
 else:
     flag = pygame.FULLSCREEN
 
-screen = pygame.display.set_mode(
-    (SCREEN_WIDTH, SCREEN_HEIGHT), flag)
+screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT), flag)
 
 RESIZE_FACTOR = SCREEN_HEIGHT / 600
 

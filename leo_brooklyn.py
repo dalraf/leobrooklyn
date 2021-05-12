@@ -30,12 +30,13 @@ from som import Som
 from player import Player
 from enemy import Wooden, Steam
 from controle import Controle
-from grupos import (grupo_player,
-                    grupo_enemy,
-                    grupo_objets_player,
-                    grupo_objets_enemy,
-                    All_sprites
-                    )
+from grupos import (
+    grupo_player,
+    grupo_enemy,
+    grupo_objets_player,
+    grupo_objets_enemy,
+    All_sprites,
+)
 
 
 tick_enemies = 0
@@ -60,8 +61,12 @@ while running:
         if tick_enemies == 0:
             if background.distance % DIFICULT_AVANCE == 0:
                 fator = 1 + int(background.distance / DIFICULT_AVANCE)
-                grupo_enemy.add([random.choice(enemylist)(int(fator/2))
-                                for i in range(random.randint(1, fator))])
+                grupo_enemy.add(
+                    [
+                        random.choice(enemylist)(int(fator / 2))
+                        for i in range(random.randint(1, fator))
+                    ]
+                )
                 tick_enemies = 100
         tick_enemies -= 1
         if tick_enemies < 0:
@@ -69,19 +74,25 @@ while running:
 
     for enemycol in grupo_enemy:
         for objectcol in grupo_objets_player:
-            if calcule_vetor_distance(
-                enemycol.rect.center,
-                objectcol.rect.center,
-                    ) < DERIVACAO:
+            if (
+                calcule_vetor_distance(
+                    enemycol.rect.center,
+                    objectcol.rect.center,
+                )
+                < DERIVACAO
+            ):
                 enemycol.move_hit(objectcol.damage)
                 objectcol.kill()
 
     for playercol in grupo_player:
         for objectcol in grupo_objets_enemy:
-            if calcule_vetor_distance(
-                playercol.rect.center,
-                objectcol.rect.center,
-                    ) < DERIVACAO:
+            if (
+                calcule_vetor_distance(
+                    playercol.rect.center,
+                    objectcol.rect.center,
+                )
+                < DERIVACAO
+            ):
                 playercol.move_hit(objectcol.damage)
                 objectcol.kill()
 
@@ -89,10 +100,12 @@ while running:
         if playercol.execute == playercol.action_attack:
             for enemycol in grupo_enemy:
                 if not enemycol.execute == playercol.action_hit:
-                    if calcule_vetor_distance(
-                        playercol.rect.center,
-                        enemycol.rect.center
-                            ) < DERIVACAO:
+                    if (
+                        calcule_vetor_distance(
+                            playercol.rect.center, enemycol.rect.center
+                        )
+                        < DERIVACAO
+                    ):
                         if playercol.reverse:
                             if playercol.rect.left > enemycol.rect.left:
                                 placar.add_enemy_kill(enemycol.speed)
@@ -105,10 +118,12 @@ while running:
             for enemycol in grupo_enemy:
                 if enemycol.execute == enemycol.action_attack:
                     if not playercol.execute == playercol.action_hit:
-                        if calcule_vetor_distance(
-                            playercol.rect.center,
-                            enemycol.rect.center
-                                ) < DERIVACAO:
+                        if (
+                            calcule_vetor_distance(
+                                playercol.rect.center, enemycol.rect.center
+                            )
+                            < DERIVACAO
+                        ):
                             if enemycol.reverse:
                                 if enemycol.rect.left > playercol.rect.left:
                                     playercol.move_hit(enemycol.calcule_hit())
@@ -190,10 +205,12 @@ while running:
             if pressed_keys[K_DOWN]:
                 player.move_down()
 
-            if (not pressed_keys[K_RIGHT] and
-                    not pressed_keys[K_LEFT] and
-                    not pressed_keys[K_UP] and
-                    not pressed_keys[K_DOWN]):
+            if (
+                not pressed_keys[K_RIGHT]
+                and not pressed_keys[K_LEFT]
+                and not pressed_keys[K_UP]
+                and not pressed_keys[K_DOWN]
+            ):
                 player.move_stopped()
 
         if paralaxe > 0:

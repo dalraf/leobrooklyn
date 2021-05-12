@@ -36,7 +36,7 @@ class SpritePerson(pygame.sprite.Sprite):
         self.images_list = self.imagesstop
         self.image_raw = load(self.images_list[0])
         self.image = pygame.transform.scale(
-            self.image_raw, (int(80 * RESIZE_FACTOR), int(80 * RESIZE_FACTOR)))
+            self.image_raw, (int(80 * RESIZE_FACTOR), int(80 * RESIZE_FACTOR))).convert()
         self.rect = self.image.get_rect()
         self.rect.y = SCREEN_HEIGHT * (0.65)
         self.rect.x = SCREEN_WIDTH/2
@@ -56,7 +56,7 @@ class SpritePerson(pygame.sprite.Sprite):
         if self.images_list == images_list:
             self.counter = (self.counter+1) % (len(images_list)*self.sprint)
             self.image_raw = load(
-                self.images_list[int(self.counter/self.sprint)])
+                self.images_list[int(self.counter/self.sprint)]).convert()
             self.image = pygame.transform.scale(
                 self.image_raw, (
                     (int(80 * RESIZE_FACTOR), int(80 * RESIZE_FACTOR))))

@@ -29,6 +29,8 @@ pygame.init()
 
 pygame.display.set_caption('Leo Brooklin Stories')
 
+print(pygame.display.list_modes())
+
 SCREEN_HEIGHT = pygame.display.Info().current_h
 SCREEN_WIDTH = pygame.display.Info().current_w
 

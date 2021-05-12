@@ -21,6 +21,7 @@ from pygame.locals import (
     K_RIGHT,
     K_SPACE,
     K_LCTRL,
+    MOUSEBUTTONUP,
 )
 
 from background import Background
@@ -120,6 +121,20 @@ while running:
 
     for event in pygame.event.get():
 
+        if event.type == MOUSEBUTTONUP:
+            if stopgame:
+                stopgame = False
+                player = Player()
+                grupo_player.add(player)
+                for enemy in grupo_enemy:
+                    enemy.kill()
+                for objects in grupo_objets_enemy:
+                    objects.kill()
+                for objects in grupo_objets_player:
+                    objects.kill()
+                placar.zero()
+                background.zero()
+
         if event.type == KEYDOWN:
 
             if event.key == K_ESCAPE:
@@ -139,7 +154,7 @@ while running:
                     placar.zero()
                     background.zero()
 
-        elif event.type == KEYUP:
+        elif not event.type == MOUSEBUTTONUP and event.type == KEYUP:
 
             if event.key == K_SPACE:
                 for player in grupo_player:

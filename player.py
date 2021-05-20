@@ -1,21 +1,14 @@
 from config import (
     SCREEN_HEIGHT,
     SCREEN_WIDTH,
-    SPRITE_LEVEL_Y_HIGH,
     LEFT,
     RIGHT,
     UP,
     DOWN,
     STOPPED,
     MOONWALK,
-    STATE_ATTACK,
-    STATE_INATTACK,
-    STATE_WALK,
-    STATE_STOP,
-    STATE_MOONWALK,
     resource_path,
 )
-import pygame
 from pygame.image import load
 from persons import SpritePerson
 from objetcs import PedraPlayer
@@ -110,7 +103,7 @@ class Player(SpritePerson):
         self.move_list.append(RIGHT)
 
     def move_stopped(self):
-        if not self.execute in [
+        if self.execute not in [
             self.action_in_attack,
             self.action_attack,
             self.action_hit,

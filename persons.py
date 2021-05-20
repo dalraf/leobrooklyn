@@ -61,7 +61,7 @@ class SpritePerson(pygame.sprite.Sprite):
 
         if self.images_list == images_list:
             self.counter = (self.counter + 1) % (len(images_list) * self.sprint)
-            self.image_raw = load(self.images_list[int(self.counter / self.sprint)])
+            self.image_raw = load(self.images_list[int(self.counter / self.sprint)]).convert_alpha()
             self.image = pygame.transform.scale(
                 self.image_raw, (self.rect.width, self.rect.height)
             )
@@ -74,7 +74,7 @@ class SpritePerson(pygame.sprite.Sprite):
         else:
             self.counter = 0
             self.images_list = images_list
-            self.image = load(self.images_list[0])
+            self.image = load(self.images_list[0]).convert_alpha()
             if self.reverse:
                 self.image = pygame.transform.flip(self.image, True, False)
             return False

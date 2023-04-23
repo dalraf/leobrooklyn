@@ -37,9 +37,9 @@ jobs:
       - name: Build with pyinstaller for ${{ matrix.config.os }}
         uses: knicknic/os-specific-run@v1.0.3
         with:
-          macos: python -m PyInstaller leo_brooklyn.py --add-data 'images:.' --add-data 'sound:.'
-          linux: python -m PyInstaller leo_brooklyn.py --add-data 'images:.' --add-data 'sound:.'
-          windows: python -m PyInstaller leo_brooklyn.py  --add-data 'images:.' --add-data 'sound:.'
+          macos: python -m PyInstaller leo_brooklyn.py --add-data 'images:.' --add-data 'sounds:.'
+          linux: python -m PyInstaller leo_brooklyn.py --add-data 'images:.' --add-data 'sounds:.'
+          windows: python -m PyInstaller leo_brooklyn.py  --add-data 'images:.' --add-data 'sounds:.'
 
       - name: Rename builded app
         run: mv ./dist ./dist-${{ matrix.config.os }}

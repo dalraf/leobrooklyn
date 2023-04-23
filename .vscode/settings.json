@@ -1,3 +1,7 @@
 {
-    "python.pythonPath": "/home/daniel/.local/share/virtualenvs/LeoBroklin-3lwDshAa/bin/python"
+    "python.pythonPath": "/home/daniel/.local/share/virtualenvs/LeoBroklin-3lwDshAa/bin/python",
+    "[python]": {
+        "editor.defaultFormatter": "ms-python.black-formatter"
+    },
+    "python.formatting.provider": "none"
 }

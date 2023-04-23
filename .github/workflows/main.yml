@@ -39,7 +39,7 @@ jobs:
         with:
           macos: python -m PyInstaller leo_brooklyn.py --add-data 'images:.' --add-data 'sounds:.'
           linux: python -m PyInstaller leo_brooklyn.py --add-data 'images:.' --add-data 'sounds:.'
-          windows: python -m PyInstaller leo_brooklyn.py  --add-data 'images:.' --add-data 'sounds:.'
+          windows: python -m PyInstaller leo_brooklyn.py  --add-data 'images;.' --add-data 'sounds;.'
 
       - name: Rename builded app
         run: mv ./dist ./dist-${{ matrix.config.os }}

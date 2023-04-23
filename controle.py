@@ -4,7 +4,7 @@ from config import SCREEN_HEIGHT, SCREEN_WIDTH, FONT_SIZE
 pygame.font.init()
 
 
-class Controle:
+class Mensagem_Inicio:
     def __init__(self):
         self.font = pygame.font.SysFont("Sans", FONT_SIZE)
         self.controle1 = self.font.render(

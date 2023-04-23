@@ -27,7 +27,7 @@ from placar import Placar
 from som import Som
 from player import Player
 from enemy import Wooden, Steam
-from controle import Controle
+from controle import Mensagem_Inicio
 from objetcs import PedraParada, BandAid
 from grupos import (
     grupo_player,
@@ -44,7 +44,7 @@ clock = Clock()
 background = Background()
 som = Som()
 placar = Placar()
-controle = Controle()
+mensagem_inicio = Mensagem_Inicio
 enemylist = [Wooden, Steam]
 paralaxe = 0
 running = True
@@ -252,7 +252,7 @@ while running:
 
     # Imprime mensagem de jogo finalizado
     if stopgame:
-        controle.draw(screen)
+        mensagem_inicio.draw(screen)
 
     # Printa todos os sriptes
     All_sprites.add(grupo_player)

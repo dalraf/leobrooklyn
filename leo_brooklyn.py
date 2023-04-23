@@ -237,6 +237,7 @@ while running:
     All_sprites.add(grupo_objets_player)
     All_sprites.add(grupo_objets_enemy)
 
+    #Faz impressao dos sprites de acordo com a posicao vertical
     for sprite in sorted(All_sprites, key=lambda spr: spr.rect.bottom):
         screen.blit(sprite.image, sprite.rect)
 

@@ -28,7 +28,7 @@ from som import Som
 from player import Player
 from enemy import Wooden, Steam
 from controle import Controle
-from objetcs import PedraParada
+from objetcs import PedraParada, BandAid
 from grupos import (
     grupo_player,
     grupo_enemy,
@@ -65,6 +65,9 @@ def generate_enemies_objects(tick_enemies):
                 grupo_objets_static.add(
                     [PedraParada() for i in range(random.randint(1, 2))]
                 )
+                grupo_objets_static.add(
+                    [BandAid() for i in range(random.randint(1, 2))]
+                )
                 tick_enemies = 100
         tick_enemies -= 1
         if tick_enemies < 0:
@@ -95,7 +98,7 @@ def object_sprite_get(sprite_group, object_group):
                 )
                 < DERIVACAO
             ):
-                sprite_single.get_object(object_single.damage)
+                sprite_single.get_object(object_single)
                 object_single.kill()
 
 

@@ -11,7 +11,7 @@ from config import (
 )
 from pygame.image import load
 from persons import SpritePerson
-from objetcs import PedraPlayer
+from objetcs import PedraPlayer, PedraParada, BandAid
 from grupos import grupo_objets_player
 
 
@@ -120,8 +120,11 @@ class Player(SpritePerson):
     def move_attack(self):
         self.execute = self.action_in_attack
     
-    def get_object(self, dano):
-        self.pedras = self.pedras + dano
+    def get_object(self, object):
+        if isinstance(object ,PedraParada):
+            self.pedras += object.damage
+        if isinstance(object, BandAid):
+            self.life += object.damage
 
     def update(self):
         self.combine_moviment()

@@ -57,32 +57,43 @@ while running:
 
     screen.fill((255, 255, 255))
 
-    if not stopgame:
-        if tick_enemies == 0:
-            if background.distance % DIFICULT_AVANCE == 0:
-                fator = 1 + int(background.distance / DIFICULT_AVANCE)
-                grupo_enemy.add(
-                    [
-                        random.choice(enemylist)(int(fator / 2))
-                        for i in range(random.randint(1, fator))
-                    ]
-                )
-                tick_enemies = 100
-        tick_enemies -= 1
-        if tick_enemies < 0:
-            tick_enemies = 0
 
-    for enemy_single in grupo_enemy:
-        for object_single in grupo_objets_player:
-            if (
-                calcule_vetor_distance(
-                    enemy_single.rect.center,
-                    object_single.rect.center,
-                )
-                < DERIVACAO
-            ):
-                enemy_single.move_hit(object_single.damage)
-                object_single.kill()
+    def generate_enemies(tick_enemies):
+        if not stopgame:
+            if tick_enemies == 0:
+                if background.distance % DIFICULT_AVANCE == 0:
+                    fator = 1 + int(background.distance / DIFICULT_AVANCE)
+                    grupo_enemy.add(
+                        [
+                            random.choice(enemylist)(int(fator / 2))
+                            for i in range(random.randint(1, fator))
+                        ]
+                    )
+                    tick_enemies = 100
+            tick_enemies -= 1
+            if tick_enemies < 0:
+                tick_enemies = 0
+        return tick_enemies
+
+    tick_enemies = generate_enemies(tick_enemies)
+
+    def object_sprite_colide(sprite_group, object_group):
+        for sprite_single in sprite_group:
+            for object_single in object_group:
+                if (
+                    calcule_vetor_distance(
+                        sprite_single.rect.center,
+                        object_single.rect.center,
+                    )
+                    < DERIVACAO
+                ):
+                    sprite_single.move_hit(object_single.damage)
+                    object_single.kill()
+
+
+    object_sprite_colide(grupo_enemy, grupo_objets_player)
+    object_sprite_colide(grupo_player, grupo_objets_enemy)
+
 
     for player_single in grupo_player:
         for object_single in grupo_objets_enemy:

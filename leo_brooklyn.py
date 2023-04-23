@@ -66,7 +66,6 @@ def generate_enemies_objects(tick_enemies):
                 grupo_objets_static.add(
                     [PedraParada() for i in range(random.randint(1, 2))]
                 )
-                print(grupo_objets_static)
                 tick_enemies = 100
         tick_enemies -= 1
         if tick_enemies < 0:
@@ -85,6 +84,19 @@ def object_sprite_colide(sprite_group, object_group):
                 < DERIVACAO
             ):
                 sprite_single.move_hit(object_single.damage)
+                object_single.kill()
+
+def object_sprite_get(sprite_group, object_group):
+    for sprite_single in sprite_group:
+        for object_single in object_group:
+            if (
+                calcule_vetor_distance(
+                    sprite_single.rect.center,
+                    object_single.rect.center,
+                )
+                < DERIVACAO
+            ):
+                sprite_single.get_object(object_single.damage)
                 object_single.kill()
 
 
@@ -128,6 +140,7 @@ while running:
     screen.fill((255, 255, 255))
 
     tick_enemies = generate_enemies_objects(tick_enemies)
+    object_sprite_get(grupo_player, grupo_objets_static)
     object_sprite_colide(grupo_enemy, grupo_objets_player)
     object_sprite_colide(grupo_player, grupo_objets_enemy)
     player_enemy_attack_hit(grupo_player, grupo_enemy, placar)

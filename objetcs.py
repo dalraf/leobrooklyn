@@ -47,7 +47,7 @@ class PedraParada(pygame.sprite.Sprite):
         ]
         self.image = load(self.images[0])
         self.rect = self.image.get_rect()
-        self.rect.y = SCREEN_HEIGHT - random.randint(0, 500)
+        self.rect.y = SCREEN_HEIGHT - random.randint(0, 150)
         self.rect.x = SCREEN_WIDTH
         self.counter = 0
         self.damage = 3

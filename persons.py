@@ -139,6 +139,9 @@ class SpritePerson(pygame.sprite.Sprite):
         if self.life <= 0:
             self.kill()
         self.execute = self.action_hit
+    
+    def get_object(self, dano):
+        pass
 
     def calculate_path(self, group, diametro):
 

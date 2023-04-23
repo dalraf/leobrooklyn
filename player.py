@@ -119,6 +119,9 @@ class Player(SpritePerson):
 
     def move_attack(self):
         self.execute = self.action_in_attack
+    
+    def get_object(self, dano):
+        self.pedras = self.pedras + dano
 
     def update(self):
         self.combine_moviment()

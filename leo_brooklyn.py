@@ -49,7 +49,7 @@ enemylist = [Wooden, Steam]
 paralaxe = 0
 running = True
 stopgame = True
-# som.play()
+som.play()
 
 while running:
 
@@ -72,64 +72,64 @@ while running:
         if tick_enemies < 0:
             tick_enemies = 0
 
-    for enemycol in grupo_enemy:
-        for objectcol in grupo_objets_player:
+    for enemy_single in grupo_enemy:
+        for object_single in grupo_objets_player:
             if (
                 calcule_vetor_distance(
-                    enemycol.rect.center,
-                    objectcol.rect.center,
+                    enemy_single.rect.center,
+                    object_single.rect.center,
                 )
                 < DERIVACAO
             ):
-                enemycol.move_hit(objectcol.damage)
-                objectcol.kill()
+                enemy_single.move_hit(object_single.damage)
+                object_single.kill()
 
-    for playercol in grupo_player:
-        for objectcol in grupo_objets_enemy:
+    for player_single in grupo_player:
+        for object_single in grupo_objets_enemy:
             if (
                 calcule_vetor_distance(
-                    playercol.rect.center,
-                    objectcol.rect.center,
+                    player_single.rect.center,
+                    object_single.rect.center,
                 )
                 < DERIVACAO
             ):
-                playercol.move_hit(objectcol.damage)
-                objectcol.kill()
+                player_single.move_hit(object_single.damage)
+                object_single.kill()
 
-    for playercol in grupo_player:
-        if playercol.execute == playercol.action_attack:
-            for enemycol in grupo_enemy:
-                if not enemycol.execute == playercol.action_hit:
-                    if (
-                        calcule_vetor_distance(
-                            playercol.rect.center, enemycol.rect.center
-                        )
-                        < DERIVACAO
-                    ):
-                        if playercol.reverse:
-                            if playercol.rect.left > enemycol.rect.left:
-                                placar.add_enemy_kill(enemycol.speed)
-                                enemycol.move_hit(playercol.calcule_hit())
-                        else:
-                            if playercol.rect.left < enemycol.rect.left:
-                                placar.add_enemy_kill(enemycol.speed)
-                                enemycol.move_hit(playercol.calcule_hit())
-        else:
-            for enemycol in grupo_enemy:
-                if enemycol.execute == enemycol.action_attack:
-                    if not playercol.execute == playercol.action_hit:
-                        if (
-                            calcule_vetor_distance(
-                                playercol.rect.center, enemycol.rect.center
-                            )
-                            < DERIVACAO
-                        ):
-                            if enemycol.reverse:
-                                if enemycol.rect.left > playercol.rect.left:
-                                    playercol.move_hit(enemycol.calcule_hit())
-                            else:
-                                if enemycol.rect.left < playercol.rect.left:
-                                    playercol.move_hit(enemycol.calcule_hit())
+    for player_single in grupo_player:
+        for enemy_single in grupo_enemy:
+            
+            if player_single.execute == player_single.action_attack:
+                if (
+                    calcule_vetor_distance(
+                        player_single.rect.center, enemy_single.rect.center
+                    )
+                    < DERIVACAO
+                ):
+                    if player_single.reverse:
+                        if player_single.rect.left > enemy_single.rect.left:
+                            placar.add_enemy_kill(enemy_single.speed)
+                            enemy_single.move_hit(player_single.calcule_hit())
+                    else:
+                        if player_single.rect.left < enemy_single.rect.left:
+                            placar.add_enemy_kill(enemy_single.speed)
+                            enemy_single.move_hit(player_single.calcule_hit())
+                                
+
+            if enemy_single.execute == enemy_single.action_attack:
+                if (
+                    calcule_vetor_distance(
+                        player_single.rect.center, enemy_single.rect.center
+                    )
+                    < DERIVACAO
+                ):
+                    if enemy_single.reverse:
+                        if enemy_single.rect.left > player_single.rect.left:
+                            player_single.move_hit(enemy_single.calcule_hit())
+                    else:
+                        if enemy_single.rect.left < player_single.rect.left:
+                            player_single.move_hit(enemy_single.calcule_hit())
+
 
     if len(grupo_player) == 0:
         stopgame = True

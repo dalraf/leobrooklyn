@@ -128,7 +128,7 @@ class Enemy(SpritePerson):
                 self.dx += dx
                 self.dy += dy
 
-                dx, dy = self.calculate_path(grupo_enemy, 100)
+                dx, dy = self.calculate_path(grupo_enemy, 40)
 
                 self.dx -= dx
                 self.dy -= dy

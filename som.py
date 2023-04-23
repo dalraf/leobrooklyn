@@ -10,3 +10,6 @@ class Som:
 
     def play(self):
         self.musica.play()
+    
+    def stop(self):
+        self.musica.stop()

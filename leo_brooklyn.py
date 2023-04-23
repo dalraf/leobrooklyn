@@ -49,7 +49,6 @@ enemylist = [Wooden, Steam]
 paralaxe = 0
 running = True
 stopgame = True
-som.play()
 
 
 def generate_enemies_objects(tick_enemies):
@@ -148,6 +147,7 @@ while running:
     # Termina jogo se jogadores morreram
     if len(grupo_player) == 0:
         stopgame = True
+        som.stop()
 
     # loop de eventos do teclado
     for event in pygame.event.get():
@@ -161,6 +161,7 @@ while running:
             if stopgame:
                 if event.key == K_RETURN:
                     stopgame = False
+                    som.play()
                     player = Player()
                     grupo_player.add(player)
                     for enemy in grupo_enemy:

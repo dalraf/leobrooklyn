@@ -132,15 +132,12 @@ class SpritePerson(pygame.sprite.Sprite):
 
     def action_hit(self):
         if self.update_image(self.imageshit):
-            if self.life <= 0:
-                self.kill()
-            else:
-                self.execute = self.action_parado
+            self.execute = self.action_parado
 
     def move_hit(self, dano):
         self.life -= dano
         if self.life <= 0:
-            self.life = 0
+            self.kill()
         self.execute = self.action_hit
 
     def calculate_path(self, group, diametro):

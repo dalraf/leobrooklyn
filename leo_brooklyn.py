@@ -180,7 +180,7 @@ while running:
         for player in grupo_player:
 
             if pressed_keys[K_RIGHT]:
-                if player.rect.x > SCREEN_WIDTH * 0.5:
+                if player.rect.x > SCREEN_WIDTH * 0.8:
                     paralaxe = player.step
                     player.move_moonwalk()
                 else:

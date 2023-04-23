@@ -11,7 +11,6 @@ import random
 
 from pygame.locals import (
     KEYDOWN,
-    KEYUP,
     QUIT,
     K_ESCAPE,
     K_RETURN,
@@ -21,7 +20,6 @@ from pygame.locals import (
     K_RIGHT,
     K_SPACE,
     K_LCTRL,
-    MOUSEBUTTONUP,
 )
 
 from background import Background

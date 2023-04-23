@@ -63,10 +63,10 @@ def generate_enemies_objects(tick_enemies):
                     ]
                 )
                 grupo_objets_static.add(
-                    [PedraParada() for i in range(random.randint(1, 2))]
+                    [PedraParada() for i in range(random.randint(0, 1))]
                 )
                 grupo_objets_static.add(
-                    [BandAid() for i in range(random.randint(1, 2))]
+                    [BandAid() for i in range(random.randint(0, 1))]
                 )
                 tick_enemies = 100
         tick_enemies -= 1

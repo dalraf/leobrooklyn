@@ -1,4 +1,4 @@
-from config import LEFT, RIGHT, resource_path
+from config import LEFT, RIGHT, resource_path, SCREEN_HEIGHT, SCREEN_WIDTH
 import pygame
 from pygame.image import load
 import random
@@ -26,7 +26,6 @@ class PedraPlayer(pygame.sprite.Sprite):
         self.rect.x -= step
 
     def update(self):
-
         if self.direction == RIGHT:
             self.rect.x += self.speed
 
@@ -38,3 +37,23 @@ class PedraEnemy(PedraPlayer):
     def __init__(self, x, y, direction):
         super(PedraEnemy, self).__init__(x, y, direction)
         self.rect.y = y + 35
+
+
+class PedraParada(pygame.sprite.Sprite):
+    def __init__(self):
+        super(PedraParada, self).__init__()
+        self.images = [
+            resource_path("images/pedra.png"),
+        ]
+        self.image = load(self.images[0])
+        self.rect = self.image.get_rect()
+        self.rect.y = SCREEN_HEIGHT - random.randint(0, 500)
+        self.rect.x = SCREEN_WIDTH
+        self.counter = 0
+        self.damage = 3
+
+    def paralaxe(self, step):
+        self.rect.x -= step
+
+    def update(self):
+        pass

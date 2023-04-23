@@ -220,10 +220,6 @@ while running:
         grupo_objets_player.update()
         grupo_objets_enemy.update()
 
-    else:
-        controle.draw(screen)
-
-
     #Printa Background
     background.draw(screen)
 
@@ -233,6 +229,10 @@ while running:
         placar.set_life(player.life)
     placar.draw(screen)
 
+    #Imprime mensagem de jogo finalizado
+    if stopgame:
+        controle.draw(screen)
+
     #Printa todos os sriptes
     All_sprites.add(grupo_player)
     All_sprites.add(grupo_enemy)
@@ -241,8 +241,5 @@ while running:
 
     for sprite in sorted(All_sprites, key=lambda spr: spr.rect.bottom):
         screen.blit(sprite.image, sprite.rect)
-
-    if stopgame:
-        controle.draw(screen)
 
     pygame.display.update()

@@ -67,7 +67,7 @@ jobs:
         run: zip -r leobroklin_ubuntu.zip dist-ubuntu-*
 
       - name: Zip file macos
-        run: zip -r leobroklin__macos.zip dist-macos-*
+        run: zip -r leobroklin_macos.zip dist-macos-*
 
       - name: Create Release
         id: create_release

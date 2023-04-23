@@ -94,19 +94,6 @@ while running:
     object_sprite_colide(grupo_enemy, grupo_objets_player)
     object_sprite_colide(grupo_player, grupo_objets_enemy)
 
-
-    for player_single in grupo_player:
-        for object_single in grupo_objets_enemy:
-            if (
-                calcule_vetor_distance(
-                    player_single.rect.center,
-                    object_single.rect.center,
-                )
-                < DERIVACAO
-            ):
-                player_single.move_hit(object_single.damage)
-                object_single.kill()
-
     for player_single in grupo_player:
         for enemy_single in grupo_enemy:
             

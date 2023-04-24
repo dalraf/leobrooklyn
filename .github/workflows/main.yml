@@ -24,20 +24,20 @@ jobs:
         
       - name: Setup Python
         if: runner.os == 'Windows'
-        uses: knicknic/os-specific-run@v1.0.3
+        uses: actions/setup-python@v4
         with:
             python-version: '3.10.8' 
             architecture: x86
 
       - name: Setup Python
         if: runner.os == 'macOS'
-        uses: knicknic/os-specific-run@v1.0.3
+        uses: actions/setup-python@v4
         with:
             python-version: '3.10.8'
             
       - name: Setup Python
         if: runner.os == 'Linux'
-        uses: knicknic/os-specific-run@v1.0.3
+        uses: actions/setup-python@v4
         with:
             python-version: '3.10.8'
 

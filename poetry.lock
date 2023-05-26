@@ -40,6 +40,18 @@ files = [
 ]
 
 [[package]]
+name = "pydub"
+version = "0.25.1"
+description = "Manipulate audio with an simple and easy high level interface"
+category = "main"
+optional = false
+python-versions = "*"
+files = [
+    {file = "pydub-0.25.1-py2.py3-none-any.whl", hash = "sha256:65617e33033874b59d87db603aa1ed450633288aefead953b30bded59cb599a6"},
+    {file = "pydub-0.25.1.tar.gz", hash = "sha256:980a33ce9949cab2a569606b65674d748ecbca4f0796887fd6f46173a7b0d30f"},
+]
+
+[[package]]
 name = "pygame"
 version = "2.4.0"
 description = "Python Game Development"
@@ -222,4 +234,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.10,<3.12"
-content-hash = "9ec0c729559b38a19bb58618c76c506223881f8f36ce4c79f1825e2cc64aea6c"
+content-hash = "d6b19a8b8cc9bcf0ba172ac9c955c4f643f8b3ae2c0f1293707dafa85a23ba1f"

@@ -136,7 +136,7 @@ async def main():
     paralaxe = 0
     stopgame = True
     while running:
-        clock.tick(25)
+        clock.tick(30)
 
         screen.fill((255, 255, 255))
         if not stopgame:

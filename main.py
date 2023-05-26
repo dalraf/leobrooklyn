@@ -46,31 +46,27 @@ som = Som()
 placar = Placar()
 mensagem_inicio = Mensagem_Inicio()
 enemylist = [Wooden, Steam]
-running = True
-stopgame = True
-
 
 def generate_enemies_objects(tick_enemies):
-    if not stopgame:
-        if tick_enemies == 0:
-            if background.distance % DIFICULT_AVANCE == 0:
-                fator = 1 + int(background.distance / DIFICULT_AVANCE)
-                grupo_enemy.add(
-                    [
-                        random.choice(enemylist)(int(fator / 2))
-                        for i in range(random.randint(1, fator))
-                    ]
-                )
-                grupo_objets_static.add(
-                    [PedraParada() for i in range(random.randint(0, 1))]
-                )
-                grupo_objets_static.add(
-                    [BandAid() for i in range(random.randint(0, 1))]
-                )
-                tick_enemies = 100
-        tick_enemies -= 1
-        if tick_enemies < 0:
-            tick_enemies = 0
+    if tick_enemies == 0:
+        if background.distance % DIFICULT_AVANCE == 0:
+            fator = 1 + int(background.distance / DIFICULT_AVANCE)
+            grupo_enemy.add(
+                [
+                    random.choice(enemylist)(int(fator / 2))
+                    for i in range(random.randint(1, fator))
+                ]
+            )
+            grupo_objets_static.add(
+                [PedraParada() for i in range(random.randint(0, 1))]
+            )
+            grupo_objets_static.add(
+                [BandAid() for i in range(random.randint(0, 1))]
+            )
+            tick_enemies = 100
+    tick_enemies -= 1
+    if tick_enemies < 0:
+        tick_enemies = 0
     return tick_enemies
 
 
@@ -138,12 +134,13 @@ async def main():
     running = True
     tick_enemies = 0
     paralaxe = 0
+    stopgame = True
     while running:
         clock.tick(25)
 
         screen.fill((255, 255, 255))
-
-        tick_enemies = generate_enemies_objects(tick_enemies)
+        if not stopgame:
+            tick_enemies = generate_enemies_objects(tick_enemies)
         object_sprite_get(grupo_player, grupo_objets_static)
         object_sprite_colide(grupo_enemy, grupo_objets_player)
         object_sprite_colide(grupo_player, grupo_objets_enemy)

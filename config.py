@@ -29,17 +29,23 @@ pygame.init()
 
 pygame.display.set_caption("Leo Brooklin Stories")
 
-SCREEN_HEIGHT = pygame.display.Info().current_h
-SCREEN_WIDTH = pygame.display.Info().current_w
+#SCREEN_HEIGHT = pygame.display.Info().current_h
+#SCREEN_WIDTH = pygame.display.Info().current_w
+#print(SCREEN_HEIGHT)
+#print(SCREEN_WIDTH)
 
-if pygame.display.get_driver() in ["x11", "windib", "directx"]:
-    flag = pygame.RESIZABLE
-    SCREEN_WIDTH = int(SCREEN_WIDTH / 1.5)
-    SCREEN_HEIGHT = int(SCREEN_HEIGHT / 1.5)
-else:
-    flag = pygame.FULLSCREEN
+# if pygame.display.get_driver() in ["x11", "windib", "directx"]:
+#flag = pygame.RESIZABLE
+#SCREEN_WIDTH = int(SCREEN_WIDTH / 1.5)
+#SCREEN_HEIGHT = int(SCREEN_HEIGHT / 1.5)
 
-screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT), flag)
+SCREEN_WIDTH = 800
+SCREEN_HEIGHT = 600
+
+# else:
+#     flag = pygame.FULLSCREEN
+
+screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
 RESIZE_FACTOR = SCREEN_HEIGHT / 600
 

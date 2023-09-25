@@ -9,7 +9,9 @@ class Som:
         self.musica.set_volume(1)
 
     def play(self):
-        self.musica.play()
+        #self.musica.play()
+        ...
     
     def stop(self):
-        self.musica.stop()
+        #self.musica.stop()
+        ...

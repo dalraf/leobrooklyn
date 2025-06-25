@@ -1,78 +1,60 @@
-from config import (
-    screen,
-    SCREEN_WIDTH,
-    DIFICULT_AVANCE,
-    DERIVACAO,
-    calcule_vetor_distance,
-)
+from config import screen, SCREEN_WIDTH, DIFICULT_AVANCE, DERIVACAO
 import pygame
 from pygame.time import Clock
 import random
+from pygame.locals import *
+from game import Game
 
-from pygame.locals import (
-    KEYDOWN,
-    QUIT,
-    K_ESCAPE,
-    K_RETURN,
-    K_DOWN,
-    K_UP,
-    K_LEFT,
-    K_RIGHT,
-    K_SPACE,
-    K_LCTRL,
-)
+class GameState:
+    """Encapsula o estado do jogo"""
+    def __init__(self):
+        self.tick_enemies = 0
+        self.paralaxe = 0
+        self.running = True
+        self.stopgame = True
+        self.enemylist = [Wooden, Steam]
+        self.clock = Clock()
+        
+        # Inicializa componentes do jogo
+        self.background = Background()
+        self.som = Som()
+        self.placar = Placar()
+        self.mensagem_inicio = Mensagem_Inicio()
+        self.player = None
 
-from background import Background
-from placar import Placar
-from som import Som
-from player import Player
-from enemy import Wooden, Steam
-from controle import Mensagem_Inicio
-from objetcs import PedraParada, BandAid
-from grupos import (
-    grupo_player,
-    grupo_enemy,
-    grupo_objets_player,
-    grupo_objets_enemy,
-    grupo_objets_static,
-    All_sprites,
-)
-
-
-tick_enemies = 0
-clock = Clock()
-background = Background()
-som = Som()
-placar = Placar()
-mensagem_inicio = Mensagem_Inicio()
-enemylist = [Wooden, Steam]
-paralaxe = 0
-running = True
-stopgame = True
+class Game:
+    """Classe principal que controla o loop do jogo"""
+    def __init__(self):
+        self.state = GameState()
+        self.key_actions = {
+            K_ESCAPE: self.quit_game,
+            K_RETURN: self.restart_game,
+            K_SPACE: lambda: self.execute_player_action('move_atirar'),
+            K_LCTRL: lambda: self.execute_player_action('move_attack')
+        }
 
 
-def generate_enemies_objects(tick_enemies):
-    if not stopgame:
-        if tick_enemies == 0:
-            if background.distance % DIFICULT_AVANCE == 0:
-                fator = 1 + int(background.distance / DIFICULT_AVANCE)
-                grupo_enemy.add(
-                    [
-                        random.choice(enemylist)(int(fator / 2))
-                        for i in range(random.randint(1, fator))
-                    ]
-                )
-                grupo_objets_static.add(
-                    [PedraParada() for i in range(random.randint(0, 1))]
-                )
-                grupo_objets_static.add(
-                    [BandAid() for i in range(random.randint(0, 1))]
-                )
-                tick_enemies = 100
-        tick_enemies -= 1
-        if tick_enemies < 0:
-            tick_enemies = 0
-    return tick_enemies
+    def generate_enemies(self):
+        """Gera inimigos e objetos de acordo com a dificuldade"""
+        state = self.state
+        if not state.stopgame:
+            if state.tick_enemies == 0:
+                if state.background.distance % DIFICULT_AVANCE == 0:
+                    fator = 1 + int(state.background.distance / DIFICULT_AVANCE)
+                    self.spawn_enemies(fator)
+                    self.spawn_objects()
+                    state.tick_enemies = 100
+            state.tick_enemies = max(0, state.tick_enemies - 1)
+
+    def spawn_enemies(self, fator):
+        grupo_enemy.add([
+            random.choice(self.state.enemylist)(int(fator / 2))
+            for _ in range(random.randint(1, fator))
+        ])
+
+    def spawn_objects(self):
+        grupo_objets_static.add([PedraParada() for _ in range(random.randint(0, 1))])
+        grupo_objets_static.add([BandAid() for _ in range(random.randint(0, 1))])
 
 
 def object_sprite_colide(sprite_group, object_group):

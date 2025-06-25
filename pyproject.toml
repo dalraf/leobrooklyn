@@ -1,17 +1,13 @@
-[tool.poetry]
+[project]
 name = "leobrooklyn"
 version = "0.1.0"
 description = ""
-authors = ["Daniel Fonseca Alves <dalraf@gmail.com>"]
+authors = [{ name = "Daniel Fonseca Alves", email = "dalraf@gmail.com" }]
+requires-python = ">=3.10,<3.12"
 readme = "README.md"
+dependencies = [
+    "pygame>=2.3.0,<3",
+    "pyinstaller>=5.10.1,<6",
+    "pygbag>=0.8.2,<0.9",
+]
 
-[tool.poetry.dependencies]
-python = ">=3.10,<3.12"
-pygame = "^2.3.0"
-pyinstaller = "^5.10.1"
-pygbag = "^0.8.2"
-
-
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"

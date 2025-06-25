@@ -16,35 +16,21 @@ import random
 
 
 class Enemy(SpritePerson):
+    def _load_images(self, action, start, end):
+        """Carrega imagens de forma centralizada"""
+        return [
+            resource_path(f"images/Enemy-{self.tipo}-{action}-{i}.png")
+            for i in range(start, end)
+        ]
+
     def __init__(self, speed):
-        super(Enemy, self).__init__()
-        self.tipo = 1
-        self.imageswalk = [
-            resource_path("images/Enemy-" + str(self.tipo) + "-Walk-" + str(i) + ".png")
-            for i in range(1, 6)
-        ]
-        self.imagesattack = [
-            resource_path(
-                "images/Enemy-" + str(self.tipo) + "-Attack-" + str(i) + ".png"
-            )
-            for i in range(1, 7)
-        ]
-        self.imagesstop = [
-            resource_path("images/Enemy-" + str(self.tipo) + "-Walk-" + str(i) + ".png")
-            for i in [
-                1,
-            ]
-        ]
-        self.imageshit = [
-            resource_path("images/Enemy-" + str(self.tipo) + "-Hit-" + str(i) + ".png")
-            for i in range(1, 4)
-        ]
-        self.imagesatirar = [
-            resource_path(
-                "images/Enemy-" + str(self.tipo) + "-Attack-" + str(i) + ".png"
-            )
-            for i in range(1, 7)
-        ]
+        super().__init__()
+        self.tipo = 1  # Valor padrão será sobrescrito pelas subclasses
+        self.imageswalk = self._load_images("Walk", 1, 6)
+        self.imagesattack = self._load_images("Attack", 1, 7)
+        self.imagesstop = [self._load_images("Walk", 1, 2)[0]]  # Primeiro frame do walk
+        self.imageshit = self._load_images("Hit", 1, 4)
+        self.imagesatirar = self._load_images("Attack", 1, 7)
         self.image = load(self.imageswalk[0])
         self.images_list = self.imagesstop
         self.rect = self.image.get_rect()

@@ -16,12 +16,6 @@ from grupos import grupo_objets_player
 
 
 class Player(SpritePerson):
-    def _load_images(self, action, start, end):
-        """Carrega imagens de forma centralizada"""
-        return [
-            resource_path(f"images/Player-1-{action}-{i}.png")
-            for i in range(start, end)
-        ]
     def __init__(self):
         super(Player, self).__init__()
         self.imagesattack = self._load_images("Attack", 1, 6)
@@ -112,6 +106,13 @@ class Player(SpritePerson):
     def move_attack(self):
         self.execute = self.action_in_attack
     
+    def _load_images(self, action, start, end):
+        """Carrega imagens de forma centralizada"""
+        return [
+            resource_path(f"images/Player-1-{action}-{i}.png")
+            for i in range(start, end)
+        ]
+
     def get_object(self, object):
         if isinstance(object ,PedraParada):
             self.pedras += object.damage

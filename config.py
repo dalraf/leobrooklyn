@@ -18,11 +18,9 @@ def calcule_vetor_distance(center1, center2):
     return pygame.Vector2(center1).distance_to(pygame.Vector2(center2))
 
 
-def verify_align(y1, y2):
-    if y1 in range(y2 - DERIVACAO, y2 + DERIVACAO):
-        return True
-    else:
-        return False
+def verify_align(y1: int, y2: int) -> bool:
+    """Verifica se duas coordenadas Y estão alinhadas dentro da margem DERIVACAO"""
+    return abs(y1 - y2) <= DERIVACAO
 
 
 pygame.init()

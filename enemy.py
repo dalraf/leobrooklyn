@@ -159,63 +159,11 @@ class Enemy(SpritePerson):
 
 class Wooden(Enemy):
     def __init__(self, speed):
-        super(Wooden, self).__init__(speed)
+        super().__init__(speed)
         self.tipo = 1
-        self.imageswalk = [
-            resource_path("images/Enemy-" + str(self.tipo) + "-Walk-" + str(i) + ".png")
-            for i in range(1, 6)
-        ]
-        self.imagesattack = [
-            resource_path(
-                "images/Enemy-" + str(self.tipo) + "-Attack-" + str(i) + ".png"
-            )
-            for i in range(1, 7)
-        ]
-        self.imagesstop = [
-            resource_path("images/Enemy-" + str(self.tipo) + "-Walk-" + str(i) + ".png")
-            for i in [
-                1,
-            ]
-        ]
-        self.imageshit = [
-            resource_path("images/Enemy-" + str(self.tipo) + "-Hit-" + str(i) + ".png")
-            for i in range(1, 4)
-        ]
-        self.imagesatirar = [
-            resource_path(
-                "images/Enemy-" + str(self.tipo) + "-Attack-" + str(i) + ".png"
-            )
-            for i in range(1, 7)
-        ]
 
 
 class Steam(Enemy):
     def __init__(self, speed):
-        super(Steam, self).__init__(speed)
+        super().__init__(speed)
         self.tipo = 2
-        self.imageswalk = [
-            resource_path("images/Enemy-" + str(self.tipo) + "-Walk-" + str(i) + ".png")
-            for i in range(1, 7)
-        ]
-        self.imagesattack = [
-            resource_path(
-                "images/Enemy-" + str(self.tipo) + "-Attack-" + str(i) + ".png"
-            )
-            for i in range(1, 7)
-        ]
-        self.imagesstop = [
-            resource_path("images/Enemy-" + str(self.tipo) + "-Walk-" + str(i) + ".png")
-            for i in [
-                1,
-            ]
-        ]
-        self.imageshit = [
-            resource_path("images/Enemy-" + str(self.tipo) + "-Hit-" + str(i) + ".png")
-            for i in range(1, 4)
-        ]
-        self.imagesatirar = [
-            resource_path(
-                "images/Enemy-" + str(self.tipo) + "-Attack-" + str(i) + ".png"
-            )
-            for i in range(1, 7)
-        ]

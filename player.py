@@ -16,27 +16,19 @@ from grupos import grupo_objets_player
 
 
 class Player(SpritePerson):
+    def _load_images(self, action, start, end):
+        """Carrega imagens de forma centralizada"""
+        return [
+            resource_path(f"images/Player-1-{action}-{i}.png")
+            for i in range(start, end)
+        ]
     def __init__(self):
         super(Player, self).__init__()
-        self.imagesattack = [
-            resource_path("images/Player-1-Attack-" + str(i) + ".png")
-            for i in range(1, 6)
-        ]
-        self.imageswalk = [
-            resource_path("images/Player-1-Walk-" + str(i) + ".png")
-            for i in range(1, 5)
-        ]
-        self.imagesstop = [
-            resource_path("images/Player-1-Stop-" + str(i) + ".png")
-            for i in range(1, 5)
-        ]
-        self.imageshit = [
-            resource_path("images/Player-1-Hit-" + str(i) + ".png") for i in range(1, 5)
-        ]
-        self.imagesatirar = [
-            resource_path("images/Player-1-Atirar-" + str(i) + ".png")
-            for i in range(1, 6)
-        ]
+        self.imagesattack = self._load_images("Attack", 1, 6)
+        self.imageswalk = self._load_images("Walk", 1, 5)
+        self.imagesstop = self._load_images("Stop", 1, 5)
+        self.imageshit = self._load_images("Hit", 1, 5)
+        self.imagesatirar = self._load_images("Atirar", 1, 6)
         self.images_list = self.imagesstop
         self.image = load(self.images_list[0])
         self.rect = self.image.get_rect()

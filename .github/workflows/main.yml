@@ -32,18 +32,17 @@ jobs:
 
       - name: Install dependencies for ${{ matrix.config.os }}
         run: |
-          python -m pip install --upgrade pip
-          pip install poetry
-          poetry export --without-hashes -o requirements.txt
-          pip install -r requirements.txt
-          pip install pyinstaller
+          curl -LsSf https://astral.sh/uv/install.sh | sh
+          uv pip freeze > requirements.txt
+          uv pip install -r requirements.txt
+          uv pip install pyinstaller
 
       - name: Build with pyinstaller for ${{ matrix.config.os }}
         uses: knicknic/os-specific-run@v1.0.3
         with:
-          macos: python -m PyInstaller leo_brooklyn.py --add-data 'images:images' --add-data 'sounds:sounds'
-          linux: python -m PyInstaller leo_brooklyn.py --add-data 'images:images' --add-data 'sounds:sounds'
-          windows: python -m PyInstaller leo_brooklyn.py  --add-data 'images;images' --add-data 'sounds;sounds'
+          macos: python -m PyInstaller main.py --add-data 'images:images' --add-data 'sounds:sounds'
+          linux: python -m PyInstaller main.py --add-data 'images:images' --add-data 'sounds:sounds'
+          windows: python -m PyInstaller main.py  --add-data 'images;images' --add-data 'sounds;sounds'
 
       - name: Rename builded app
         run: mv ./dist ./dist-${{ matrix.config.os }}
@@ -51,37 +50,8 @@ jobs:
       - name: Upload result job ${{ matrix.config.os }}
         uses: actions/upload-artifact@v3
         with:
-          name: leobroklin-pyinstaller-artifact
+          name: leobrooklyn-pyinstaller-artifact
           path: ./dist*
-
-  build-web:
-    name: Build app web
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-  
-      - name: Setup Python
-        uses: actions/setup-python@v4
-        with:
-            python-version: '3.11'
-      
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install poetry
-          poetry export --without-hashes -o requirements.txt
-          pip install -r requirements.txt
-          pip install pyinstaller
-      
-      - name: Build with pygbag
-        run: pygbag --archive  ../leobrooklyn
-
-      - name: Upload result job
-        uses: actions/upload-artifact@v3
-        with:
-          name: leobroklin-pygbag-artifact
-          path: ./build/web.zip
 
   release:
     name: Release
@@ -91,21 +61,16 @@ jobs:
       - name: Download artifacts
         uses: actions/download-artifact@v3
         with:
-          name: leobroklin-pyinstaller-artifact
-      
-      - name: Download artifacts
-        uses: actions/download-artifact@v3
-        with:
-          name: leobroklin-pygbag-artifact
+          name: leobrooklyn-pyinstaller-artifact
 
       - name: Zip file windows
-        run: zip -r leobroklin_windows.zip dist-windows-*
+        run: zip -r main_windows.zip dist-windows-*
 
       - name: Zip file ubuntu
-        run: zip -r leobroklin_ubuntu.zip dist-ubuntu-*
+        run: zip -r main_ubuntu.zip dist-ubuntu-*
 
       - name: Zip file macos
-        run: zip -r leobroklin_macos.zip dist-macos-*
+        run: zip -r main_macos.zip dist-macos-*
 
       - name: Create Release
         id: create_release
@@ -117,7 +82,6 @@ jobs:
           draft: false
           prerelease: false
           files: |
-            leobroklin_windows.zip
-            leobroklin_ubuntu.zip
-            leobroklin_macos.zip
-            web.zip
+            main_windows.zip
+            main_ubuntu.zip
+            main_macos.zip

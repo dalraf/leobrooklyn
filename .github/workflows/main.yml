@@ -48,10 +48,10 @@ jobs:
         run: mv ./dist ./dist-${{ matrix.config.os }}
 
       - name: Upload result job ${{ matrix.config.os }}
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
-          name: leobrooklyn-pyinstaller-artifact
           path: ./dist*
+          name: leobrooklyn-pyinstaller-artifact
 
   release:
     name: Release
@@ -59,7 +59,7 @@ jobs:
     needs: build
     steps:
       - name: Download artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: leobrooklyn-pyinstaller-artifact
 

@@ -1,4 +1,4 @@
-from config import screen, SCREEN_WIDTH, DIFICULT_AVANCE, DERIVACAO, calcule_vetor_distance
+from config import screen, SCREEN_WIDTH, DIFICULT_AVANCE, DERIVACAO, calcule_vetor_distance, ENEMY_SPAWN_TICK_RESET, PARALLAX_START_THRESHOLD, WHITE_COLOR, GAME_FPS
 import pygame
 from pygame.time import Clock
 import random
@@ -16,8 +16,8 @@ from controle import Mensagem_Inicio
 class GameState:
     """Encapsula o estado do jogo"""
     def __init__(self):
-        self.tick_enemies = 0
-        self.paralaxe = 0
+        self.enemy_spawn_timer = 0
+        self.parallax_offset = 0
         self.running = True
         self.stopgame = True
         self.enemylist = [Wooden, Steam]
@@ -28,7 +28,8 @@ class GameState:
         self.som = Som()
         self.placar = Placar()
         self.mensagem_inicio = Mensagem_Inicio()
-        self.player = None
+        self.player = Player() # Inicializa o player no início do jogo
+        grupo_player.add(self.player) # Adiciona o player ao grupo de sprites
 
 class Game:
     """Classe principal que controla o loop do jogo"""
@@ -64,16 +65,22 @@ class Game:
             getattr(player, action_name)()
 
     def generate_enemies(self):
-        """Gera inimigos e objetos de acordo com a dificuldade"""
+        """
+        Gera inimigos e objetos de acordo com a dificuldade do jogo.
+        A geração ocorre quando o timer de spawn de inimigos chega a zero
+        e a distância percorrida pelo background é um múltiplo de DIFICULT_AVANCE.
+        """
         state = self.state
         if not state.stopgame:
-            if state.tick_enemies == 0:
+            if state.enemy_spawn_timer == 0:
                 if state.background.distance % DIFICULT_AVANCE == 0:
+                    # Calcula o fator de dificuldade baseado na distância percorrida
                     fator = 1 + int(state.background.distance / DIFICULT_AVANCE)
                     self.spawn_enemies(fator)
                     self.spawn_objects()
-                    state.tick_enemies = 100
-            state.tick_enemies = max(0, state.tick_enemies - 1)
+                    state.enemy_spawn_timer = ENEMY_SPAWN_TICK_RESET
+            # Decrementa o timer de spawn de inimigos, garantindo que não seja negativo
+            state.enemy_spawn_timer = max(0, state.enemy_spawn_timer - 1)
 
     def spawn_enemies(self, fator):
         grupo_enemy.add([
@@ -86,6 +93,11 @@ class Game:
         grupo_objets_static.add([BandAid() for _ in range(random.randint(0, 1))])
 
     def object_sprite_colide(self, sprite_group, object_group):
+        """
+        Verifica colisões entre um grupo de sprites e um grupo de objetos.
+        Se houver colisão (distância menor que DERIVACAO), o sprite sofre dano
+        e o objeto é removido.
+        """
         for sprite_single in sprite_group:
             for object_single in object_group:
                 if (
@@ -99,6 +111,11 @@ class Game:
                     object_single.kill()
 
     def object_sprite_get(self, sprite_group, object_group):
+        """
+        Verifica se um sprite "pega" um objeto.
+        Se houver proximidade (distância menor que DERIVACAO), o sprite adquire o objeto
+        e o objeto é removido.
+        """
         for sprite_single in sprite_group:
             for object_single in object_group:
                 if (
@@ -112,37 +129,18 @@ class Game:
                     object_single.kill()
 
     def player_enemy_attack_hit(self):
+        """
+        Verifica e processa os ataques entre o jogador e os inimigos.
+        Utiliza os métodos check_attack_hit refatorados nas classes Player e Enemy.
+        """
         for player_single in grupo_player:
             for enemy_single in grupo_enemy:
-                if player_single.execute == player_single.action_attack:
-                    if (
-                        calcule_vetor_distance(
-                            player_single.rect.center, enemy_single.rect.center
-                        )
-                        < DERIVACAO
-                    ):
-                        if player_single.reverse:
-                            if player_single.rect.left > enemy_single.rect.left:
-                                self.state.placar.add_enemy_kill(enemy_single.speed)
-                                enemy_single.move_hit(player_single.calcule_hit())
-                        else:
-                            if player_single.rect.left < enemy_single.rect.left:
-                                self.state.placar.add_enemy_kill(enemy_single.speed)
-                                enemy_single.move_hit(player_single.calcule_hit())
+                if player_single.check_attack_hit(enemy_single):
+                    self.state.placar.add_enemy_kill(enemy_single.speed)
+                    enemy_single.move_hit(player_single.calcule_hit())
 
-                if enemy_single.execute == enemy_single.action_attack:
-                    if (
-                        calcule_vetor_distance(
-                            player_single.rect.center, enemy_single.rect.center
-                        )
-                        < DERIVACAO
-                    ):
-                        if enemy_single.reverse:
-                            if enemy_single.rect.left > player_single.rect.left:
-                                player_single.move_hit(enemy_single.calcule_hit())
-                        else:
-                            if enemy_single.rect.left < player_single.rect.left:
-                                player_single.move_hit(enemy_single.calcule_hit())
+                if enemy_single.check_attack_hit(player_single):
+                    player_single.move_hit(enemy_single.calcule_hit())
 
     def handle_input(self):
         for event in pygame.event.get():
@@ -160,11 +158,11 @@ class Game:
 
             for player in grupo_player:
                 if pressed_keys[K_RIGHT]:
-                    if player.rect.x > SCREEN_WIDTH * 0.8:
-                        state.paralaxe = player.step
+                    if player.rect.x > SCREEN_WIDTH * PARALLAX_START_THRESHOLD:
+                        state.parallax_offset = player.step
                         player.move_moonwalk()
                     else:
-                        state.paralaxe = 0
+                        state.parallax_offset = 0
                         player.move_right()
                 elif pressed_keys[K_LEFT]:
                     player.move_left()
@@ -175,7 +173,7 @@ class Game:
                 else:
                     player.move_stopped()
 
-            if state.paralaxe > 0:
+            if state.parallax_offset > 0:
                 for grupo in [
                     grupo_enemy,
                     grupo_objets_player,
@@ -183,9 +181,9 @@ class Game:
                     grupo_objets_static,
                 ]:
                     for obj in grupo:
-                        obj.paralaxe(state.paralaxe)
-                state.background.paralaxe(state.paralaxe)
-                state.paralaxe = 0
+                        obj.paralaxe(state.parallax_offset)
+                state.background.paralaxe(state.parallax_offset)
+                state.parallax_offset = 0
 
             grupo_player.update()
             grupo_enemy.update(grupo_player, grupo_enemy)
@@ -195,7 +193,7 @@ class Game:
 
     def draw_elements(self):
         state = self.state
-        screen.fill((255, 255, 255))
+        screen.fill(WHITE_COLOR)
         state.background.draw(screen)
 
         for player in grupo_player:
@@ -206,20 +204,21 @@ class Game:
         if state.stopgame:
             state.mensagem_inicio.draw(screen)
 
-        All_sprites.add(grupo_player)
-        All_sprites.add(grupo_enemy)
-        All_sprites.add(grupo_objets_player)
-        All_sprites.add(grupo_objets_enemy)
-        All_sprites.add(grupo_objets_static)
+        all_active_sprites = []
+        all_active_sprites.extend(grupo_player)
+        all_active_sprites.extend(grupo_enemy)
+        all_active_sprites.extend(grupo_objets_player)
+        all_active_sprites.extend(grupo_objets_enemy)
+        all_active_sprites.extend(grupo_objets_static)
 
-        for sprite in sorted(All_sprites, key=lambda spr: spr.rect.bottom):
+        for sprite in sorted(all_active_sprites, key=lambda spr: spr.rect.bottom):
             screen.blit(sprite.image, sprite.rect)
         
         pygame.display.update()
 
     def run(self):
         while self.state.running:
-            self.state.clock.tick(25)
+            self.state.clock.tick(GAME_FPS)
             self.handle_input()
             
             if len(grupo_player) == 0:

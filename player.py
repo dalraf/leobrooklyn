@@ -119,6 +119,17 @@ class Player(SpritePerson):
         if isinstance(object, BandAid):
             self.life += object.damage
 
+    def check_attack_hit(self, target_sprite):
+        """Verifica se o ataque do jogador atinge o sprite alvo."""
+        from config import calcule_vetor_distance, DERIVACAO # Importação local para evitar circular
+        if self.execute == self.action_attack:
+            if calcule_vetor_distance(self.rect.center, target_sprite.rect.center) < DERIVACAO:
+                if self.reverse:
+                    return self.rect.left > target_sprite.rect.left
+                else:
+                    return self.rect.left < target_sprite.rect.left
+        return False
+
     def update(self):
         self.combine_moviment()
         self.execute()

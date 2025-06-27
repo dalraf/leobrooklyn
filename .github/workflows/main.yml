@@ -33,9 +33,9 @@ jobs:
       - name: Install dependencies for ${{ matrix.config.os }}
         run: |
           curl -LsSf https://astral.sh/uv/install.sh | sh
-          uv pip freeze > requirements.txt
-          uv pip install -r requirements.txt
-          uv pip install pyinstaller
+          uv pip freeze --system > requirements.txt
+          uv pip install --system -r requirements.txt
+          uv pip install --system pyinstaller
 
       - name: Build with pyinstaller for ${{ matrix.config.os }}
         uses: knicknic/os-specific-run@v1.0.3

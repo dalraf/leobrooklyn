@@ -33,6 +33,7 @@ jobs:
       - name: Install dependencies for ${{ matrix.config.os }}
         run: |
           curl -LsSf https://astral.sh/uv/install.sh | sh
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
           uv pip freeze --system > requirements.txt
           uv pip install --system -r requirements.txt
           uv pip install --system pyinstaller
@@ -51,7 +52,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           path: ./dist*
-          name: leobrooklyn-pyinstaller-artifact
+          name: leobrooklyn-pyinstaller-artifact-${{ matrix.config.os }}
 
   release:
     name: Release
@@ -61,7 +62,15 @@ jobs:
       - name: Download artifacts
         uses: actions/download-artifact@v4
         with:
-          name: leobrooklyn-pyinstaller-artifact
+          name: leobrooklyn-pyinstaller-artifact-ubuntu-22.04
+      - name: Download macos artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: leobrooklyn-pyinstaller-artifact-macos-latest
+      - name: Download windows artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: leobrooklyn-pyinstaller-artifact-windows-2019
 
       - name: Zip file windows
         run: zip -r main_windows.zip dist-windows-*

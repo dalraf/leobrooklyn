@@ -10,7 +10,7 @@ idna==3.4
 installer==0.7.0
 multidict==6.0.4
 packaging==23.1
-pygame==2.5.2
+pygame-ce==2.5.5
 pygbag==0.8.2
 pyinstaller==5.13.2
 pyinstaller-hooks-contrib==2023.9

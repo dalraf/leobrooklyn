@@ -6,8 +6,8 @@ authors = [{ name = "Daniel Fonseca Alves", email = "dalraf@gmail.com" }]
 requires-python = ">=3.10,<3.12"
 readme = "README.md"
 dependencies = [
-    "pygame>=2.3.0,<3",
     "pyinstaller>=5.10.1,<6",
     "pygbag>=0.8.2,<0.9",
+    "pygame-ce>=2.5.5",
 ]
 

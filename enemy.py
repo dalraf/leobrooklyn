@@ -23,9 +23,9 @@ class Enemy(SpritePerson):
             for i in range(start, end)
         ]
 
-    def __init__(self, speed):
+    def __init__(self, speed, tipo):
         super().__init__()
-        self.tipo = 1  # Valor padrão será sobrescrito pelas subclasses
+        self.tipo = tipo
         self.imageswalk = self._load_images("Walk", 1, 6)
         self.imagesattack = self._load_images("Attack", 1, 7)
         self.imagesstop = [self._load_images("Walk", 1, 2)[0]]  # Primeiro frame do walk
@@ -156,11 +156,9 @@ class Enemy(SpritePerson):
 
 class Wooden(Enemy):
     def __init__(self, speed):
-        super().__init__(speed)
-        self.tipo = 1
+        super().__init__(speed, tipo=1)
 
 
 class Steam(Enemy):
     def __init__(self, speed):
-        super().__init__(speed)
-        self.tipo = 2
+        super().__init__(speed, tipo=2)

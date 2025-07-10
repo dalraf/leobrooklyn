@@ -11,6 +11,7 @@ from enemy import Wooden, Steam
 from player import Player
 from objetcs import PedraParada, BandAid
 from controle import Mensagem_Inicio
+import asyncio
 
 
 class GameState:
@@ -216,7 +217,7 @@ class Game:
         
         pygame.display.update()
 
-    def run(self):
+    async def run(self):
         while self.state.running:
             self.state.clock.tick(GAME_FPS)
             self.handle_input()
@@ -233,7 +234,8 @@ class Game:
             
             self.update_game_state()
             self.draw_elements()
+            await asyncio.sleep(0)
 
 if __name__ == '__main__':
     game = Game()
-    game.run()
+    asyncio.run(game.run())

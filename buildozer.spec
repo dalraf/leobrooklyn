@@ -60,6 +60,9 @@ android.archs = arm64-v8a,armeabi-v7a
 # (str) Path to the Java JDK directory
 #android.jdk_path = /usr/lib/jvm/java-8-openjdk-amd64
 
+android.accept_sdk_license = True
+android.skip_update = False
+
 [buildozer]
 
 # (int) Log level (0 = error, 1 = warn, 2 = info, 3 = debug)

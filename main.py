@@ -11,6 +11,7 @@ from enemy import Wooden, Steam
 from player import Player
 from objetcs import PedraParada, BandAid
 from controle import Mensagem_Inicio
+from ui_elements import UIManager
 import asyncio
 
 
@@ -29,6 +30,7 @@ class GameState:
         self.som = Som()
         self.placar = Placar()
         self.mensagem_inicio = Mensagem_Inicio()
+        self.ui_manager = UIManager() # Inicializa o UIManager
         self.player = Player() # Inicializa o player no início do jogo
         grupo_player.add(self.player) # Adiciona o player ao grupo de sprites
 
@@ -40,7 +42,9 @@ class Game:
             K_ESCAPE: self.quit_game,
             K_RETURN: self.restart_game,
             K_SPACE: lambda: self.execute_player_action('move_atirar'),
-            K_LCTRL: lambda: self.execute_player_action('move_attack')
+            K_LCTRL: lambda: self.execute_player_action('move_attack'),
+            # Adiciona suporte para clique do mouse para iniciar o jogo
+            # Isso será tratado no handle_input para MOUSEBUTTONDOWN
         }
 
     def quit_game(self):
@@ -151,6 +155,24 @@ class Game:
                 action = self.key_actions.get(event.key)
                 if action:
                     action()
+            elif event.type == MOUSEBUTTONDOWN:
+                if event.button == 1: # Botão esquerdo do mouse
+                    if self.state.stopgame: # Se o jogo estiver parado, um clique inicia
+                        self.restart_game()
+                    else:
+                        action = self.state.ui_manager.handle_click(event.pos)
+                        if action:
+                            if action in ["up", "down", "left", "right"]:
+                                # Mapeia as direções do dpad para as funções de movimento do player
+                                player_move_map = {
+                                    "up": "move_up",
+                                    "down": "move_down",
+                                    "left": "move_left",
+                                    "right": "move_right",
+                                }
+                                self.execute_player_action(player_move_map[action])
+                            elif action in ["move_atirar", "move_attack"]:
+                                self.execute_player_action(action)
             elif event.type == QUIT:
                 self.state.running = False
 
@@ -212,6 +234,9 @@ class Game:
 
         if state.stopgame:
             state.mensagem_inicio.draw(screen)
+        
+        # Desenha os elementos da UI (dpad e botões)
+        self.state.ui_manager.draw(screen)
 
         all_active_sprites = []
         all_active_sprites.extend(grupo_player)

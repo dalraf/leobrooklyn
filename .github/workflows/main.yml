@@ -65,7 +65,7 @@ jobs:
       - name: Download windows artifacts
         uses: actions/download-artifact@v4
         with:
-          name: leobrooklyn-pyinstaller-artifact-windows-2019
+          name: leobrooklyn-pyinstaller-artifact-windows-2022
 
       - name: Zip file windows
         run: zip -r main_windows.zip dist-windows-*

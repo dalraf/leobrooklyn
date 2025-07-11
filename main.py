@@ -1,9 +1,26 @@
-from config import screen, SCREEN_WIDTH, DIFICULT_AVANCE, DERIVACAO, calcule_vetor_distance, ENEMY_SPAWN_TICK_RESET, PARALLAX_START_THRESHOLD, WHITE_COLOR, GAME_FPS
+from config import (
+    screen,
+    SCREEN_WIDTH,
+    DIFICULT_AVANCE,
+    DERIVACAO,
+    calcule_vetor_distance,
+    ENEMY_SPAWN_TICK_RESET,
+    PARALLAX_START_THRESHOLD,
+    WHITE_COLOR,
+    GAME_FPS,
+)
 import pygame
 from pygame.time import Clock
 import random
 from pygame.locals import *
-from grupos import grupo_player, grupo_enemy, All_sprites, grupo_objets_player, grupo_objets_enemy, grupo_objets_static
+from grupos import (
+    grupo_player,
+    grupo_enemy,
+    All_sprites,
+    grupo_objets_player,
+    grupo_objets_enemy,
+    grupo_objets_static,
+)
 from background import Background
 from som import Som
 from placar import Placar
@@ -17,6 +34,7 @@ import asyncio
 
 class GameState:
     """Encapsula o estado do jogo"""
+
     def __init__(self):
         self.enemy_spawn_timer = 0
         self.parallax_offset = 0
@@ -24,26 +42,30 @@ class GameState:
         self.stopgame = True
         self.enemylist = [Wooden, Steam]
         self.clock = Clock()
-        self.mouse_pressed_action = None # Adiciona estado para ação de mouse pressionado
-        
+        self.mouse_pressed_action = (
+            None  # Adiciona estado para ação de mouse pressionado
+        )
+
         # Inicializa componentes do jogo
         self.background = Background()
         self.som = Som()
         self.placar = Placar()
         self.mensagem_inicio = Mensagem_Inicio()
-        self.ui_manager = UIManager() # Inicializa o UIManager
-        self.player = Player() # Inicializa o player no início do jogo
-        grupo_player.add(self.player) # Adiciona o player ao grupo de sprites
+        self.ui_manager = UIManager()  # Inicializa o UIManager
+        self.player = Player()  # Inicializa o player no início do jogo
+        grupo_player.add(self.player)  # Adiciona o player ao grupo de sprites
+
 
 class Game:
     """Classe principal que controla o loop do jogo"""
+
     def __init__(self):
         self.state = GameState()
         self.key_actions = {
             K_ESCAPE: self.quit_game,
             K_RETURN: self.restart_game,
-            K_SPACE: lambda: self.execute_player_action('move_atirar'),
-            K_LCTRL: lambda: self.execute_player_action('move_attack'),
+            K_SPACE: lambda: self.execute_player_action("move_atirar"),
+            K_LCTRL: lambda: self.execute_player_action("move_attack"),
             # Adiciona suporte para clique do mouse para iniciar o jogo
             # Isso será tratado no handle_input para MOUSEBUTTONDOWN
         }
@@ -91,10 +113,12 @@ class Game:
             state.enemy_spawn_timer = max(0, state.enemy_spawn_timer - 1)
 
     def spawn_enemies(self, fator):
-        grupo_enemy.add([
-            random.choice(self.state.enemylist)(int(fator / 2))
-            for _ in range(random.randint(1, fator))
-        ])
+        grupo_enemy.add(
+            [
+                random.choice(self.state.enemylist)(int(fator / 2))
+                for _ in range(random.randint(1, fator))
+            ]
+        )
 
     def spawn_objects(self):
         grupo_objets_static.add([PedraParada() for _ in range(random.randint(0, 1))])
@@ -157,8 +181,10 @@ class Game:
                 if action:
                     action()
             elif event.type == MOUSEBUTTONDOWN:
-                if event.button == 1: # Botão esquerdo do mouse
-                    if self.state.stopgame: # Se o jogo estiver parado, um clique inicia
+                if event.button == 1:  # Botão esquerdo do mouse
+                    if (
+                        self.state.stopgame
+                    ):  # Se o jogo estiver parado, um clique inicia
                         self.restart_game()
                     else:
                         action = self.state.ui_manager.handle_click(event.pos)
@@ -172,12 +198,18 @@ class Game:
                                     "right": "move_right",
                                 }
                                 self.execute_player_action(player_move_map[action])
-                                self.state.mouse_pressed_action = player_move_map[action] # Armazena a ação para movimento contínuo
+                                self.state.mouse_pressed_action = player_move_map[
+                                    action
+                                ]  # Armazena a ação para movimento contínuo
                             elif action in ["move_atirar", "move_attack"]:
                                 self.execute_player_action(action)
-                                self.state.mouse_pressed_action = action # Armazena a ação para ação contínua
+                                self.state.mouse_pressed_action = (
+                                    action  # Armazena a ação para ação contínua
+                                )
                 elif event.type == MOUSEBUTTONUP:
-                    self.state.mouse_pressed_action = None # Reseta a ação quando o botão do mouse é solto
+                    self.state.mouse_pressed_action = (
+                        None  # Reseta a ação quando o botão do mouse é solto
+                    )
                 elif event.type == QUIT:
                     self.state.running = False
 
@@ -186,32 +218,54 @@ class Game:
         if not state.stopgame:
             pressed_keys = pygame.key.get_pressed()
 
+            # Lógica de parallax independente do input de tecla
+            for (
+                player
+            ) in (
+                grupo_player
+            ):  # Re-iterar para aplicar parallax após todos os movimentos
+                if player.rect.x > SCREEN_WIDTH * PARALLAX_START_THRESHOLD:
+                    state.parallax_offset = player.step
+                    player.move_moonwalk()
+                else:
+                    state.parallax_offset = 0
+
             # Executa a ação do mouse pressionado continuamente
             if state.mouse_pressed_action:
-                if state.mouse_pressed_action in ["move_up", "move_down", "move_left", "move_right", "move_atirar", "move_attack"]:
+                if state.mouse_pressed_action in [
+                    "move_up",
+                    "move_down",
+                    "move_left",
+                    "move_right",
+                    "move_atirar",
+                    "move_attack",
+                ]:
                     self.execute_player_action(state.mouse_pressed_action)
 
             for player in grupo_player:
                 # Verifica todas as teclas pressionadas simultaneamente
+                # Movimento do jogador baseado nas teclas pressionadas
                 if pressed_keys[K_RIGHT]:
-                    if player.rect.x > SCREEN_WIDTH * PARALLAX_START_THRESHOLD:
-                        state.parallax_offset = player.step
-                        player.move_moonwalk()
-                    else:
-                        state.parallax_offset = 0
-                        player.move_right()
-                        
+                    player.move_right()
                 if pressed_keys[K_LEFT]:
                     player.move_left()
-                    
                 if pressed_keys[K_UP]:
                     player.move_up()
-                    
                 if pressed_keys[K_DOWN]:
                     player.move_down()
-                    
-                # Só para se nenhuma tecla de movimento estiver pressionada
-                if not any([pressed_keys[K_UP], pressed_keys[K_DOWN], pressed_keys[K_LEFT], pressed_keys[K_RIGHT]]):
+
+                # Só para se nenhuma tecla de movimento estiver pressionada e nenhuma ação de mouse estiver ativa
+                if (
+                    not any(
+                        [
+                            pressed_keys[K_UP],
+                            pressed_keys[K_DOWN],
+                            pressed_keys[K_LEFT],
+                            pressed_keys[K_RIGHT],
+                        ]
+                    )
+                    and not state.mouse_pressed_action
+                ):
                     player.move_stopped()
 
             if state.parallax_offset > 0:
@@ -244,7 +298,7 @@ class Game:
 
         if state.stopgame:
             state.mensagem_inicio.draw(screen)
-        
+
         # Desenha os elementos da UI (dpad e botões)
         self.state.ui_manager.draw(screen)
 
@@ -257,14 +311,14 @@ class Game:
 
         for sprite in sorted(all_active_sprites, key=lambda spr: spr.rect.bottom):
             screen.blit(sprite.image, sprite.rect)
-        
+
         pygame.display.update()
 
     async def run(self):
         while self.state.running:
             self.state.clock.tick(GAME_FPS)
             self.handle_input()
-            
+
             if len(grupo_player) == 0:
                 self.state.stopgame = True
                 self.state.som.stop()
@@ -274,11 +328,12 @@ class Game:
             self.object_sprite_colide(grupo_enemy, grupo_objets_player)
             self.object_sprite_colide(grupo_player, grupo_objets_enemy)
             self.player_enemy_attack_hit()
-            
+
             self.update_game_state()
             self.draw_elements()
             await asyncio.sleep(0)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     game = Game()
     asyncio.run(game.run())

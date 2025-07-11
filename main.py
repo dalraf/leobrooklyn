@@ -160,6 +160,7 @@ class Game:
             pressed_keys = pygame.key.get_pressed()
 
             for player in grupo_player:
+                # Verifica todas as teclas pressionadas simultaneamente
                 if pressed_keys[K_RIGHT]:
                     if player.rect.x > SCREEN_WIDTH * PARALLAX_START_THRESHOLD:
                         state.parallax_offset = player.step
@@ -167,13 +168,18 @@ class Game:
                     else:
                         state.parallax_offset = 0
                         player.move_right()
-                elif pressed_keys[K_LEFT]:
+                        
+                if pressed_keys[K_LEFT]:
                     player.move_left()
-                elif pressed_keys[K_UP]:
+                    
+                if pressed_keys[K_UP]:
                     player.move_up()
-                elif pressed_keys[K_DOWN]:
+                    
+                if pressed_keys[K_DOWN]:
                     player.move_down()
-                else:
+                    
+                # Só para se nenhuma tecla de movimento estiver pressionada
+                if not any([pressed_keys[K_UP], pressed_keys[K_DOWN], pressed_keys[K_LEFT], pressed_keys[K_RIGHT]]):
                     player.move_stopped()
 
             if state.parallax_offset > 0:

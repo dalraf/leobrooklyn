@@ -56,24 +56,34 @@ class Player(SpritePerson):
             self.execute = self.action_parado
 
     def combine_moviment(self):
-        if UP in self.move_list:
-            self.move((0, -self.step))
-            self.execute = self.action_andando
-        if DOWN in self.move_list:
-            self.move((0, self.step))
-            self.execute = self.action_andando
-        if RIGHT in self.move_list:
-            self.reverse = False
-            self.move((self.step, 0))
-            self.execute = self.action_andando
-        if LEFT in self.move_list:
-            self.reverse = True
-            self.move((-self.step, 0))
-            self.execute = self.action_andando
-        if STOPPED in self.move_list:
-            self.execute = self.action_parado
-        if MOONWALK in self.move_list:
-            self.execute = self.action_andando
+        dx, dy = 0, 0
+        reverse = self.reverse
+        
+        # Mantém ação atual se estiver em ataque/tiro
+        current_action = self.execute
+        
+        # Só processa movimento se não estiver em ação prioritária
+        if current_action not in [self.action_attack, self.action_atirar, self.action_in_attack]:
+            # Calcula movimento combinado
+            if UP in self.move_list:
+                dy -= self.step
+            if DOWN in self.move_list:
+                dy += self.step
+            if LEFT in self.move_list:
+                dx -= self.step
+                reverse = True
+            if RIGHT in self.move_list:
+                dx += self.step
+                reverse = False
+                
+            # Aplica movimento combinado
+            if dx != 0 or dy != 0:
+                self.move((dx, dy))
+                self.execute = self.action_andando
+                self.reverse = reverse
+            else:
+                self.execute = self.action_parado
+                
         self.move_list = []
 
     def move_up(self):

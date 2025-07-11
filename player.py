@@ -36,8 +36,6 @@ class Player(SpritePerson):
         self.pedras = 10
         self.life = 20
         self.execute = self.action_parado
-        self.moonwalk = False
-
 
     def action_atirar(self):
         if self.pedras > 0:
@@ -96,21 +94,15 @@ class Player(SpritePerson):
 
     def move_up(self):
         self.move_list.append(UP)
-        self.moonwalk = False
-
 
     def move_down(self):
         self.move_list.append(DOWN)
-        self.moonwalk = False
-
 
     def move_left(self):
         self.move_list.append(LEFT)
-        self.moonwalk = False
-        
+
     def move_right(self):
-        if not self.moonwalk:
-            self.move_list.append(RIGHT)
+        self.move_list.append(RIGHT)
 
     def move_stopped(self):
         if self.execute not in [
@@ -123,7 +115,6 @@ class Player(SpritePerson):
 
     def move_moonwalk(self):
         self.move_list.append(MOONWALK)
-        self.moonwalk = True
 
     def move_atirar(self):
         self.execute = self.action_atirar

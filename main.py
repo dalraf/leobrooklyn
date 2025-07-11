@@ -50,6 +50,8 @@ class Game:
         if self.state.stopgame:
             self.state.stopgame = False
             self.state.som.play()
+            for player in grupo_player:
+                player.kill()
             self.state.player = Player()
             grupo_player.add(self.state.player)
             for enemy in grupo_enemy:

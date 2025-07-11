@@ -34,13 +34,13 @@ include_patterns = images/*,sounds/*
 #kivy.version = 1.9.1
 
 # (int) Android API level to use
-android.api = 27
+android.api = 30
 
 # (int) Android SDK version to use
 android.sdk = 27
 
 # (int) Android NDK version to use
-android.ndk = 21b
+android.ndk = 25
 
 # (bool) Enable Android debugging
 android.debug = True

@@ -75,6 +75,9 @@ class Player(SpritePerson):
             if RIGHT in self.move_list:
                 dx += self.step
                 reverse = False
+            if MOONWALK in self.move_list:
+                self.execute = self.action_andando
+                reverse = False
                 
             # Aplica movimento combinado
             if dx != 0 or dy != 0:
@@ -82,7 +85,10 @@ class Player(SpritePerson):
                 self.execute = self.action_andando
                 self.reverse = reverse
             else:
-                self.execute = self.action_parado
+                if MOONWALK in self.move_list:
+                    self.execute = self.action_andando
+                else:
+                    self.execute = self.action_parado
                 
         self.move_list = []
 

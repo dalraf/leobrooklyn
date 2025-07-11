@@ -19,6 +19,9 @@ requirements = python3,pygame
 # (str) Main application file
 main.py = main.py
 
+# (str) Source code directory
+source.dir = .
+
 # (list) Source files to include (relative to the Buildozer spec file)
 source.include_exts = py,png,jpg,kv,atlas,ogg,mp3,ttf,json
 

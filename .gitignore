@@ -13,7 +13,6 @@ __pycache__/
 
 # Distribution / packaging
 .Python
-build/
 develop-eggs/
 dist/
 downloads/
@@ -143,7 +142,6 @@ dmypy.json
 
 # End of https://www.toptal.com/developers/gitignore/api/python
 
-build
 dist
 Pipfile
 Pipfile.lock

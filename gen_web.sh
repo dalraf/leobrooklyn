@@ -1,4 +1,5 @@
 #!/bin/bash
+rm -r build
+rm -r docs
 pygbag --archive   ../leobrooklyn
-[ -d "docs" ] || mkdir docs
 cp -avr build/web/* docs

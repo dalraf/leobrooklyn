@@ -106,6 +106,7 @@ class Player(SpritePerson):
 
     def move_left(self):
         self.move_list.append(LEFT)
+        self.moonwalk = False
         
     def move_right(self):
         if not self.moonwalk:

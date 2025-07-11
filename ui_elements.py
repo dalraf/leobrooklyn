@@ -18,7 +18,7 @@ class DPad:
     def draw(self, screen):
         for button_name, rect in self.buttons.items():
             pygame.draw.rect(screen, WHITE_COLOR, rect, 2) # Desenha apenas a borda
-            font = pygame.font.SysFont("Arial", 20)
+            font = pygame.font.SysFont("Arial", 15)
             text = font.render(button_name.upper(), True, WHITE_COLOR)
             text_rect = text.get_rect(center=rect.center)
             screen.blit(text, text_rect)
@@ -38,7 +38,7 @@ class ActionButton:
 
     def draw(self, screen):
         pygame.draw.rect(screen, WHITE_COLOR, self.rect, 2)
-        font = pygame.font.SysFont("Arial", 20)
+        font = pygame.font.SysFont("Arial", 15)
         text_surface = font.render(self.text, True, WHITE_COLOR)
         text_rect = text_surface.get_rect(center=self.rect.center)
         screen.blit(text_surface, text_rect)

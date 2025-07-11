@@ -24,6 +24,7 @@ class GameState:
         self.stopgame = True
         self.enemylist = [Wooden, Steam]
         self.clock = Clock()
+        self.mouse_pressed_action = None # Adiciona estado para ação de mouse pressionado
         
         # Inicializa componentes do jogo
         self.background = Background()
@@ -171,15 +172,24 @@ class Game:
                                     "right": "move_right",
                                 }
                                 self.execute_player_action(player_move_map[action])
+                                self.state.mouse_pressed_action = player_move_map[action] # Armazena a ação para movimento contínuo
                             elif action in ["move_atirar", "move_attack"]:
                                 self.execute_player_action(action)
-            elif event.type == QUIT:
-                self.state.running = False
+                                self.state.mouse_pressed_action = action # Armazena a ação para ação contínua
+                elif event.type == MOUSEBUTTONUP:
+                    self.state.mouse_pressed_action = None # Reseta a ação quando o botão do mouse é solto
+                elif event.type == QUIT:
+                    self.state.running = False
 
     def update_game_state(self):
         state = self.state
         if not state.stopgame:
             pressed_keys = pygame.key.get_pressed()
+
+            # Executa a ação do mouse pressionado continuamente
+            if state.mouse_pressed_action:
+                if state.mouse_pressed_action in ["move_up", "move_down", "move_left", "move_right", "move_atirar", "move_attack"]:
+                    self.execute_player_action(state.mouse_pressed_action)
 
             for player in grupo_player:
                 # Verifica todas as teclas pressionadas simultaneamente
